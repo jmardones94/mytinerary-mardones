@@ -3,7 +3,7 @@ const colors = require('tailwindcss/colors')
 module.exports = {
   purge: ['./src/**/*.{js,jsx,ts,tsx}', './public/index.html'],
   presets: [],
-  darkMode: 'media', // or 'media' or 'class'
+  darkMode: 'class', // or 'media' or 'class'
   theme: {
     screens: {
       sm: '640px',
@@ -430,7 +430,8 @@ module.exports = {
       '5/6': '83.333333%',
       full: '100%',
       screen: '100vh',
-      halfscreen: '50vh',
+      '1/4s': '25vh',
+      '1/2s': '50vh',
       '3/4s': '75vh',
     }),
     inset: (theme, { negative }) => ({

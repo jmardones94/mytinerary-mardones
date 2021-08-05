@@ -1,12 +1,12 @@
 import Navbar from './Navbar'
-import bgImg from '../assets/travels.jpg'
 
-const Header = () => {
-    // const imgRoute = '../assets/travels.jpg'
+const Header = ({heroImg}) => {
+    console.log(heroImg)
     return (
-        <header className="h-screen max-w-screen" 
-                style={{backgroundImage: `url("${bgImg}")`, 
-                        backgroundPositionY: '100%', 
+        <header className="h-3/4s max-w-screen overflow-auto" 
+                style={{backgroundImage: `url("${heroImg.default}")`, 
+                        backgroundPositionY: '100%',
+                        backgroundPositionX: '100%',
                         backgroundSize: 'cover', 
                         overflow: 'hidden'}}>
             <Navbar />

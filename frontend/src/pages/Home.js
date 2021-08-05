@@ -2,11 +2,12 @@ import Header from '../components/Header'
 import Main from '../components/Main'
 import Footer from '../components/Footer'
 
-const Home = () => {
+const Home = ({heroImg}) => {
     return(
         <div className="min-h-screen flex flex-col">
-            <Header />
+            <Header heroImg={heroImg} />
             <Main />
+            <p>Estoy en Home</p>
             <Footer />
         </div>
     )

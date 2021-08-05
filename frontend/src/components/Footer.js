@@ -1,15 +1,15 @@
 const Footer = () => {
     const socials = ['Facebook', 'Instagram', 'Twitter']
     return(
-        <footer className="w-100 md:h-64 py-5 text-white bg-black flex flex-wrap justify-evenly items-center">
-            <ul className="w-1/2 pt-3 md:pt-5 md:w-1/6 md:pl-10 order-1">
+        <footer className="w-100 md:h-64 py-5 text-white bg-black flex flex-wrap justify-center md:justify-evenly items-center">
+            <ul className="w-1/3 pt-3 md:pt-5 md:w-1/6 md:pl-10 order-1">
                 <li className="hover:underline cursor-pointer"><span className="inline-block h-3 w-1 bg-yellow-500 mr-1"></span>Home</li>
                 <li className="hover:underline cursor-pointer"><span className="inline-block h-3 w-1 bg-pink-500 mr-1"></span>Cities</li>
                 <li className="hover:underline cursor-pointer"><span className="inline-block h-3 w-1 bg-purple-500 mr-1"></span>Sign Up</li>
                 <li className="hover:underline cursor-pointer"><span className="inline-block h-3 w-1 bg-red-400 mr-1"></span>Log In</li>
             </ul>
             <div className="w-full md:w-1/3 md:order-2 mt-4 order-last text-center">
-                <h2 className="text-3xl mb-2">MyTinerary</h2>
+                <h2 className="text-5xl mb-5 font-silt">MyTinerary</h2>
                 <p>All Rights Reserved</p>
             </div>
             <div className="w-1/3 md:w-1/6 md:px-5 lg:px-10 order-3">

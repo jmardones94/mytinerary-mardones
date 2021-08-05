@@ -266,6 +266,7 @@ module.exports = {
         '"Courier New"',
         'monospace',
       ],
+      silt: 'Shadows Into Light Two',
     },
     fontSize: {
       xs: ['0.75rem', { lineHeight: '1rem' }],
@@ -429,6 +430,8 @@ module.exports = {
       '5/6': '83.333333%',
       full: '100%',
       screen: '100vh',
+      halfscreen: '50vh',
+      '3/4s': '75vh',
     }),
     inset: (theme, { negative }) => ({
       auto: 'auto',

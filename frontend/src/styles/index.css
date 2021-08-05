@@ -1,3 +1,12 @@
+@import url('https://fonts.googleapis.com/css2?family=Shadows+Into+Light+Two&display=swap');
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+a.active::after {
+    content: "";
+    margin-left: 25%;
+    display: block;
+    width: 70%;
+    border-bottom: 1px solid white;
+}

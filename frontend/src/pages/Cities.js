@@ -5,7 +5,7 @@ import Footer from '../components/Footer'
 const Cities = ({heroImg}) => {
     return(
         <div className="min-h-screen flex flex-col">
-            <Header heroImg={heroImg}/>
+            <Header heroImg={heroImg} leftHeroContent={true}/>
             <Main />
             <p>Estoy en Cities</p>
             <Footer />

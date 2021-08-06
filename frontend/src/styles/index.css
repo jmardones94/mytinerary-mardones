@@ -10,6 +10,9 @@ a.active::after {
     width: 70%;
     border-bottom: 1px solid white;
 }
+html.light a.active::after {
+    border-bottom: 1px solid black;
+}
 
 a.home.active:hover::after {
     border-bottom-color: #F59E0B;

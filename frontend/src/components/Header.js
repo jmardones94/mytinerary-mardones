@@ -1,19 +1,19 @@
-import HeroContent from './HeroContent'
 import Navbar from './Navbar'
+import Hero from './Hero'
 import { useState } from 'react'
 
-const Header = ({heroImg}) => {
-    const [theme, setTheme] = useState((('theme' in localStorage) ? localStorage.theme : (window.matchMedia('(prefers-color-scheme: dark)').matches) ? 'dark' : 'light'))
+const Header = ({heroImg, leftHeroContent}) => {
+    const [theme, setTheme] = useState(
+                                ('theme' in localStorage) 
+                                    ? localStorage.theme 
+                                    : (window.matchMedia('(prefers-color-scheme: dark)').matches)
+                                        ? 'dark' 
+                                        : 'light')
     window.document.documentElement.classList.add(theme)
     return (
-        <header className="h-3/4s max-w-screen overflow-auto" 
-                style={{backgroundImage: `url("${heroImg.default}")`, 
-                        backgroundPositionY: '100%',
-                        backgroundPositionX: '100%',
-                        backgroundSize: 'cover', 
-                        overflow: 'hidden'}}>
+        <header>
             <Navbar theme={theme} setTheme={setTheme}/>
-            <HeroContent />
+            <Hero heroImg={heroImg} left={leftHeroContent} />
         </header>
     )
 }

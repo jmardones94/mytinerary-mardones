@@ -11,7 +11,7 @@ const Footer = () => {
                 <li className="hover:underline cursor-pointer"><Link to="/login"><span className="inline-block h-3 w-1 bg-red-500 mr-1"></span>Log In</Link></li>
             </ul>
             <div className="w-full md:w-1/3 md:order-2 mt-4 order-last text-center">
-                <h2 className="text-5xl mb-5 font-medium font-silt">MyTinerary</h2>
+                <Link to="/"><h2 className="text-5xl mb-5 font-medium font-silt">MyTinerary</h2></Link>
                 <p>All Rights Reserved</p>
             </div>
             <div className="w-1/3 md:w-1/6 md:px-5 lg:px-10 order-3">

@@ -1,6 +1,16 @@
-import { NavLink } from "react-router-dom"
+import { Link, NavLink } from "react-router-dom"
+import { useState } from "react"
 
-const Navbar = ({ theme, setTheme }) => {
+const Navbar = () => {
+    const [theme, setTheme] = useState(
+        ('theme' in localStorage) 
+            ? localStorage.theme 
+            : (window.matchMedia('(prefers-color-scheme: dark)').matches)
+                ? 'dark' 
+                : 'light')
+    
+    window.document.documentElement.classList.add(theme)
+    
     const themeClickHandler = () => {
         const newTheme = theme === 'dark' ? 'light' : 'dark'
         const root = window.document.documentElement
@@ -10,9 +20,10 @@ const Navbar = ({ theme, setTheme }) => {
         root.classList.add(newTheme)
         localStorage.setItem('theme', newTheme)
     }
+
     return(
     <nav className="w-100 h-32 py-5 md:h-28 px-5 md:px-20 flex flex-wrap justify-between md:items-center text-black bg-gray-300 dark:text-white dark:bg-black bg-opacity-40">
-        <div className="text-center md:text-start w-screen md:w-max font-silt text-3xl md:text-5xl"><span className="text-lg">Logo </span>MyTinerary</div>
+        <div className="text-center md:text-start w-screen md:w-max font-silt text-3xl md:text-5xl"><Link to="/"><span className="text-lg">Logo </span>MyTinerary</Link></div>
         <div className="w-screen md:w-3/5 flex justify-between mt-3 md:mt-0">
             <div className="flex gap-4 items-center md:pl-16 md:gap-5 font-semibold md:text-lg">
                 <NavLink className="home hover:text-yellow-500" exact to="/">Home</NavLink>

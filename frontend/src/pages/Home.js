@@ -6,7 +6,7 @@ const Home = () => {
     const heroImg = require('../assets/travels.jpg')
     return(
         <div className="min-h-screen flex flex-col">
-            <Header heroImg={heroImg} leftHeroContent={true}/>
+            <Header heroImg={heroImg} />
             <Main />
             <p>Estoy en Home</p>
             <Footer />

@@ -1,13 +1,12 @@
 import Header from '../components/Header'
-import Main from '../components/Main'
+import MainCities from '../components/MainCities'
 import Footer from '../components/Footer'
 
 const Cities = ({heroImg}) => {
     return(
         <div className="min-h-screen flex flex-col">
             <Header heroImg={heroImg} />
-            <Main />
-            <p>Estoy en Cities</p>
+            <MainCities />
             <Footer />
         </div>
     )

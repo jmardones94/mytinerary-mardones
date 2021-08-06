@@ -12,6 +12,7 @@ const Navbar = () => {
     window.document.documentElement.classList.add(theme)
     
     const themeClickHandler = () => {
+        console.log('Entre al click de setTheme')
         const newTheme = theme === 'dark' ? 'light' : 'dark'
         const root = window.document.documentElement
         
@@ -21,8 +22,9 @@ const Navbar = () => {
         localStorage.setItem('theme', newTheme)
     }
 
+
     return(
-    <nav className="w-100 h-32 py-5 md:h-28 px-5 md:px-20 flex flex-wrap justify-between md:items-center text-black bg-gray-300 dark:text-white dark:bg-black bg-opacity-40">
+    <nav className="transition duration-1000 w-100 h-32 py-5 md:h-28 px-5 md:px-20 flex flex-wrap justify-between md:items-center text-black bg-gray-300 dark:text-white dark:bg-black bg-opacity-40">
         <div className="text-center md:text-start w-screen md:w-max font-silt text-3xl md:text-5xl"><Link to="/"><span className="text-lg">Logo </span>MyTinerary</Link></div>
         <div className="w-screen md:w-3/5 flex justify-between mt-3 md:mt-0">
             <div className="flex gap-4 items-center md:pl-16 md:gap-5 font-semibold md:text-lg">

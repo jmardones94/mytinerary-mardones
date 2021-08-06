@@ -3,7 +3,7 @@ import { Link } from "react-router-dom"
 const Footer = () => {
     const socials = ['Facebook', 'Instagram', 'Twitter']
     return(
-        <footer className="transition duration-1000 w-100 min-h-56 py-5 text-black dark:text-white bg-gray-500 dark:bg-black flex flex-wrap justify-center md:justify-evenly items-center">
+        <footer className="transition duration-1000 w-100 min-h-56 py-5 text-black dark:text-white bg-blue-500 dark:bg-black flex flex-wrap justify-center md:justify-evenly items-center">
             <ul className="w-1/3 pt-3 md:pt-5 md:w-1/6 md:pl-10 order-1">
                 <li className="hover:underline cursor-pointer"><Link to="/"><span className="inline-block h-3 w-1 bg-yellow-500 mr-1"></span>Home</Link></li>
                 <li className="hover:underline cursor-pointer"><Link to="/cities"><span className="inline-block h-3 w-1 bg-pink-500 mr-1"></span>Cities</Link></li>

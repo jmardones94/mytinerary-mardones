@@ -1,5 +1,6 @@
 import { Link, NavLink } from "react-router-dom"
 import { useState } from "react"
+import NavUser from './NavUser'
 
 const Navbar = () => {
     const [theme, setTheme] = useState(
@@ -12,7 +13,6 @@ const Navbar = () => {
     window.document.documentElement.classList.add(theme)
     
     const themeClickHandler = () => {
-        console.log('Entre al click de setTheme')
         const newTheme = theme === 'dark' ? 'light' : 'dark'
         const root = window.document.documentElement
         
@@ -24,7 +24,7 @@ const Navbar = () => {
 
 
     return(
-    <nav className="transition duration-1000 w-100 h-32 py-5 md:h-28 px-5 md:px-20 flex flex-wrap justify-between md:items-center text-black bg-gray-300 dark:text-white dark:bg-black bg-opacity-40">
+    <nav className="transition duration-1000 w-100 h-32 py-5 md:h-28 px-5 md:px-20 flex flex-wrap justify-between md:items-center text-black bg-blue-500 dark:text-white dark:bg-black">
         <div className="text-center md:text-start w-screen md:w-max font-silt text-3xl md:text-5xl"><Link to="/"><span className="text-lg">Logo </span>MyTinerary</Link></div>
         <div className="w-screen md:w-3/5 flex justify-between mt-3 md:mt-0">
             <div className="flex gap-4 items-center md:pl-16 md:gap-5 font-semibold md:text-lg">
@@ -39,8 +39,8 @@ const Navbar = () => {
                     }
  
                 </span>
-
-                <span><svg className="cursor-pointer w-8 h-8" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd" /></svg></span>
+                <NavUser />
+            
             </div> 
         </div>
     </nav>)

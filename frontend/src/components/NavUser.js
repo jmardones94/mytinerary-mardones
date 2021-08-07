@@ -5,7 +5,7 @@ const NavUser = () => {
     return(
         <div className="relative">
             <Menu>
-                <Menu.Button><svg className="cursor-pointer w-8 h-8" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd" /></svg></Menu.Button>
+                <Menu.Button><svg className="cursor-pointer w-8 h-8 focus:bg-red-500" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd" /></svg></Menu.Button>
                 <Transition
                     enter="transition duration-200 ease-out"
                     enterFrom="transform scale-95 opacity-0"

@@ -1,6 +1,6 @@
 const MainCities = () => {
     return(
-        <h1>Esto es MainCities</h1>
+        <h1>Esto es MainCities. Actualmente en construcción</h1>
     )
 }
 

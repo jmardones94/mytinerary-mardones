@@ -21,13 +21,14 @@ const MainHome = () => {
             {src:require('../assets/ciudades/tokyo.jpg'),alt:'Tokyo',city:'Tokyo'},
         ]
     ]
+    
     return (
         <div className="flex-grow">
-            <div className="h-1/4s w-full bg-blue-300 dark:bg-gray-900 text-gray-900 dark:text-white flex flex-col md:flex-row gap-4 items-center justify-center">
-                <p className="text-2xl text-semibold">Your dream trip starts</p>
-                <Link className="px-6 py-3 bg-red-600 rounded-2xl font-semibold" to="/cities"><p className="text-xl">Here!</p></Link>
+            <div className="h-1/4s w-full transition duration-1000 bg-blue-300 dark:bg-gray-900 text-gray-900 dark:text-gray-200 flex flex-col md:flex-row gap-4 items-center justify-center">
+                <p className="text-xl text-semibold">Your dream travel starts</p>
+                <Link className="px-6 py-2 bg-red-600 rounded-2xl text-red-200" to="/cities"><p className="text-xl">Here!</p></Link>
             </div>
-            <Carousel citiesData={citiesData}/>
+            <Carousel citiesData={citiesData} />
         </div>
     )
 }

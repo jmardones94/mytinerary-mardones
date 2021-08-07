@@ -1,14 +1,12 @@
-import Header from '../components/Header'
+import Hero from '../components/Hero'
 import MainHome from '../components/MainHome'
-import Footer from '../components/Footer'
 
 const Home = () => {
-    const heroImg = require('../assets/travels.jpg')
+    const heroImg = require('../assets/rsz_1airplane.png')
     return(
         <div className="min-h-screen flex flex-col select-none">
-            <Header heroImg={heroImg} />
+            <Hero heroImg={heroImg} />
             <MainHome />
-            <Footer />
         </div>
     )
 }

@@ -1,10 +1,10 @@
 import { Link } from 'react-router-dom'
 
-const E404 = ({heroImg}) => {
+const E404 = () => {
     
     return(
         <div className="h-screen max-w-screen overflow-auto" 
-        style={{backgroundImage: `url("${heroImg.default}")`, 
+        style={{backgroundImage: `url("${require('../assets/e404.jpg').default}")`, 
                 backgroundPositionY: 'center',
                 backgroundPositionX: 'center',
                 backgroundSize: 'cover',

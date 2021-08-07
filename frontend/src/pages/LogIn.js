@@ -1,15 +1,15 @@
 import { Link } from "react-router-dom"
 
-const LogIn = ({ heroImg }) => {
+const LogIn = () => {
     return (
-        <div className="h-screen max-w-screen overflow-auto" 
-        style={{backgroundImage: `url("${heroImg.default}")`, 
-                backgroundPositionY: '100%',
-                backgroundPositionX: '100%',
-                backgroundSize: 'cover',
+        <div className="h-1/2s bg-gray-800 max-w-screen overflow-auto" 
+        style={{backgroundImage: `url("${require('../assets/underconstruction.jpg').default}")`, 
+                backgroundPositionY: '0%',
+                backgroundPositionX: 'center',
+                backgroundSize: 'contain',
                 backgroundRepeat: 'no-repeat', 
                 overflow: 'hidden'}}>
-            <div className="w-full flex justify-center pt-32">
+            <div className="w-full h-1/2s flex items-end pb-8 justify-center">
                 <Link className="bg-red-500 px-10 py-5 rounded-lg text-white font-semibold" to="/">Back to Home</Link>
             </div>
         </div>

@@ -24,9 +24,9 @@ const MainHome = () => {
     
     return (
         <div className="flex-grow">
-            <div className="h-1/4s w-full transition duration-1000 bg-blue-300 dark:bg-gray-900 text-gray-900 dark:text-gray-200 flex flex-col md:flex-row gap-4 items-center justify-center">
-                <p className="text-xl text-semibold">Your dream travel starts</p>
-                <Link className="px-6 py-2 bg-red-600 rounded-2xl text-red-200" to="/cities"><p className="text-xl">Here!</p></Link>
+            <div className="h-1/4s w-full transition duration-1000 bg-gray-300 dark:bg-gray-900 text-gray-900 dark:text-gray-200 flex flex-col md:flex-row gap-4 items-center justify-center">
+                <p className="text-xl font-semibold tracking-wider">Your dream travel starts</p>
+                <Link className="px-6 py-1 bg-red-600 hover:bg-red-700 rounded text-red-200" to="/cities"><p className="inline tracking-wider text-md hover:shadow-2xl font-medium">HERE <svg className="inline transform rotate-45 -translate-y-1 w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z" /></svg></p></Link>
             </div>
             <Carousel citiesData={citiesData} />
         </div>

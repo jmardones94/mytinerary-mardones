@@ -13,10 +13,19 @@ a.active::after {
 html.light a.active::after {
     border-bottom: 1px solid black;
 }
-
-a.home.active:hover::after {
-    border-bottom-color: #F59E0B;
+a.home.active:hover::after, a.cities.active:hover::after {
+    border-bottom-color: #D1D5DB;
 }
-a.cities.active:hover::after {
-    border-bottom-color: #EC4899;
+
+html.dark a.home.active:hover::after, html.dark a.cities.active:hover::after {
+    border-bottom-color: #3B82F6;
+}
+
+@layer utilities {
+    .animation-delay-2000 {
+        animation-delay: 2s;
+    }
+    .animation-delay-4000 {
+        animation-delay: 4s;
+    }
 }

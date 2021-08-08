@@ -71,6 +71,7 @@ module.exports = {
       ping: 'ping 1s cubic-bezier(0, 0, 0.2, 1) infinite',
       pulse: 'pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite',
       bounce: 'bounce 1s infinite',
+      blob: 'blob 8s infinite'
     },
     backdropBlur: (theme) => theme('blur'),
     backdropBrightness: (theme) => theme('brightness'),
@@ -434,7 +435,10 @@ module.exports = {
       carousel: '140vh',
       '1/4s': '25vh',
       '1/2s': '50vh',
+      '3/5s': '57vh',
+      '2/3s': '66vh',
       '3/4s': '75vh',
+      '4/5s': '83vh'
     }),
     inset: (theme, { negative }) => ({
       auto: 'auto',
@@ -482,6 +486,20 @@ module.exports = {
           animationTimingFunction: 'cubic-bezier(0,0,0.2,1)',
         },
       },
+      blob: {
+        "0%": {
+          transform: "translate(0px, 0px) scale(1)",
+        },
+        "33%": {
+          transform: "translate(-20px, -30px) scale(1.1)",
+        },
+        "66%": {
+          transform: "translate(10px, 30px) scale(0.9)",
+        },
+        "100%": {
+          transform: "translate(0px, 0px) scale(1)",
+        }
+      }
     },
     letterSpacing: {
       tighter: '-0.05em',

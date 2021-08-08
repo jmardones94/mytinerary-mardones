@@ -269,6 +269,7 @@ module.exports = {
         'monospace',
       ],
       silt: 'Shadows Into Light Two',
+      lemon: 'Lemon Tuesday',
     },
     fontSize: {
       xs: ['0.75rem', { lineHeight: '1rem' }],

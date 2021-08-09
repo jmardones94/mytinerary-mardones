@@ -5,7 +5,7 @@ import { useEffect } from 'react'
 const Home = () => {
     useEffect(() => {
         window.scrollTo(0,0)
-    })
+    }, [])
     const img = require('../assets/hero.png')
     const citiesData = [
         [

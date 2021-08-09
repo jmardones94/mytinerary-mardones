@@ -26,7 +26,7 @@ const Header = () => {
 
 
     return(
-    <nav className="transition duration-1000 w-100 min-h-32 py-5 md:h-28 px-5 md:px-20 flex flex-wrap justify-between md:items-center text-gray-900 bg-white dark:text-white dark:bg-black">
+    <header className="transition duration-1000 w-100 min-h-32 py-5 md:h-28 px-5 md:px-20 flex flex-wrap justify-between md:items-center text-gray-900 bg-gray-200 dark:text-white dark:bg-black">
         <div className="flex w-full md:w-max text-center md:text-start text-lg">
             <Link className="flex gap-1 items-center" to="/">
                 <div className="w-20 h-20" 
@@ -39,10 +39,10 @@ const Header = () => {
             </Link>
         </div>
         <div className="w-screen md:w-3/5 flex justify-between mt-3 md:mt-0 z-50">
-            <div className="flex gap-4 items-center md:pl-16 md:gap-5 font-semibold md:text-lg">
+            <nav className="flex gap-4 items-center md:pl-16 md:gap-5 font-semibold md:text-lg">
                 <NavLink className="home hover:text-red-500" exact to="/">Home</NavLink>
                 <NavLink className="cities hover:text-red-500" to="/cities">Cities</NavLink>
-            </div>
+            </nav>
             <div className="md:mr-3 flex items-center gap-3 md:gap-3 relative">
                 <span className="z-10 cursor-pointer w-8 h-8 text-yellow-500 hover:text-yellow-600" onClick={themeClickHandler}>
                     {theme === 'dark'
@@ -55,7 +55,7 @@ const Header = () => {
             
             </div> 
         </div>
-    </nav>)
+    </header>)
 }
 
 export default Header

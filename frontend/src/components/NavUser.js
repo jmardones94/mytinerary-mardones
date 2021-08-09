@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 
 const NavUser = () => {
     return(
-        <div className="relative">
+        <div className="relative text-gray-900 dark:text-white dark:hover:text-blue-600 hover:text-gray-700">
             <Menu>
                 <Menu.Button><svg className="cursor-pointer w-8 h-8" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd" /></svg></Menu.Button>
                 <Transition

@@ -40,7 +40,7 @@ const Header = () => {
         </div>
         <div className="w-screen md:w-3/5 flex justify-between mt-3 md:mt-0 z-50">
             <div className="flex gap-4 items-center md:pl-16 md:gap-5 font-semibold md:text-lg">
-                <NavLink className="home hover:text-red-500" to="/">Home</NavLink>
+                <NavLink className="home hover:text-red-500" exact to="/">Home</NavLink>
                 <NavLink className="cities hover:text-red-500" to="/cities">Cities</NavLink>
             </div>
             <div className="md:mr-3 flex items-center gap-3 md:gap-3 relative">

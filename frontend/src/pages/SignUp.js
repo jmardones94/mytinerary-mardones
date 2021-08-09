@@ -1,6 +1,10 @@
 import { Link } from "react-router-dom"
+import { useEffect } from 'react'
 
 const SignUp = () => {
+    useEffect(() => {
+        window.scrollTo(0,0)
+    }, [])
     return (
         <div className="h-1/2s bg-gray-800 max-w-screen overflow-auto" 
         style={{backgroundImage: `url("${require('../assets/underconstruction.jpg').default}")`, 

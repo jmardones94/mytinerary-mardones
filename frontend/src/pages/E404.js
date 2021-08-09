@@ -1,7 +1,10 @@
 import { Link } from 'react-router-dom'
+import { useEffect } from 'react'
 
 const E404 = () => {
-    
+    useEffect(() => {
+        window.scrollTo(0,0)
+    }, [])
     return(
         <div className="h-screen max-w-screen overflow-auto" 
         style={{backgroundImage: `url("${require('../assets/e404.jpg').default}")`, 

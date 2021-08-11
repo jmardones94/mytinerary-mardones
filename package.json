@@ -19,6 +19,8 @@
   },
   "homepage": "https://github.com/jmardones94/mytinerary-mardones#readme",
   "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^10.0.0",
     "express": "^4.17.1"
   }
 }

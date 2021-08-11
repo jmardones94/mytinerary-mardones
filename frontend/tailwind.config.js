@@ -6,6 +6,7 @@ module.exports = {
   darkMode: 'class', // or 'media' or 'class'
   theme: {
     screens: {
+      xs: '500px',
       sm: '640px',
       md: '768px',
       lg: '1024px',
@@ -525,6 +526,7 @@ module.exports = {
       8: '2rem',
       9: '2.25rem',
       10: '2.5rem',
+      full: '100%',
     },
     listStyleType: {
       none: 'none',
@@ -879,7 +881,6 @@ module.exports = {
     'focus-within',
     'hover',
     'focus',
-    'focus-visible',
     'active',
     'disabled',
   ],

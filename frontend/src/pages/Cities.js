@@ -27,6 +27,7 @@ const Cities = () => {
         .catch(err => console.error(err))
         .finally(() => setLoading(false))
     }, [])
+
     return(
     <main className="transition duration-1000 bg-gray-100 dark:bg-gray-900 flex-grow">
         <div className="w-full px-5 md:px-20 flex flex-wrap justify-center ">
@@ -46,14 +47,14 @@ const Cities = () => {
             {citiesData.length 
             ? renderedCities.length > 0 
                 ? renderedCities.map((city, index) => (
-                    <div key={city._id} className={`rounded flex-grow transform hover:scale-102 relative inline-block w-full sm:w-4/5 md:w-${((index % 3)===0 || (index % 3) === 1) ? '2/5' : '1/4'} h-40 xs:h-64`}
-                        style={{backgroundImage:`url("${require('../assets/cities/'+city.src).default}")`,
+                    <div key={city._id} className={`rounded flex-grow transform hover:scale-102 relative inline-block w-full sm:w-4/5 md:w-${(index % 3 === 0) ? 'full' : '1/4'} h-40 xs:h-64`}
+                        style={{backgroundImage:`url("${city.src}")`,
                             backgroundSize: 'cover',
                             backgroundPosition: 'center'}}>       
                         <Link to={`/itineraries/${city._id}`} >
                             <div className="opacity-50 md:opacity-0 md:hover:opacity-40 sm:hover:opacity-40 flex flex-col items-center justify-center absolute bg-black w-full h-full">
                                 <p className="uppercase font-semibold text-white text-center text-2xl md:text-4xl">{city.name}</p>
-                                <p className="uppercase font-medium text-white text-center text-lg">{city.country}</p>
+                                <p className="uppercase font-medium text-white text-center text-md md:text-lg">{city.country}</p>
                             </div>
                         </Link>
                     </div>)

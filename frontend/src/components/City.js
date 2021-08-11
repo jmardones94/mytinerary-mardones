@@ -11,7 +11,6 @@ export default function City({ id }) {
         .then(res => {
             setCity(res.data.response)
             setLoading(false)
-            console.log('Terminé de fetchear')
         })
         .catch(err => console.error(err))
     }, [id])
@@ -20,7 +19,7 @@ export default function City({ id }) {
         <div className="px-5 md:px-28 py-5 transition duration-1000 dark:bg-gray-900 bg-gray-100">
             <div className="h-56 md:h-96 rounded shadow-3xl"
                 style={{
-                    backgroundImage: `url("${require('../assets/cities/'+city.src).default}")`,
+                    backgroundImage: `url("${city.src}")`,
                     backgroundPositionY: 'center',
                     backgroundSize: 'cover'}}>
             </div>

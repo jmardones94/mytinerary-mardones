@@ -1,31 +1,39 @@
-const citiesData = [
-    {_id: 1, src: 'https://i.imgur.com/54XjPnl.jpg', alt:'Toronto',name:'Toronto', country:'Canada'},
-    {_id: 2, src: 'https://i.imgur.com/mziAutA.jpg', alt:'Sydney',name:'Sydney', country:'Australia'},
-    {_id: 3, src: 'https://i.imgur.com/1gbTBDx.jpg',alt:'London',name:'London', country:'United Kingdom'},
-    {_id: 4, src: 'https://i.imgur.com/L8XMHCW.jpg',alt:'Venice',name:'Venice', country:'Italy'},
-    {_id: 5, src: 'https://i.imgur.com/4Gtex6s.jpg',alt:'Berlin',name:'Berlin', country:'Germany'},
-    {_id: 6, src: 'https://i.imgur.com/jbo4DcY.jpg',alt:'Torres del Paine',name:'Torres del Paine', country:'Chile'},
-    {_id: 7, src: 'https://i.imgur.com/Se01OXK.jpg',alt:'Buenos Aires',name:'Buenos Aires', country:'Argentina'},
-    {_id: 8, src: 'https://i.imgur.com/VrTjY22.jpg',alt:'Madrid',name:'Madrid', country:'Spain'},
-    {_id: 9, src: 'https://i.imgur.com/fngOdh7.jpg',alt:'Paris',name:'Paris', country:'France'},
-    {_id: 10, src: 'https://i.imgur.com/0Lz2Jh3.jpg',alt:'Rome',name:'Rome', country:'Italy'},
-    {_id: 11, src: 'https://i.imgur.com/8jTDhPb.jpg',alt:'Tokyo',name:'Tokyo', country:'Japan'},
-    {_id: 12, src: 'https://i.imgur.com/wFPKEXt.jpg',alt:'New York',name:'New York', country:'United States'},
-    {_id: 13, src: 'https://i.imgur.com/WTdI3cl.jpg',alt:'Moscow',name:'Moscow', country:'Russia'},
-    {_id: 14, src: 'https://i.imgur.com/R52oOga.jpg',alt:'Mexico name',name:'Mexico City', country:'Mexico'},
-    {_id: 15, src: 'https://i.imgur.com/KDMfwFY.jpg',alt:'Stockholm',name:'Stockholm', country:'Sweden'},
-]
+const City = require("../models/City");
 
 const citiesController = {
-    getCities: (req, res) => {
-        res.json({ response: citiesData })
-    },
-    getCityById: (req, res) => {
-        res.json({ response: citiesData.find(city => parseInt(req.params.id) === city._id) })
-    },
-    addNewCity: (req, res) => {
-        console.log('Working on this functionality...')
-    }
-}
+  getCities: (req, res) => {
+    City.find()
+      .then((cities) => res.json({ response: cities }))
+      .catch((err) => res.json({ error: err }));
+  },
+  getCityById: (req, res) => {
+    console.log(req.params.id);
+    City.findOne({ _id: req.params.id })
+      .then((city) => res.json({ response: city }))
+      .catch((err) => res.json({ response: {}, success: false, error: err }));
+  },
+  addNewCity: (req, res) => {
+    const newCity = new City({
+      name: req.body.name,
+      country: req.body.country,
+      src: req.body.src,
+      currencyCode: req.body.currencyCode,
+    });
+    newCity
+      .save()
+      .then(() => res.json({ success: true }))
+      .catch((err) => res.json({ success: false, error: err }));
+  },
+  deleteCity: (req, res) => {
+    City.findOneAndDelete({ _id: req.params.id })
+      .then(() => res.json({ success: true }))
+      .catch((err) => res.json({ success: false, error: err }));
+  },
+  updateCity: (req, res) => {
+    City.findOneAndUpdate({ _id: req.params.id }, { ...req.body })
+      .then(() => res.json({ success: true }))
+      .catch((err) => res.json({ success: false, error: err }));
+  },
+};
 
-module.exports = citiesController
+module.exports = citiesController;

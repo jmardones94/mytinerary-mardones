@@ -18,9 +18,11 @@ export default function City({ id }) {
       })
       .catch((err) => setFetchOk(false))
       .finally(() => setLoading(false));
-  }, [id]);
+    // eslint-disable-next-line
+  }, []);
   if (loading) return <Loading />;
   if (!fetchOk) return <FetchError />;
+  console.log(city);
   return (
     <main className="px-5 flex-grow md:px-28 py-5 transition duration-1000 dark:bg-gray-900 bg-gray-100">
       <div

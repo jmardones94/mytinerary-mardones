@@ -7,6 +7,10 @@ import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import City from "./pages/City";
+import Form from "./pages/Form/Form";
+import FormUpdate from "./pages/Form/FormUpdate";
+import FormDelete from "./pages/Form/FormDelete";
+import FormAdd from "./pages/Form/FormAdd";
 
 function App() {
   return (
@@ -21,6 +25,10 @@ function App() {
         />
         <Route path="/signup" component={SignUp}></Route>
         <Route path="/login" component={LogIn}></Route>
+        <Route exact path="/form" component={Form} />
+        <Route path="/form/update" component={FormUpdate}></Route>
+        <Route path="/form/delete" component={FormDelete}></Route>
+        <Route path="/form/add" component={FormAdd}></Route>
         <Route path="/404" component={E404}></Route>
         <Redirect to="/404"></Redirect>
       </Switch>

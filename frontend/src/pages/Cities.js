@@ -28,17 +28,30 @@ const Cities = () => {
     axios
       .get("http://localhost:4000/api/cities")
       .then((res) => {
-        setRenderedCities(res.data.response);
-        setCitiesData(res.data.response);
-        setFetchOk(true);
+        if (res.data.success) {
+          // Controller did communicate with the database.
+          setRenderedCities(res.data.response);
+          setCitiesData(res.data.response);
+          setFetchOk(true);
+        } else {
+          throw new Error("Controller didn't communicate with the database");
+        }
       })
-      .catch((err) => setFetchOk(false))
+      .catch((err) => {
+        // No pudimos comunicarnos con el backend.
+        setFetchOk(false);
+        console.error(
+          err.includes("Controller")
+            ? err.message
+            : "Fetch error. We couldn't communicate with backend."
+        );
+      })
       .finally(() => setLoading(false));
   }, []);
 
   if (loading) return <Loading />;
   if (!fetchOk) return <FetchError />;
-
+  if (!citiesData.length) return <NoCitiesFounded />;
   return (
     <main className="transition duration-1000 bg-gray-100 dark:bg-gray-900 flex-grow">
       <SearchSection handleSearch={handleSearch} searchInput={searchInput} />
@@ -74,6 +87,16 @@ const Cities = () => {
           ))
         )}
       </section>
+    </main>
+  );
+};
+
+const NoCitiesFounded = () => {
+  return (
+    <main className="transition duration-1000 bg-gray-100 dark:bg-gray-900 flex-grow flex items-center justify-center">
+      <h1 className="text-center text-3xl text-gray-900 dark:text-gray-100">
+        There are no cities in the database yet.
+      </h1>
     </main>
   );
 };

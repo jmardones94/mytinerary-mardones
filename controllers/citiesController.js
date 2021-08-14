@@ -51,9 +51,9 @@ const citiesController = {
         { _id: req.params.id },
         { ...req.body }
       );
-      res.json({ success: true, error: null });
+      res.json({ success: true, error: null, city: city });
     } catch (e) {
-      res.json({ success: false, error: e });
+      res.json({ success: false, error: e, city: null });
     }
   },
 };

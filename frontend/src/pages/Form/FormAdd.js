@@ -1,6 +1,18 @@
 import { useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
+
+const MySwal = withReactContent(Swal);
+const Toast = MySwal.mixin({
+  toast: true,
+  position: "bottom",
+  showConfirmButton: false,
+  timer: 3000,
+  timerProgressBar: true,
+  showCloseButton: true,
+});
 
 const FormAdd = () => {
   const [data, setData] = useState({
@@ -9,8 +21,6 @@ const FormAdd = () => {
     src: "",
     currencyCode: "",
   });
-  const [addStatus, setAddStatus] = useState(null);
-  const [lastCityAdded, setLastCityAdded] = useState("");
   const inputHandler = (e) => {
     setData({
       ...data,
@@ -20,8 +30,10 @@ const FormAdd = () => {
 
   const handleAddClick = async () => {
     if (!(data.name && data.country && data.src && data.currencyCode)) {
-      console.log(data);
-      console.log("Falta algo che!");
+      Toast.fire({
+        icon: "error",
+        title: "All fields are required!",
+      });
     } else {
       try {
         const res = await axios.post("http://localhost:4000/api/cities", data);
@@ -33,17 +45,23 @@ const FormAdd = () => {
             src: "",
             currencyCode: "",
           });
-          setAddStatus(true);
-          setLastCityAdded(res.data.city);
+          Toast.fire({
+            icon: "success",
+            title: `${res.data.city.name} successfully added!`,
+          });
         } else {
-          throw new Error("Could't load the data.");
+          throw new Error(`We couldn't add ${data.name}. Try again later.`);
         }
       } catch (e) {
+        Toast.fire({
+          icon: "error",
+          title: e.message,
+        });
         console.error(e);
-        setAddStatus(false);
       }
     }
   };
+
   return (
     <main className="relative flex flex-col justify-center items-center px-5 md:px-20 transition duration-1000 text-gray-900 dark:text-gray-100 bg-gray-100 dark:bg-gray-900 flex-grow">
       <div className="flex gap-3 absolute left-2 top-2">
@@ -66,7 +84,7 @@ const FormAdd = () => {
           Delete
         </Link>
       </div>
-      <h2 className="text-center mb-5 mt-16 md:mt-0">I'm ADD city</h2>
+      <h2 className="text-center text-xl mb-5 mt-16 md:mt-5">Add a city</h2>
       <div className="flex flex-col gap-3 w-full" style={{ maxWidth: "330px" }}>
         <div className="flex justify-between w-100">
           <label className="font-medium" htmlFor="name">
@@ -129,20 +147,6 @@ const FormAdd = () => {
         >
           Add
         </button>
-        {addStatus === false && (
-          <p>There was an error adding this city. Please try again later.</p>
-        )}
-        {addStatus === true && (
-          <p className="text-center mb-8 text-md ">
-            City added succesfully! check it
-            <Link
-              className="rounded px-6 mx-2 py-1 text-gray-100 bg-blue-500"
-              to={`/itineraries/${lastCityAdded._id}`}
-            >
-              here
-            </Link>
-          </p>
-        )}
       </div>
     </main>
   );

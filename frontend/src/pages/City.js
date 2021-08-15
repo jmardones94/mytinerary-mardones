@@ -39,7 +39,7 @@ const City = (props) => {
         Toast.fire({
           title: "Something went wrong.",
           icon: "error",
-          text: e,
+          text: "You will be redirected to Home soon.",
         }).then(() => props.history.push("/"));
       })
       .finally(() => setLoading(false));

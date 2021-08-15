@@ -11,4 +11,4 @@ app.use(express.json());
 
 app.use("/api", router);
 
-app.listen(4000, () => console.log("Escuchando en el puerto 4000"));
+app.listen(4000, () => console.log("Escuchando en http://localhost:4000"));

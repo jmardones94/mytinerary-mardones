@@ -5,11 +5,11 @@ const citiesController = require("../controllers/citiesController");
 router
   .route("/cities")
   .get(citiesController.getCities)
-  .post(citiesController.addNewCity);
+  .post(citiesController.addCity);
 
 router
   .route("/city/:id")
-  .get(citiesController.getCityById)
+  .get(citiesController.getCity)
   .delete(citiesController.deleteCity)
   .put(citiesController.updateCity);
 

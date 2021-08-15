@@ -47,7 +47,7 @@ const FormAdd = () => {
           });
           Toast.fire({
             icon: "success",
-            title: `${res.data.city.name} successfully added!`,
+            title: `${res.data.response.name} successfully added!`,
           });
         } else {
           throw new Error(`We couldn't add ${data.name}. Try again later.`);

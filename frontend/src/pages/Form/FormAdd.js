@@ -141,7 +141,7 @@ const FormAdd = () => {
           ></input>
         </div>
         <button
-          className="transform transition-1000 active:scale-95 rounded my-4 py-2 text-gray-100 bg-green-500"
+          className="transform active:scale-95 rounded my-4 py-2 text-gray-100 bg-green-500"
           type="button"
           onClick={handleAddClick}
         >

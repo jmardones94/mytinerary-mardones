@@ -258,7 +258,7 @@ const FormUpdate = () => {
             </div>
             <button
               onClick={handleUpdateClick}
-              className="py-2 px-10 w-full mt-3 font-medium bg-yellow-500 text-gray-100 rounded"
+              className="transform active:scale-95 py-2 px-10 w-full mt-3 font-medium bg-yellow-500 text-gray-100 rounded"
             >
               Update
             </button>

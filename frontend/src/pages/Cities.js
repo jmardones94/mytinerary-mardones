@@ -46,7 +46,7 @@ const Cities = (props) => {
           setCitiesData(res.data.response);
           setFetchOk(true);
         } else {
-          throw new Error("We lost connection with the database.");
+          throw new Error("Internal server error.");
         }
       })
       .catch((err) => {

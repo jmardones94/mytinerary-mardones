@@ -12,7 +12,7 @@ import FormUpdate from "./pages/Form/FormUpdate";
 import FormDelete from "./pages/Form/FormDelete";
 import FormAdd from "./pages/Form/FormAdd";
 
-function App() {
+function App(props) {
   return (
     <BrowserRouter>
       <Header />
@@ -21,7 +21,7 @@ function App() {
         <Route path="/cities" component={Cities}></Route>
         <Route
           path="/itineraries/:id"
-          render={({ match }) => <City id={match.params.id} />}
+          render={(props) => <City {...props} id={props.match.params.id} />}
         />
         <Route path="/signup" component={SignUp}></Route>
         <Route path="/login" component={LogIn}></Route>

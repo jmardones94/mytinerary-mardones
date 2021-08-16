@@ -1,69 +1,67 @@
-import { useState, useEffect, Fragment } from "react";
-import { Listbox, Transition } from "@headlessui/react";
-import { CheckIcon, SelectorIcon } from "@heroicons/react/solid";
-import axios from "axios";
-import { Link } from "react-router-dom";
-import Swal from "sweetalert2";
-import withReactContent from "sweetalert2-react-content";
+import { useState, useEffect, Fragment } from "react"
+import { Listbox, Transition } from "@headlessui/react"
+import { CheckIcon, SelectorIcon } from "@heroicons/react/solid"
+import axios from "axios"
+import { Link } from "react-router-dom"
+import Swal from "sweetalert2"
+import withReactContent from "sweetalert2-react-content"
 
-const MySwal = withReactContent(Swal);
+const MySwal = withReactContent(Swal)
 const Toast = MySwal.mixin({
   toast: true,
   position: "bottom",
   showConfirmButton: false,
   timer: 3000,
   timerProgressBar: true,
-});
+})
 
 const FormDelete = () => {
-  const [cities, setCities] = useState([]);
-  const [deleteCount, setDeleteCount] = useState(0);
-  const [selected, setSelected] = useState("");
-  const [loading, setLoading] = useState(true);
-  const [fetchOk, setFetchOk] = useState(null);
+  const [cities, setCities] = useState([])
+  const [deleteCount, setDeleteCount] = useState(0)
+  const [selected, setSelected] = useState("")
+  const [loading, setLoading] = useState(true)
+  const [fetchOk, setFetchOk] = useState(null)
   useEffect(() => {
-    setLoading(true);
+    setLoading(true)
     axios
       .get("http://localhost:4000/api/cities")
       .then((res) => {
-        setCities(res.data.response);
-        setFetchOk(true);
+        setCities(res.data.response)
+        setFetchOk(true)
       })
       .catch((err) => {
         Toast.fire({
           title: err.message,
           icon: "error",
-        });
-        setFetchOk(false);
+        })
+        setFetchOk(false)
       })
-      .finally(() => setLoading(false));
-  }, [deleteCount]);
+      .finally(() => setLoading(false))
+  }, [deleteCount])
 
   const handleDeleteClick = async () => {
     try {
-      const cityId = cities.find((city) => city.name === selected)._id;
-      const res = await axios.delete(
-        `http://localhost:4000/api/city/${cityId}`
-      );
+      const cityId = cities.find((city) => city.name === selected)._id
+      const res = await axios.delete(`http://localhost:4000/api/city/${cityId}`)
       if (res.data.success) {
-        setDeleteCount(deleteCount + 1);
-        setSelected("");
+        setDeleteCount(deleteCount + 1)
+        setSelected("")
         Toast.fire({
           icon: "success",
           title: `${selected} successfully deleted.`,
-        });
+        })
       } else {
         throw new Error(
           "Our database couldn't handle your request. Please try again later."
-        );
+        )
       }
     } catch (e) {
       Toast.fire({
         title: e.message,
         icon: "error",
-      });
+      })
     }
-  };
+  }
 
   return (
     <main className="relative flex justify-center flex-col items-center px-5 md:px-20 transition duration-1000 text-gray-900 dark:text-gray-100 bg-gray-100 dark:bg-gray-900 flex-grow">
@@ -175,7 +173,7 @@ const FormDelete = () => {
       <div>
         <button
           onClick={(e) => {
-            selected && handleDeleteClick(e);
+            selected && handleDeleteClick(e)
           }}
           className={`${
             loading ? "cursor-wait" : !fetchOk && "cursor-not-allowed"
@@ -185,7 +183,7 @@ const FormDelete = () => {
         </button>
       </div>
     </main>
-  );
-};
+  )
+}
 
-export default FormDelete;
+export default FormDelete

@@ -1,52 +1,52 @@
-import { useState, useEffect, Fragment } from "react";
-import { Listbox, Transition } from "@headlessui/react";
-import { CheckIcon, SelectorIcon } from "@heroicons/react/solid";
-import axios from "axios";
-import { Link } from "react-router-dom";
-import Swal from "sweetalert2";
-import withReactContent from "sweetalert2-react-content";
+import { useState, useEffect, Fragment } from "react"
+import { Listbox, Transition } from "@headlessui/react"
+import { CheckIcon, SelectorIcon } from "@heroicons/react/solid"
+import axios from "axios"
+import { Link } from "react-router-dom"
+import Swal from "sweetalert2"
+import withReactContent from "sweetalert2-react-content"
 
-const MySwal = withReactContent(Swal);
+const MySwal = withReactContent(Swal)
 const Toast = MySwal.mixin({
   toast: true,
   position: "bottom",
   showConfirmButton: false,
   timer: 3000,
   timerProgressBar: true,
-});
+})
 
 const FormUpdate = () => {
-  const [cities, setCities] = useState([]);
-  const [updateCount, setUpdateCount] = useState(0);
-  const [selectedName, setSelectedName] = useState("");
-  const [newData, setNewData] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [fetchOk, setFetchOk] = useState(null);
+  const [cities, setCities] = useState([])
+  const [updateCount, setUpdateCount] = useState(0)
+  const [selectedName, setSelectedName] = useState("")
+  const [newData, setNewData] = useState(null)
+  const [loading, setLoading] = useState(true)
+  const [fetchOk, setFetchOk] = useState(null)
 
   const inputHandler = (e) => {
     setNewData({
       ...newData,
       [e.target.name]: e.target.value,
-    });
-  };
+    })
+  }
 
   useEffect(() => {
-    setLoading(true);
+    setLoading(true)
     axios
       .get("http://localhost:4000/api/cities")
       .then((res) => {
-        setCities(res.data.response);
-        setFetchOk(true);
+        setCities(res.data.response)
+        setFetchOk(true)
       })
       .catch((err) => {
         Toast.fire({
           title: err.message,
           icon: "error",
-        });
-        setFetchOk(false);
+        })
+        setFetchOk(false)
       })
-      .finally(() => setLoading(false));
-  }, [updateCount]);
+      .finally(() => setLoading(false))
+  }, [updateCount])
 
   const handleUpdateClick = async () => {
     if (
@@ -55,39 +55,39 @@ const FormUpdate = () => {
       Toast.fire({
         icon: "error",
         title: "All fields are required!",
-      });
+      })
     } else {
       try {
-        const cityId = cities.find((city) => city.name === selectedName)._id;
+        const cityId = cities.find((city) => city.name === selectedName)._id
         const res = await axios.put(
           `http://localhost:4000/api/city/${cityId}`,
           newData
-        );
+        )
         if (res.data.success) {
           Toast.fire({
             title: `${newData.name} successfully updated.`,
             icon: "success",
-          });
-          setUpdateCount(updateCount + 1);
-          setSelectedName("");
+          })
+          setUpdateCount(updateCount + 1)
+          setSelectedName("")
         } else {
-          console.error(res.data.error);
+          console.error(res.data.error)
           throw new Error(
             "Our database couldn't process your request. Please try again later."
-          );
+          )
         }
       } catch (e) {
         Toast.fire({
           title: e.message,
           icon: "error",
-        });
+        })
       }
     }
-  };
+  }
   const handleSelect = (e) => {
-    setSelectedName(e);
-    setNewData({ ...cities.find((city) => city.name === e) });
-  };
+    setSelectedName(e)
+    setNewData({ ...cities.find((city) => city.name === e) })
+  }
 
   return (
     <main className="relative py-10 flex justify-center flex-col items-center px-5 md:px-20 transition duration-1000 text-gray-900 dark:text-gray-100 bg-gray-100 dark:bg-gray-900 flex-grow">
@@ -266,7 +266,7 @@ const FormUpdate = () => {
         </div>
       )}
     </main>
-  );
-};
+  )
+}
 
-export default FormUpdate;
+export default FormUpdate

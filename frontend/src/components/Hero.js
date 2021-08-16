@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link } from "react-router-dom"
 
 const Hero = ({ heroImg }) => {
   return (
@@ -42,7 +42,7 @@ const Hero = ({ heroImg }) => {
         src={heroImg.default}
       ></img>
     </div>
-  );
-};
+  )
+}
 
-export default Hero;
+export default Hero

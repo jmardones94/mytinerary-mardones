@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+const mongoose = require("mongoose")
 
 mongoose
   .connect(process.env.MONGODB, {
@@ -8,4 +8,4 @@ mongoose
     useFindAndModify: false,
   })
   .then(() => console.log("Database connected."))
-  .catch((e) => console.error(e));
+  .catch((e) => console.error(e))

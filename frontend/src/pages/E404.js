@@ -1,10 +1,10 @@
-import { Link } from "react-router-dom";
-import { useEffect } from "react";
+import { Link } from "react-router-dom"
+import { useEffect } from "react"
 
 const E404 = () => {
   useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
+    window.scrollTo(0, 0)
+  }, [])
   return (
     <main
       className="h-screen max-w-screen overflow-auto"
@@ -25,7 +25,7 @@ const E404 = () => {
         </Link>
       </div>
     </main>
-  );
-};
+  )
+}
 
-export default E404;
+export default E404

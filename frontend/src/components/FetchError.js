@@ -5,7 +5,7 @@ const FetchError = () => {
         Something went wrong.
       </h1>
     </main>
-  );
-};
+  )
+}
 
-export default FetchError;
+export default FetchError

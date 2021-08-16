@@ -1,10 +1,10 @@
-import { Link } from "react-router-dom";
-import { useEffect } from "react";
+import { Link } from "react-router-dom"
+import { useEffect } from "react"
 
 const SignUp = () => {
   useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
+    window.scrollTo(0, 0)
+  }, [])
   return (
     <main
       className="h-1/2s bg-gray-800 max-w-screen overflow-auto"
@@ -28,7 +28,7 @@ const SignUp = () => {
         </Link>
       </div>
     </main>
-  );
-};
+  )
+}
 
-export default SignUp;
+export default SignUp

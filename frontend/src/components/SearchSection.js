@@ -27,7 +27,7 @@ const SearchSection = ({ handleSearch, searchInput }) => {
                             backgroundPosition: 'center',
                             backgroundRepeat: 'no-repeat'}}></div> */}
     </section>
-  );
-};
+  )
+}
 
-export default SearchSection;
+export default SearchSection

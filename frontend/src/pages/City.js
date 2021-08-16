@@ -1,53 +1,53 @@
-import axios from "axios";
-import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-import FetchError from "../components/FetchError";
-import Loading from "../components/Loading";
-import Swal from "sweetalert2";
-import withReactContent from "sweetalert2-react-content";
+import axios from "axios"
+import React, { useEffect, useState } from "react"
+import { Link } from "react-router-dom"
+import FetchError from "../components/FetchError"
+import Loading from "../components/Loading"
+import Swal from "sweetalert2"
+import withReactContent from "sweetalert2-react-content"
 
-const MySwal = withReactContent(Swal);
+const MySwal = withReactContent(Swal)
 const Toast = MySwal.mixin({
   toast: true,
   position: "bottom",
   showConfirmButton: false,
-  timer: 10000,
+  timer: 5000,
   timerProgressBar: true,
   showCloseButton: true,
-});
+})
 
 const City = (props) => {
-  const [city, setCity] = useState({});
-  const [loading, setLoading] = useState(true);
-  const [fetchOk, setFetchOk] = useState(null);
+  const [city, setCity] = useState({})
+  const [loading, setLoading] = useState(true)
+  const [fetchOk, setFetchOk] = useState(null)
   useEffect(() => {
-    window.scrollTo(0, 0);
+    window.scrollTo(0, 0)
     axios
       .get(`http://localhost:4000/api/city/${props.id}`)
       .then((res) => {
         if (res.data.success) {
-          setCity(res.data.response);
-          setFetchOk(true);
+          setCity(res.data.response)
+          setFetchOk(true)
         } else {
-          throw new Error("Internal server error.");
+          throw new Error("Internal server error.")
         }
       })
       .catch((err) => {
-        setFetchOk(false);
-        const e = err.message || "Server stops responding.";
-        console.error(e);
+        setFetchOk(false)
+        const e = err.message || "Server stops responding."
+        console.error(e)
         Toast.fire({
           title: "Something went wrong.",
           icon: "error",
           text: "You will be redirected to Home soon.",
-        }).then(() => props.history.push("/"));
+        }).then(() => props.history.push("/"))
       })
-      .finally(() => setLoading(false));
+      .finally(() => setLoading(false))
     // eslint-disable-next-line
-  }, []);
-  console.log(props);
-  if (loading) return <Loading />;
-  if (!fetchOk) return <FetchError />;
+  }, [])
+  console.log(props)
+  if (loading) return <Loading />
+  if (!fetchOk) return <FetchError />
   return (
     <main className="px-5 flex-grow md:px-28 py-5 transition duration-1000 dark:bg-gray-900 bg-gray-100">
       <div
@@ -74,7 +74,7 @@ const City = (props) => {
         </button>
       </Link>
     </main>
-  );
-};
+  )
+}
 
-export default City;
+export default City

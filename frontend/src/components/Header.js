@@ -1,6 +1,6 @@
-import { Link, NavLink } from "react-router-dom";
-import { useState } from "react";
-import NavUser from "./NavUser";
+import { Link, NavLink } from "react-router-dom"
+import { useState } from "react"
+import NavUser from "./NavUser"
 
 const Header = () => {
   const [theme, setTheme] = useState(
@@ -9,20 +9,20 @@ const Header = () => {
       : window.matchMedia("(prefers-color-scheme: dark)").matches
       ? "dark"
       : "light"
-  );
-  const light_logo = require("../assets/light_logo.png");
-  const dark_logo = require("../assets/dark_logo.png");
-  window.document.documentElement.classList.add(theme);
+  )
+  const light_logo = require("../assets/light_logo.png")
+  const dark_logo = require("../assets/dark_logo.png")
+  window.document.documentElement.classList.add(theme)
 
   const themeClickHandler = () => {
-    const newTheme = theme === "dark" ? "light" : "dark";
-    const root = window.document.documentElement;
+    const newTheme = theme === "dark" ? "light" : "dark"
+    const root = window.document.documentElement
 
-    root.classList.remove(theme);
-    setTheme(newTheme);
-    root.classList.add(newTheme);
-    localStorage.setItem("theme", newTheme);
-  };
+    root.classList.remove(theme)
+    setTheme(newTheme)
+    root.classList.add(newTheme)
+    localStorage.setItem("theme", newTheme)
+  }
 
   return (
     <header className="transition duration-1000 w-100 min-h-32 py-5 md:h-28 px-5 md:px-20 flex flex-wrap justify-between md:items-center text-gray-900 bg-gray-200 dark:text-white dark:bg-black">
@@ -84,7 +84,7 @@ const Header = () => {
         </div>
       </div>
     </header>
-  );
-};
+  )
+}
 
-export default Header;
+export default Header

@@ -1,16 +1,16 @@
-import Home from "./pages/Home";
-import Cities from "./pages/Cities";
-import E404 from "./pages/E404";
-import SignUp from "./pages/SignUp";
-import LogIn from "./pages/LogIn";
-import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
-import Header from "./components/Header";
-import Footer from "./components/Footer";
-import City from "./pages/City";
-import Form from "./pages/Form/Form";
-import FormUpdate from "./pages/Form/FormUpdate";
-import FormDelete from "./pages/Form/FormDelete";
-import FormAdd from "./pages/Form/FormAdd";
+import Home from "./pages/Home"
+import Cities from "./pages/Cities"
+import E404 from "./pages/E404"
+import SignUp from "./pages/SignUp"
+import LogIn from "./pages/LogIn"
+import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom"
+import Header from "./components/Header"
+import Footer from "./components/Footer"
+import City from "./pages/City"
+import Form from "./pages/Form/Form"
+import FormUpdate from "./pages/Form/FormUpdate"
+import FormDelete from "./pages/Form/FormDelete"
+import FormAdd from "./pages/Form/FormAdd"
 
 function App(props) {
   return (
@@ -34,7 +34,7 @@ function App(props) {
       </Switch>
       <Footer />
     </BrowserRouter>
-  );
+  )
 }
 
-export default App;
+export default App

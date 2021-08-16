@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link } from "react-router-dom"
 
 const Form = () => {
   return (
@@ -28,7 +28,7 @@ const Form = () => {
         </Link>
       </section>
     </main>
-  );
-};
+  )
+}
 
-export default Form;
+export default Form

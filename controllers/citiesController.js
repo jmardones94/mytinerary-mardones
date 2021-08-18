@@ -13,6 +13,9 @@ const citiesController = {
   getCity: async (req, res) => {
     try {
       const city = await City.findOne({ _id: req.params.id })
+      if (!city) {
+        throw new Error("This city doesn't exists.")
+      }
       res.json({ success: true, response: city, error: null })
     } catch (e) {
       res.json({ success: false, response: "", error: e.message })

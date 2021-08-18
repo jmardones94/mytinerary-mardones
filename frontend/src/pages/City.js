@@ -1,10 +1,10 @@
 import axios from "axios"
 import React, { useEffect, useState } from "react"
-import { Link } from "react-router-dom"
 import FetchError from "../components/FetchError"
 import Loading from "../components/Loading"
 import Swal from "sweetalert2"
 import withReactContent from "sweetalert2-react-content"
+import Itinerary from "../components/Itinerary"
 
 const MySwal = withReactContent(Swal)
 const Toast = MySwal.mixin({
@@ -45,7 +45,6 @@ const City = (props) => {
       .finally(() => setLoading(false))
     // eslint-disable-next-line
   }, [])
-  console.log(props)
   if (loading) return <Loading />
   if (!fetchOk) return <FetchError />
   return (
@@ -64,7 +63,7 @@ const City = (props) => {
           MyTineraries
         </span>
       </h1>
-      <p className="text-center text-gray-900 dark:text-gray-100 mt-5">
+      {/* <p className="text-center text-gray-900 dark:text-gray-100 mt-5">
         Site under construction
       </p>
 
@@ -72,7 +71,8 @@ const City = (props) => {
         <button className="transform active:scale-95 text-center text-gray-100 px-3 py-2 bg-red-500 rounded">
           Back to Cities
         </button>
-      </Link>
+      </Link> */}
+      <Itinerary />
     </main>
   )
 }

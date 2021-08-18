@@ -13,7 +13,7 @@ const Carousel = ({ citiesData }) => {
   }, [index])
 
   return (
-    <div className="transition duration-1000 h-carousel bg-gradient-to-b from-gray-100 via-blue-100 to-gray-200 dark:from-gray-900 dark:to-black md:h-screen w-100 flex flex-col items-center py-20 justify-center">
+    <section className="transition duration-1000 h-carousel bg-gradient-to-b from-gray-100 via-blue-100 to-gray-200 dark:from-gray-900 dark:to-black md:h-screen w-100 flex flex-col items-center py-20 justify-center">
       <h2 className="text-3xl text-gray-900 dark:text-gray-200 md:text-4xl mb-8 mt-4 font-semibold">
         Popular
         <span className="font-silt tracking-wider">MyTineraries</span>
@@ -71,7 +71,7 @@ const Carousel = ({ citiesData }) => {
           </svg>
         </span>
       </div>
-    </div>
+    </section>
   )
 }
 

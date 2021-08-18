@@ -2,7 +2,7 @@ import { Link } from "react-router-dom"
 
 const Hero = ({ heroImg }) => {
   return (
-    <div
+    <section
       className={`bg-gray-100 dark:bg-gray-900 md:h-4/5s max-w-screen transition duration-1000 flex flex-col md:flex-row gap-2 md:gap-5 justify-end items-center px-5 md:pl-20 md:pr-8`}
     >
       <div className="md:h-full w-full md:w-2/5 gap-8 sm:gap-16 flex flex-col justify-center items-center text-center order-1 md:order-first">
@@ -41,7 +41,7 @@ const Hero = ({ heroImg }) => {
         alt="Typical travel's kit"
         src={heroImg.default}
       ></img>
-    </div>
+    </section>
   )
 }
 

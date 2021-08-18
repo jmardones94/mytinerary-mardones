@@ -22,10 +22,6 @@ const SearchSection = ({ handleSearch, searchInput }) => {
           ref={searchInput}
         ></input>
       </div>
-      {/* <div className="h-96 w-full md:w-2/3" style={{backgroundImage:`url("${searchImg.default}")`,
-                            backgroundSize: 'cover',
-                            backgroundPosition: 'center',
-                            backgroundRepeat: 'no-repeat'}}></div> */}
     </section>
   )
 }

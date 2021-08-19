@@ -5,6 +5,8 @@ const itinerarySchema = new mongoose.Schema({
     name: { type: String, required: true },
     photo: { type: String, required: true },
   },
+  title: { type: String, required: true },
+  photos: { type: [String], required: true },
   price: { type: Number, required: true, min: 1, max: 5 },
   duration: { type: Number, required: true, min: 0 },
   likes: { type: Number, default: 0 },

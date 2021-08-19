@@ -1,4 +1,4 @@
-const colors = require("tailwindcss/colors");
+const colors = require("tailwindcss/colors")
 
 module.exports = {
   purge: ["./src/**/*.{js,jsx,ts,tsx}", "./public/index.html"],
@@ -28,6 +28,9 @@ module.exports = {
       purple: colors.violet,
       pink: colors.pink,
       b404: "#645986",
+      customblue: "rgb(81, 113, 165)",
+      shadow: "rgb(133, 126, 97)",
+      lavender: "rgb(129, 113, 122)",
     },
     spacing: {
       px: "1px",
@@ -452,6 +455,7 @@ module.exports = {
       carousel: "140vh",
       "1/4s": "25vh",
       "1/2s": "50vh",
+      "1/3s": "33vh",
       "3/5s": "57vh",
       "2/3s": "66vh",
       "3/4s": "75vh",
@@ -617,6 +621,7 @@ module.exports = {
       80: "20rem",
       96: "24rem",
       "3/4": "75%",
+      "1/2s": "50vh",
     },
     minWidth: {
       0: "0px",
@@ -1094,4 +1099,4 @@ module.exports = {
     zIndex: ["responsive", "focus-within", "focus"],
   },
   plugins: [],
-};
+}

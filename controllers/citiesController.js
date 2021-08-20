@@ -84,7 +84,7 @@ const citiesController = {
       )
       res.json({
         success: true,
-        response: `${req.body.name || city.name} modified.`,
+        response: city,
         error: null,
       })
     } catch (e) {

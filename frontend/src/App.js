@@ -11,8 +11,15 @@ import Form from "./pages/Form/Form"
 import FormUpdate from "./pages/Form/FormUpdate"
 import FormDelete from "./pages/Form/FormDelete"
 import FormAdd from "./pages/Form/FormAdd"
+import { connect } from "react-redux"
+import citiesActions from "./redux/actions/citiesActions"
+import { useEffect } from "react"
 
-function App(props) {
+function App({ getCities }) {
+  useEffect(() => {
+    getCities()
+    // eslint-disable-next-line
+  }, [])
   return (
     <BrowserRouter>
       <Header />
@@ -37,4 +44,8 @@ function App(props) {
   )
 }
 
-export default App
+const mapDispatchToProps = {
+  getCities: citiesActions.getCities,
+}
+
+export default connect(null, mapDispatchToProps)(App)

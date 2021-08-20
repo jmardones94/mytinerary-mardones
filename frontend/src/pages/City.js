@@ -1,59 +1,74 @@
-import axios from "axios"
-import React, { useEffect, useState } from "react"
+// import axios from "axios"
+import React from "react"
 import { Link } from "react-router-dom"
-import FetchError from "../components/FetchError"
+// import FetchError from "../components/FetchError"
 import Loading from "../components/Loading"
-import Swal from "sweetalert2"
-import withReactContent from "sweetalert2-react-content"
+// import Swal from "sweetalert2"
+// import withReactContent from "sweetalert2-react-content"
 import Itinerary from "../components/Itinerary"
+import { connect } from "react-redux"
+import itinerariesActions from "../redux/actions/itinerariesActions"
+import { useEffect } from "react"
+// import citiesActions from "../redux/actions/citiesActions"
 
-const MySwal = withReactContent(Swal)
-const Toast = MySwal.mixin({
-  toast: true,
-  position: "bottom",
-  showConfirmButton: false,
-  timer: 5000,
-  timerProgressBar: true,
-  showCloseButton: true,
-})
+// const MySwal = withReactContent(Swal)
+// const Toast = MySwal.mixin({
+//   toast: true,
+//   position: "bottom",
+//   showConfirmButton: false,
+//   timer: 5000,
+//   timerProgressBar: true,
+//   showCloseButton: true,
+// })
 
 const City = (props) => {
-  const [city, setCity] = useState({})
-  const [loading, setLoading] = useState(true)
-  const [fetchOk, setFetchOk] = useState(null)
-  const [itineraries, setItineraries] = useState([])
+  // const [city, setCity] = useState({})
+  // const [loading, setLoading] = useState(true)
+  // const [fetchOk, setFetchOk] = useState(null)
+  // const [itineraries, setItineraries] = useState([])
+  const { itineraries, cities, getItineraries } = props
+  const city = cities.find((city) => city._id === props.id) || {}
   useEffect(() => {
     window.scrollTo(0, 0)
-    axios
-      .get(`http://localhost:4000/api/city/${props.id}`)
-      .then((res) => {
-        if (res.data.success) {
-          setCity(res.data.response)
-          setFetchOk(true)
-        } else {
-          throw new Error("Internal server error.")
-        }
-      })
-      .catch((err) => {
-        setFetchOk(false)
-        const e = err.message || "Server stops responding."
-        console.error(e)
-        Toast.fire({
-          title: "Something went wrong.",
-          icon: "error",
-          text: "You will be redirected to Home soon.",
-        }).then(() => props.history.push("/"))
-      })
-      .finally(() => setLoading(false))
-
-    axios
-      .get("http://localhost:4000/api/itineraries")
-      .then((res) => setItineraries(res.data.response))
-      .catch((e) => console.error(e))
+    getItineraries()
     // eslint-disable-next-line
   }, [])
-  if (loading) return <Loading />
-  if (!fetchOk) return <FetchError />
+  // useEffect(() => {
+  //   city
+  // })
+  // useEffect(() => {
+  //   window.scrollTo(0, 0)
+  //   axios
+  //     .get(`http://localhost:4000/api/city/${props.id}`)
+  //     .then((res) => {
+  //       if (res.data.success) {
+  //         setCity(res.data.response)
+  //         setFetchOk(true)
+  //       } else {
+  //         throw new Error("Internal server error.")
+  //       }
+  //     })
+  //     .catch((err) => {
+  //       setFetchOk(false)
+  //       const e = err.message || "Server stops responding."
+  //       console.error(e)
+  //       Toast.fire({
+  //         title: "Something went wrong.",
+  //         icon: "error",
+  //         text: "You will be redirected to Home soon.",
+  //       }).then(() => props.history.push("/"))
+  //     })
+  //     .finally(() => setLoading(false))
+
+  //   axios
+  //     .get("http://localhost:4000/api/itineraries")
+  //     .then((res) => setItineraries(res.data.response))
+  //     .catch((e) => console.error(e))
+  // eslint-disable-next-line
+  // }, [])
+  // if (loading) return <Loading />
+  // if (!fetchOk) return <FetchError />
+  if (!Object.keys(city).length) return <Loading />
   return (
     <main className="px-5 flex-grow md:px-28 py-5 transition duration-1000 dark:bg-gray-900 bg-gray-100">
       <section>
@@ -88,4 +103,15 @@ const City = (props) => {
   )
 }
 
-export default City
+const mapStateToProps = (state) => {
+  return {
+    cities: state.cities.cities,
+    itineraries: state.itineraries.itineraries,
+  }
+}
+
+const mapDispatchToProps = {
+  getItineraries: itinerariesActions.getItineraries,
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(City)

@@ -1,20 +1,21 @@
 import { useState } from "react"
-import axios from "axios"
 import { Link } from "react-router-dom"
-import Swal from "sweetalert2"
-import withReactContent from "sweetalert2-react-content"
+// import Swal from "sweetalert2"
+// import withReactContent from "sweetalert2-react-content"
+import citiesActions from "../../redux/actions/citiesActions"
+import { connect } from "react-redux"
 
-const MySwal = withReactContent(Swal)
-const Toast = MySwal.mixin({
-  toast: true,
-  position: "bottom",
-  showConfirmButton: false,
-  timer: 3000,
-  timerProgressBar: true,
-  showCloseButton: true,
-})
+// const MySwal = withReactContent(Swal)
+// const Toast = MySwal.mixin({
+//   toast: true,
+//   position: "bottom",
+//   showConfirmButton: false,
+//   timer: 3000,
+//   timerProgressBar: true,
+//   showCloseButton: true,
+// })
 
-const FormAdd = () => {
+const FormAdd = (props) => {
   const [data, setData] = useState({
     name: "",
     country: "",
@@ -28,39 +29,49 @@ const FormAdd = () => {
     })
   }
 
-  const handleAddClick = async () => {
-    if (!(data.name && data.country && data.src && data.currencyCode)) {
-      Toast.fire({
-        icon: "error",
-        title: "All fields are required!",
-      })
-    } else {
-      try {
-        const res = await axios.post("http://localhost:4000/api/cities", data)
-        console.log(res.data)
-        if (res.data.success) {
-          setData({
-            name: "",
-            country: "",
-            src: "",
-            currencyCode: "",
-          })
-          Toast.fire({
-            icon: "success",
-            title: `${res.data.response.name} successfully added!`,
-          })
-        } else {
-          throw new Error(`We couldn't add ${data.name}. Try again later.`)
-        }
-      } catch (e) {
-        Toast.fire({
-          icon: "error",
-          title: e.message,
-        })
-        console.error(e)
-      }
-    }
+  const handleAddClick = () => {
+    props.addCity(data)
+    setData({
+      name: "",
+      country: "",
+      src: "",
+      currencyCode: "",
+    })
   }
+
+  // const handleAddClick = async () => {
+  //   if (!(data.name && data.country && data.src && data.currencyCode)) {
+  //     Toast.fire({
+  //       icon: "error",
+  //       title: "All fields are required!",
+  //     })
+  //   } else {
+  //     try {
+  //       const res = await axios.post("http://localhost:4000/api/cities", data)
+  //       console.log(res.data)
+  //       if (res.data.success) {
+  //         setData({
+  //           name: "",
+  //           country: "",
+  //           src: "",
+  //           currencyCode: "",
+  //         })
+  //         Toast.fire({
+  //           icon: "success",
+  //           title: `${res.data.response.name} successfully added!`,
+  //         })
+  //       } else {
+  //         throw new Error(`We couldn't add ${data.name}. Try again later.`)
+  //       }
+  //     } catch (e) {
+  //       Toast.fire({
+  //         icon: "error",
+  //         title: e.message,
+  //       })
+  //       console.error(e)
+  //     }
+  //   }
+  // }
 
   return (
     <main className="relative flex flex-col justify-center items-center px-5 md:px-20 transition duration-1000 text-gray-900 dark:text-gray-100 bg-gray-100 dark:bg-gray-900 flex-grow">
@@ -152,4 +163,8 @@ const FormAdd = () => {
   )
 }
 
-export default FormAdd
+const mapDispatchToProps = {
+  addCity: citiesActions.addCity,
+}
+
+export default connect(null, mapDispatchToProps)(FormAdd)

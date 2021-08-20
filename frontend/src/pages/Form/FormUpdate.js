@@ -1,10 +1,13 @@
-import { useState, useEffect, Fragment } from "react"
-import { Listbox, Transition } from "@headlessui/react"
-import { CheckIcon, SelectorIcon } from "@heroicons/react/solid"
-import axios from "axios"
+import { useState } from "react"
+// import { Listbox, Transition } from "@headlessui/react"
+// import { CheckIcon, SelectorIcon } from "@heroicons/react/solid"
+// import axios from "axios"
 import { Link } from "react-router-dom"
 import Swal from "sweetalert2"
 import withReactContent from "sweetalert2-react-content"
+import citiesActions from "../../redux/actions/citiesActions"
+import FormSelect from "./FormSelect"
+import { connect } from "react-redux"
 
 const MySwal = withReactContent(Swal)
 const Toast = MySwal.mixin({
@@ -15,13 +18,14 @@ const Toast = MySwal.mixin({
   timerProgressBar: true,
 })
 
-const FormUpdate = () => {
-  const [cities, setCities] = useState([])
-  const [updateCount, setUpdateCount] = useState(0)
+const FormUpdate = (props) => {
+  // const [cities, setCities] = useState([])
+  const cities = [...props.cities] || []
+  // const [updateCount, setUpdateCount] = useState(0)
   const [selectedName, setSelectedName] = useState("")
   const [newData, setNewData] = useState(null)
-  const [loading, setLoading] = useState(true)
-  const [fetchOk, setFetchOk] = useState(null)
+  // const [loading, setLoading] = useState(true)
+  // const [fetchOk, setFetchOk] = useState(null)
 
   const inputHandler = (e) => {
     setNewData({
@@ -30,25 +34,62 @@ const FormUpdate = () => {
     })
   }
 
-  useEffect(() => {
-    setLoading(true)
-    axios
-      .get("http://localhost:4000/api/cities")
-      .then((res) => {
-        setCities(res.data.response)
-        setFetchOk(true)
-      })
-      .catch((err) => {
-        Toast.fire({
-          title: err.message,
-          icon: "error",
-        })
-        setFetchOk(false)
-      })
-      .finally(() => setLoading(false))
-  }, [updateCount])
+  // useEffect(() => {
+  //   setLoading(true)
+  //   axios
+  //     .get("http://localhost:4000/api/cities")
+  //     .then((res) => {
+  //       setCities(res.data.response)
+  //       setFetchOk(true)
+  //     })
+  //     .catch((err) => {
+  //       Toast.fire({
+  //         title: err.message,
+  //         icon: "error",
+  //       })
+  //       setFetchOk(false)
+  //     })
+  //     .finally(() => setLoading(false))
+  // }, [updateCount])
 
-  const handleUpdateClick = async () => {
+  // const handleUpdateClick = async () => {
+  //   if (
+  //     !(newData.name && newData.country && newData.src && newData.currencyCode)
+  //   ) {
+  //     Toast.fire({
+  //       icon: "error",
+  //       title: "All fields are required!",
+  //     })
+  //   } else {
+  //     try {
+  //       const cityId = cities.find((city) => city.name === selectedName)._id
+  //       const res = await axios.put(
+  //         `http://localhost:4000/api/city/${cityId}`,
+  //         newData
+  //       )
+  //       if (res.data.success) {
+  //         Toast.fire({
+  //           title: `${newData.name} successfully updated.`,
+  //           icon: "success",
+  //         })
+  //         setUpdateCount(updateCount + 1)
+  //         setSelectedName("")
+  //       } else {
+  //         console.error(res.data.error)
+  //         throw new Error(
+  //           "Our database couldn't process your request. Please try again later."
+  //         )
+  //       }
+  //     } catch (e) {
+  //       Toast.fire({
+  //         title: e.message,
+  //         icon: "error",
+  //       })
+  //     }
+  //   }
+  // }
+
+  const handleUpdateClick = () => {
     if (
       !(newData.name && newData.country && newData.src && newData.currencyCode)
     ) {
@@ -57,33 +98,15 @@ const FormUpdate = () => {
         title: "All fields are required!",
       })
     } else {
-      try {
-        const cityId = cities.find((city) => city.name === selectedName)._id
-        const res = await axios.put(
-          `http://localhost:4000/api/city/${cityId}`,
-          newData
-        )
-        if (res.data.success) {
-          Toast.fire({
-            title: `${newData.name} successfully updated.`,
-            icon: "success",
-          })
-          setUpdateCount(updateCount + 1)
-          setSelectedName("")
-        } else {
-          console.error(res.data.error)
-          throw new Error(
-            "Our database couldn't process your request. Please try again later."
-          )
-        }
-      } catch (e) {
-        Toast.fire({
-          title: e.message,
-          icon: "error",
-        })
-      }
+      //make dispatch
+      props.updateCity(
+        cities.find((city) => city.name === selectedName)._id,
+        newData
+      )
+      setSelectedName("")
     }
   }
+
   const handleSelect = (e) => {
     setSelectedName(e)
     setNewData({ ...cities.find((city) => city.name === e) })
@@ -114,88 +137,11 @@ const FormUpdate = () => {
       <h2 className="text-center text-lg mb-3">
         Select the city you want to update
       </h2>
-      <div className="w-72 z-50">
-        <Listbox value={selectedName} onChange={handleSelect}>
-          <div className="relative mt-1">
-            <Listbox.Button className="relative w-full py-2 pl-3 pr-10 text-left bg-white rounded-lg shadow-md cursor-default focus:outline-none focus-visible:ring-2 focus-visible:ring-opacity-75 focus-visible:ring-white focus-visible:ring-offset-indigo-300 focus-visible:ring-offset-2 focus-visible:border-indigo-500 sm:text-sm">
-              <span className="text-gray-900 block truncate">
-                {selectedName ||
-                  (loading ? (
-                    <p className="flex items-center gap-2 justify-between">
-                      Cargando...
-                      <svg
-                        className="inline animate-spin h-3 w-3 rounded-full border-b-2 border-gray-900"
-                        viewBox="0 0 50 50"
-                      ></svg>
-                    </p>
-                  ) : (
-                    <p>
-                      {fetchOk === false
-                        ? "Error loading the cities."
-                        : "Select a City"}
-                    </p>
-                  ))}
-              </span>
-              <span className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
-                <SelectorIcon
-                  className="w-5 h-5 text-gray-400"
-                  aria-hidden="true"
-                />
-              </span>
-            </Listbox.Button>
-            <Transition
-              as={Fragment}
-              leave="transition ease-in duration-100"
-              leaveFrom="opacity-100"
-              leaveTo="opacity-0"
-            >
-              <Listbox.Options className="absolute w-full py-1 mt-1 overflow-auto text-base bg-white rounded-md shadow-lg max-h-60 ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
-                {cities
-                  .sort((a, b) => a.name.localeCompare(b.name))
-                  .map((city) => (
-                    <Listbox.Option
-                      key={city._id}
-                      className={({ active }) =>
-                        `${
-                          active
-                            ? "text-indigo-900 bg-indigo-300"
-                            : "text-gray-900"
-                        }
-                    cursor-default select-none relative py-2 pl-10 pr-4`
-                      }
-                      value={city.name}
-                    >
-                      {({ active }) => (
-                        <>
-                          <span
-                            className={`${
-                              selectedName ? "font-medium" : "font-normal"
-                            } block truncate`}
-                          >
-                            {city.name}
-                          </span>
-                          {selectedName === city.name ? (
-                            <span
-                              className={`${
-                                active ? "text-indigo-900" : "text-gray-600"
-                              }
-                          absolute inset-y-0 left-0 flex items-center pl-3`}
-                            >
-                              <CheckIcon
-                                className="w-5 h-5"
-                                aria-hidden="true"
-                              />
-                            </span>
-                          ) : null}
-                        </>
-                      )}
-                    </Listbox.Option>
-                  ))}
-              </Listbox.Options>
-            </Transition>
-          </div>
-        </Listbox>
-      </div>
+      <FormSelect
+        selected={selectedName}
+        setSelected={handleSelect}
+        cities={cities}
+      />
       {selectedName && (
         <div className="mt-10 w-full flex flex-col items-center gap-3">
           <div
@@ -269,4 +215,14 @@ const FormUpdate = () => {
   )
 }
 
-export default FormUpdate
+const mapStateToProps = (state) => {
+  return {
+    cities: state.cities.cities,
+  }
+}
+
+const mapDispatchToProps = {
+  updateCity: citiesActions.updateCity,
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(FormUpdate)

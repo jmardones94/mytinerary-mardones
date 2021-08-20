@@ -1,31 +1,31 @@
 import { Link } from "react-router-dom"
 import { useEffect, useRef, useState } from "react"
-import axios from "axios"
-import Loading from "../components/Loading"
+// import axios from "axios"
+// import Loading from "../components/Loading"
 import SearchSection from "../components/SearchSection"
-import FetchError from "../components/FetchError"
-import Swal from "sweetalert2"
-import withReactContent from "sweetalert2-react-content"
+// import FetchError from "../components/FetchError"
+// import Swal from "sweetalert2"
+// import withReactContent from "sweetalert2-react-content"
 import Aos from "aos"
 import "aos/dist/aos.css"
+import { connect } from "react-redux"
 
-const MySwal = withReactContent(Swal)
-const Toast = MySwal.mixin({
-  toast: true,
-  position: "bottom",
-  showConfirmButton: false,
-  timer: 5000,
-  timerProgressBar: true,
-  showCloseButton: true,
-})
+// const MySwal = withReactContent(Swal)
+// const Toast = MySwal.mixin({
+//   toast: true,
+//   position: "bottom",
+//   showConfirmButton: false,
+//   timer: 5000,
+//   timerProgressBar: true,
+//   showCloseButton: true,
+// })
 
 const Cities = (props) => {
-  const [citiesData, setCitiesData] = useState([])
+  const { citiesData } = props
   const [renderedCities, setRenderedCities] = useState([])
   const searchInput = useRef("")
-  const [loading, setLoading] = useState(true)
-  const [fetchOk, setFetchOk] = useState(null)
-
+  // const [loading, setLoading] = useState(true)
+  // const [fetchOk, setFetchOk] = useState(null)
   const handleSearch = () => {
     const searchedCity = searchInput.current.value.toLowerCase().trim()
     setRenderedCities(
@@ -43,35 +43,47 @@ const Cities = (props) => {
       duration: 500,
       mirror: true,
     })
-    axios
-      .get("http://localhost:4000/api/cities")
-      .then((res) => {
-        if (res.data.success) {
-          // Controller did communicate with the database.
-          setRenderedCities(res.data.response)
-          setCitiesData(res.data.response)
-          setFetchOk(true)
-        } else {
-          throw new Error("Internal server error.")
-        }
-      })
-      .catch((err) => {
-        // No pudimos comunicarnos con el backend.
-        setFetchOk(false)
-        const e = err.message || "Server stops responding."
-        console.error(e)
-        Toast.fire({
-          title: "Something went wrong.",
-          icon: "error",
-          text: "You will be redirected to Home soon",
-        }).then(() => props.history.push("/"))
-      })
-      .finally(() => setLoading(false))
-    // eslint-disable-next-line
   }, [])
 
-  if (loading) return <Loading />
-  if (!fetchOk) return <FetchError />
+  useEffect(() => {
+    setRenderedCities(citiesData)
+  }, [citiesData])
+
+  // useEffect(() => {
+  //   window.scrollTo(0, 0)
+  //   Aos.init({
+  //     duration: 500,
+  //     mirror: true,
+  //   })
+  //   axios
+  //     .get("http://localhost:4000/api/cities")
+  //     .then((res) => {
+  //       if (res.data.success) {
+  //         // Controller did communicate with the database.
+  //         setRenderedCities(res.data.response)
+  //         setCitiesData(res.data.response)
+  //         setFetchOk(true)
+  //       } else {
+  //         throw new Error("Internal server error.")
+  //       }
+  //     })
+  //     .catch((err) => {
+  //       // No pudimos comunicarnos con el backend.
+  //       setFetchOk(false)
+  //       const e = err.message || "Server stops responding."
+  //       console.error(e)
+  //       Toast.fire({
+  //         title: "Something went wrong.",
+  //         icon: "error",
+  //         text: "You will be redirected to Home soon",
+  //       }).then(() => props.history.push("/"))
+  //     })
+  //     .finally(() => setLoading(false))
+  //   // eslint-disable-next-line
+  // }, [])
+
+  // if (loading) return <Loading />
+  // if (!fetchOk) return <FetchError />
   if (!citiesData.length) return <NoCitiesFounded />
   return (
     <main className="transition duration-1000 bg-gray-100 dark:bg-gray-900 flex-grow">
@@ -132,4 +144,10 @@ const NoCitiesFounded = () => {
   )
 }
 
-export default Cities
+const mapStateToProps = (state) => {
+  return {
+    citiesData: state.cities.cities,
+  }
+}
+
+export default connect(mapStateToProps)(Cities)

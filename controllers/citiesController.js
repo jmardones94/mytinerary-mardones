@@ -1,5 +1,5 @@
 const City = require("../models/City")
-const required = ["name", "country", "src", "currencyCode"]
+const required = ["name", "country"]
 
 const citiesController = {
   getCities: async (req, res) => {
@@ -36,10 +36,8 @@ const citiesController = {
         throw new Error(`${capitalizedName} already exists in the database.`)
       }
       const newCity = new City({
+        ...req.body,
         name: capitalizedName,
-        country: req.body.country,
-        src: req.body.src,
-        currencyCode: req.body.currencyCode,
       })
       await newCity.save()
       res.json({
@@ -80,7 +78,8 @@ const citiesController = {
       }
       const city = await City.findOneAndUpdate(
         { _id: req.params.id },
-        { ...req.body }
+        { ...req.body },
+        { new: true }
       )
       res.json({
         success: true,

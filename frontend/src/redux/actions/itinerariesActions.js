@@ -1,15 +1,24 @@
 import axios from "axios"
 
 const itinerariesActions = {
-  getItineraries: () => {
+  getItineraries: (cityId) => {
     return async (dispatch) => {
-      const itineraries = await axios.get(
-        "http://localhost:4000/api/itineraries"
-      )
-      dispatch({
-        type: "GET_ALL_ITINERARIES",
-        payload: itineraries.data.response,
-      })
+      try {
+        const res = await axios.get(
+          `http://localhost:4000/api/itineraries/${cityId}`
+        )
+        if (res.data.success) {
+          dispatch({
+            type: "GET_CITY_ITINERARIES",
+            payload: res.data.response,
+          })
+          return { success: true, error: null }
+        } else {
+          throw new Error("Internal server error.")
+        }
+      } catch (err) {
+        return { success: false, error: err.message }
+      }
     }
   },
 }

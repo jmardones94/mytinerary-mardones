@@ -16,12 +16,17 @@ router
 
 router
   .route("/itineraries")
-  .get(itinerariesController.getItineraries)
+  .get(itinerariesController.getAllItineraries)
   .post(itinerariesController.addItinerary)
 
 router
+  .route("/itineraries/:id")
+  .get(itinerariesController.getItinerariesByCityId)
+
+router
   .route("/itinerary/:id")
-  .get(itinerariesController.getItinerary)
+  .get(itinerariesController.getItineraryById)
   .delete(itinerariesController.deleteItinerary)
+  .put(itinerariesController.updateItinerary)
 
 module.exports = router

@@ -7,11 +7,12 @@ const itinerarySchema = new mongoose.Schema({
   },
   title: { type: String, required: true },
   photos: { type: [String], required: true },
+  description: { type: String },
   price: { type: Number, required: true, min: 1, max: 5 },
   duration: { type: Number, required: true, min: 0 },
   likes: { type: Number, default: 0 },
   hashtags: { type: [String], required: true },
-  comments: { type: [String], default: [] },
+  cityId: { type: mongoose.Types.ObjectId, ref: "city", required: true },
 })
 
 const Itinerary = mongoose.model("itinerary", itinerarySchema)

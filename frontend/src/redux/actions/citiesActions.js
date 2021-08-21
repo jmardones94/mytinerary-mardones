@@ -3,29 +3,51 @@ import axios from "axios"
 const citiesActions = {
   getCities: () => {
     return async (dispatch) => {
-      const cities = await axios.get("http://localhost:4000/api/cities")
-      dispatch({ type: "GET_ALL_CITIES", payload: cities.data.response })
+      try {
+        const res = await axios.get("http://localhost:4000/api/cities")
+        if (res.data.success) {
+          dispatch({ type: "GET_ALL_CITIES", payload: res.data.response })
+          return { success: true, error: null }
+        } else {
+          throw new Error("Internal server error. We couldn't get the cities.")
+        }
+      } catch (e) {
+        console.error(e.message)
+        return { success: false, error: e.message }
+      }
     }
   },
   addCity: (data) => {
     return async (dispatch) => {
-      const res = await axios.post("http://localhost:4000/api/cities", data)
-      if (res.data.success) {
-        dispatch({ type: "ADD_CITY", payload: res.data.response })
-      } else {
-        console.log(res.data.response)
-        console.log(res.data.error)
+      try {
+        const res = await axios.post("http://localhost:4000/api/cities", data)
+        if (res.data.success) {
+          dispatch({ type: "ADD_CITY", payload: res.data.response })
+          return {
+            success: true,
+            error: null,
+            response: res.data.response.name,
+          }
+        } else {
+          throw new Error("Internal server error. We couldn't add the city.")
+        }
+      } catch (e) {
+        return { success: false, error: e.message }
       }
     }
   },
   deleteCity: (id) => {
     return async (dispatch) => {
-      const res = await axios.delete(`http://localhost:4000/api/city/${id}`)
-      if (res.data.success) {
-        dispatch({ type: "DELETE_CITY", payload: id })
-      } else {
-        console.log(res.data.response)
-        console.log(res.data.error)
+      try {
+        const res = await axios.delete(`http://localhost:4000/api/city/${id}`)
+        if (res.data.success) {
+          dispatch({ type: "DELETE_CITY", payload: id })
+          return { success: true, error: null }
+        } else {
+          throw new Error("Internal server error. We couldn't delete the city.")
+        }
+      } catch (e) {
+        return { success: false, error: e.message }
       }
     }
   },
@@ -41,11 +63,12 @@ const citiesActions = {
             type: "UPDATE_CITY",
             payload: { ...res.data.response, ...newData },
           })
+          return { success: true, error: null }
         } else {
-          throw new Error("We couldn't update the city.")
+          throw new Error("Internal server error. We couldn't update the city.")
         }
       } catch (e) {
-        console.error(e.message)
+        return { success: false, error: e.message }
       }
     }
   },

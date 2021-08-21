@@ -1,7 +1,4 @@
 import { useState } from "react"
-// import { Listbox, Transition } from "@headlessui/react"
-// import { CheckIcon, SelectorIcon } from "@heroicons/react/solid"
-// import axios from "axios"
 import { Link } from "react-router-dom"
 import Swal from "sweetalert2"
 import withReactContent from "sweetalert2-react-content"
@@ -91,7 +88,13 @@ const FormUpdate = (props) => {
 
   const handleUpdateClick = () => {
     if (
-      !(newData.name && newData.country && newData.src && newData.currencyCode)
+      !(
+        newData.name &&
+        newData.country &&
+        newData.src &&
+        newData.currencyCode &&
+        newData.description
+      )
     ) {
       Toast.fire({
         icon: "error",
@@ -200,6 +203,19 @@ const FormUpdate = (props) => {
                 onChange={inputHandler}
                 value={newData.currencyCode}
                 maxLength="3"
+              ></input>
+            </div>
+            <div className="flex justify-between w-100">
+              <label className="font-medium" htmlFor="country">
+                Description
+              </label>
+              <input
+                className="px-2 focus:outline-none transform focus:scale-105 rounded text-black border-gray-500 border dark:border-gray-200"
+                name="description"
+                type="text"
+                placeholder="It's a really fun place!"
+                onChange={inputHandler}
+                value={newData.description}
               ></input>
             </div>
             <button

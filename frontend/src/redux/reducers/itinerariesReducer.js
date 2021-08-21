@@ -1,9 +1,9 @@
 const itinerariesReducer = (state = { itineraries: [] }, action) => {
   switch (action.type) {
-    case "GET_ALL_ITINERARIES":
+    case "GET_CITY_ITINERARIES":
       return {
         ...state,
-        itineraries: action.payload,
+        itineraries: [...state.itineraries, ...action.payload],
       }
     default:
       return state

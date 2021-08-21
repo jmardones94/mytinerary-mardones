@@ -37,6 +37,15 @@ const Footer = () => {
           </h2>
         </Link>
         <p className="tracking-wide">All Rights Reserved</p>
+        <p className="font-medium tracking-wide pt-4">
+          <a
+            href="https://github.com/jmardones94"
+            target="_blank"
+            rel="noreferrer"
+          >
+            {"<"}Jonathan Mardones{" />"}
+          </a>
+        </p>
       </div>
       <div className="w-1/3 md:w-1/6 md:px-5 lg:px-10 order-3">
         <h4 className="text-center mb-1 md:mb-5 text-lg font-semibold tracking-wide">

@@ -1,19 +1,19 @@
 import { useState } from "react"
 import { Link } from "react-router-dom"
-// import Swal from "sweetalert2"
-// import withReactContent from "sweetalert2-react-content"
+import Swal from "sweetalert2"
+import withReactContent from "sweetalert2-react-content"
 import citiesActions from "../../redux/actions/citiesActions"
 import { connect } from "react-redux"
 
-// const MySwal = withReactContent(Swal)
-// const Toast = MySwal.mixin({
-//   toast: true,
-//   position: "bottom",
-//   showConfirmButton: false,
-//   timer: 3000,
-//   timerProgressBar: true,
-//   showCloseButton: true,
-// })
+const MySwal = withReactContent(Swal)
+const Toast = MySwal.mixin({
+  toast: true,
+  position: "bottom",
+  showConfirmButton: false,
+  timer: 3000,
+  timerProgressBar: true,
+  showCloseButton: true,
+})
 
 const FormAdd = (props) => {
   const [data, setData] = useState({
@@ -21,6 +21,8 @@ const FormAdd = (props) => {
     country: "",
     src: "",
     currencyCode: "",
+    description: "",
+    countryFlag: "",
   })
   const inputHandler = (e) => {
     setData({
@@ -30,48 +32,43 @@ const FormAdd = (props) => {
   }
 
   const handleAddClick = () => {
-    props.addCity(data)
-    setData({
-      name: "",
-      country: "",
-      src: "",
-      currencyCode: "",
-    })
+    const add = async () => {
+      try {
+        const res = await props.addCity(data)
+        console.log(res)
+        if (res.success) {
+          Toast.fire({
+            icon: "success",
+            title: `${res.response} successfully added!`,
+          })
+        } else {
+          throw new Error(`We couldn't add ${data.name}. Try again later.`)
+        }
+      } catch (e) {
+        Toast.fire({
+          icon: "error",
+          title: e.message,
+        })
+        console.error(e)
+      }
+    }
+    if (!(data.name && data.country)) {
+      Toast.fire({
+        icon: "error",
+        title: "There are some empty fields required!",
+      })
+    } else {
+      add()
+      setData({
+        name: "",
+        country: "",
+        src: "",
+        currencyCode: "",
+        countryFlag: "",
+        description: "",
+      })
+    }
   }
-
-  // const handleAddClick = async () => {
-  //   if (!(data.name && data.country && data.src && data.currencyCode)) {
-  //     Toast.fire({
-  //       icon: "error",
-  //       title: "All fields are required!",
-  //     })
-  //   } else {
-  //     try {
-  //       const res = await axios.post("http://localhost:4000/api/cities", data)
-  //       console.log(res.data)
-  //       if (res.data.success) {
-  //         setData({
-  //           name: "",
-  //           country: "",
-  //           src: "",
-  //           currencyCode: "",
-  //         })
-  //         Toast.fire({
-  //           icon: "success",
-  //           title: `${res.data.response.name} successfully added!`,
-  //         })
-  //       } else {
-  //         throw new Error(`We couldn't add ${data.name}. Try again later.`)
-  //       }
-  //     } catch (e) {
-  //       Toast.fire({
-  //         icon: "error",
-  //         title: e.message,
-  //       })
-  //       console.error(e)
-  //     }
-  //   }
-  // }
 
   return (
     <main className="relative flex flex-col justify-center items-center px-5 md:px-20 transition duration-1000 text-gray-900 dark:text-gray-100 bg-gray-100 dark:bg-gray-900 flex-grow">
@@ -96,10 +93,14 @@ const FormAdd = (props) => {
         </Link>
       </div>
       <h2 className="text-center text-xl mb-5 mt-16 md:mt-5">Add a city</h2>
+
       <div className="flex flex-col gap-3 w-full" style={{ maxWidth: "330px" }}>
+        <p className="-mt-5 w-full text-right text-sm underline tracking-tight">
+          * Required field
+        </p>
         <div className="flex justify-between w-100">
           <label className="font-medium" htmlFor="name">
-            City name
+            City Name *
           </label>
           <input
             name="name"
@@ -113,7 +114,7 @@ const FormAdd = (props) => {
         </div>
         <div className="flex justify-between w-100">
           <label className="font-medium" htmlFor="country">
-            Country
+            Country *
           </label>
           <input
             className="px-2 focus:outline-none transform focus:scale-105 rounded text-black border-gray-500 border dark:border-gray-200"
@@ -126,13 +127,13 @@ const FormAdd = (props) => {
         </div>
         <div className="flex justify-between w-100">
           <label className="font-medium" htmlFor="src">
-            Photo
+            City Photo
           </label>
           <input
             className="px-2 focus:outline-none transform focus:scale-105 rounded text-black border-gray-500 border dark:border-gray-200"
             name="src"
             type="text"
-            placeholder="https://example.url.com"
+            placeholder="https://example.url.com/cityphoto.jpg"
             onChange={inputHandler}
             value={data.src}
           ></input>
@@ -151,6 +152,33 @@ const FormAdd = (props) => {
             maxLength="3"
           ></input>
         </div>
+        <div className="flex justify-between w-100">
+          <label className="font-medium" htmlFor="currencyCode">
+            Flag Image
+          </label>
+          <input
+            className="px-2 focus:outline-none transform focus:scale-105 rounded text-black border-gray-500 border dark:border-gray-200"
+            name="countryFlag"
+            type="text"
+            placeholder="https://example.com/flag.png"
+            onChange={inputHandler}
+            value={data.countryFlag}
+          ></input>
+        </div>
+        <div className="flex justify-between w-100">
+          <label className="font-medium" htmlFor="country">
+            Description
+          </label>
+          <input
+            className="px-2 focus:outline-none transform focus:scale-105 rounded text-black border-gray-500 border dark:border-gray-200"
+            name="description"
+            type="text"
+            placeholder="It's a really fun place."
+            onChange={inputHandler}
+            value={data.description}
+          ></input>
+        </div>
+
         <button
           className="transform active:scale-95 rounded my-4 py-2 text-gray-100 bg-green-500"
           type="button"

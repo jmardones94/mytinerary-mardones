@@ -1,7 +1,7 @@
 const Itinerary = require("../models/Itinerary")
 
 const itinerariesController = {
-  getItineraries: async (req, res) => {
+  getAllItineraries: async (req, res) => {
     try {
       const itineraries = await Itinerary.find()
       res.json({ success: true, response: itineraries, error: null })
@@ -13,13 +13,22 @@ const itinerariesController = {
       })
     }
   },
-  getItinerary: async (req, res) => {
+  getItineraryById: async (req, res) => {
     try {
       const itinerary = await Itinerary.findOne({ _id: req.params.id })
-      if (!itinerary) {
-        throw new Error("This itinerary doesn't exists.")
-      }
       res.json({ success: true, response: itinerary, error: null })
+    } catch (e) {
+      res.json({
+        success: false,
+        response: "We couldn't get the itinerary with this id.",
+        error: e.message,
+      })
+    }
+  },
+  getItinerariesByCityId: async (req, res) => {
+    try {
+      const itineraries = await Itinerary.find({ cityId: req.params.id })
+      res.json({ success: true, response: itineraries, error: null })
     } catch (e) {
       res.json({ success: false, response: "Error.", error: e.message })
     }
@@ -45,6 +54,22 @@ const itinerariesController = {
       res.json({
         success: false,
         response: "We couldn't get the itineraries.",
+        error: e.message,
+      })
+    }
+  },
+  updateItinerary: async (req, res) => {
+    try {
+      const itineraryUpdated = await Itinerary.findOneAndUpdate(
+        { _id: req.params.id },
+        { ...req.body },
+        { new: true }
+      )
+      res.json({ success: true, response: itineraryUpdated, error: null })
+    } catch (e) {
+      res.json({
+        success: false,
+        response: "We couldn't update the itinerary with this id.",
         error: e.message,
       })
     }

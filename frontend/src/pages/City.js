@@ -64,14 +64,14 @@ const City = (props) => {
         <div className="flex flex-col md:flex-row justify-between py-3 items-center">
           <div className="flex gap-5 items-center">
             <div
-              className="h-16 w-16"
+              className="h-12 w-12"
               style={{
                 backgroundImage: `url("${city.countryFlag}")`,
                 backgroundPositionY: "center",
                 backgroundSize: "cover",
               }}
             ></div>
-            <p className="uppercase text-xl md:text-3xl tracking-wide font-semibold">
+            <p className="uppercase text-xl md:text-2xl tracking-wide font-semibold">
               {city.name}, {city.country}.
             </p>
           </div>
@@ -91,19 +91,19 @@ const City = (props) => {
           }}
         ></div>
 
-        <div className="pt-10 md:px-5 text-lg text-justify tracking-wide leading-relaxed">
+        <div className="pt-10 md:px-5 text-lg text-justify tracking-normal leading-relaxed">
           {city.description}
         </div>
       </section>
-      <h1 className="pt-5 tracking-wide font-semibold text-xl md:text-4xl text-center uppercase dark:text-gray-200">
-        {city.name}{" "}
-        <span className="tracking-wider normal-case font-silt">
-          MyTineraries
-        </span>
-      </h1>
 
       {cityItineraries.length ? (
-        <section className="md:px-5 my-10 flex flex-col gap-8">
+        <section className="md:px-5 my-5 flex flex-col gap-8">
+          <h1 className="tracking-wide font-semibold text-xl md:text-4xl text-center uppercase dark:text-gray-200">
+            {city.name}{" "}
+            <span className="tracking-wider normal-case font-silt">
+              MyTineraries
+            </span>
+          </h1>
           {cityItineraries.map((itinerary) => (
             <Itinerary key={itinerary._id} itinerary={itinerary} />
           ))}
@@ -123,8 +123,8 @@ const City = (props) => {
 
 const NoItinerariesFound = () => {
   return (
-    <section className="pt-10 pb-3 gap-3 flex flex-col items-center text-center justify-center text-gray-900 dark:text-gray-200">
-      <h2 className="text-xl font-semibold md:text-3xl">
+    <section className="py-3 gap-3 flex flex-col items-center text-center justify-center text-gray-900 dark:text-gray-200">
+      <h2 className="text-xl font-medium md:text-2xl">
         We have no itineraries for this city yet{" "}
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -182,7 +182,7 @@ const Currency = ({ symbol }) => {
       return (
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          className="h-16 w-16"
+          className="h-12 w-12"
           viewBox="0 0 20 20"
           fill="currentColor"
         >
@@ -197,7 +197,7 @@ const Currency = ({ symbol }) => {
       return (
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          className="h-16 w-16"
+          className="h-12 w-12"
           viewBox="0 0 20 20"
           fill="currentColor"
         >
@@ -212,7 +212,7 @@ const Currency = ({ symbol }) => {
       return (
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          className="h-16 w-16"
+          className="h-12 w-12"
           viewBox="0 0 20 20"
           fill="currentColor"
         >
@@ -227,7 +227,7 @@ const Currency = ({ symbol }) => {
       return (
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          className="h-16 w-16"
+          className="h-12 w-12"
           viewBox="0 0 20 20"
           fill="currentColor"
         >
@@ -242,7 +242,7 @@ const Currency = ({ symbol }) => {
       return (
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          className="h-16 w-16"
+          className="h-12 w-12"
           viewBox="0 0 20 20"
           fill="currentColor"
         >

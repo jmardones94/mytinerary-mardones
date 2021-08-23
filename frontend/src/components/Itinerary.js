@@ -1,8 +1,12 @@
 import React, { useState, useEffect } from "react"
+import Comments from "./Comments"
 
 const Itinerary = ({ itinerary }) => {
   const [visible, setVisible] = useState(false)
   const [ix, setIx] = useState(0)
+  useEffect(() => {
+    window.scrollTo(0, 0)
+  }, [])
   useEffect(() => {
     const interval = setTimeout(() => {
       setIx((ix + 1) % itinerary.photos.length)
@@ -12,12 +16,8 @@ const Itinerary = ({ itinerary }) => {
     }
     // eslint-disable-next-line
   }, [ix])
-  const dollars = []
-  for (let i = 0; i < itinerary.price; i++) {
-    dollars.push(1)
-  }
   return (
-    <div className="dark:bg-gray-800 bg-indigo-300 w-full rounded text-gray-900 dark:text-gray-200">
+    <div className="dark:bg-gray-800 bg-white w-full rounded text-gray-900 dark:text-gray-200">
       <div className="flex flex-col-reverse md:flex-row">
         <div className="flex flex-col h-full w-full md:w-3/5 px-3 lg:px-10 py-2">
           <h2 className="py-3 text-lg font-medium">
@@ -32,9 +32,11 @@ const Itinerary = ({ itinerary }) => {
             <span className="flex items-center gap-1">
               Price
               <span>
-                {dollars.map((dollar, idx) => (
-                  <DollarSign key={idx} />
-                ))}
+                {Array(itinerary.price)
+                  .fill(1)
+                  .map((n, idx) => (
+                    <DollarSign key={idx} />
+                  ))}
               </span>
             </span>
             <span className="flex items-center gap-1">
@@ -61,13 +63,7 @@ const Itinerary = ({ itinerary }) => {
         </div>
       </div>
 
-      <div
-        className={`${
-          visible ? "block" : "hidden"
-        } min-h-28 w-full rounded px-3 flex justify-center items-center`}
-      >
-        <p>This is the comments section. Currently under construction.</p>
-      </div>
+      {visible && <Comments />}
       <button
         type="button"
         className="text-white font-medium tracking-wide text-center rounded-b w-full py-2 bg-gray-900 dark:bg-black relative"

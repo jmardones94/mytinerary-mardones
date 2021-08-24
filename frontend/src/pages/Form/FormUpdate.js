@@ -140,11 +140,14 @@ const FormUpdate = (props) => {
       <h2 className="text-center text-lg mb-3">
         Select the city you want to update
       </h2>
-      <FormSelect
-        selected={selectedName}
-        setSelected={handleSelect}
-        cities={cities}
-      />
+      <div className="w-72 z-50">
+        <FormSelect
+          selected={selectedName}
+          setSelected={handleSelect}
+          data={cities}
+          itemName="City"
+        />
+      </div>
       {selectedName && (
         <div className="mt-10 w-full flex flex-col items-center gap-3">
           <div

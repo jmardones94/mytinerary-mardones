@@ -15,6 +15,7 @@ import { connect } from "react-redux"
 import citiesActions from "./redux/actions/citiesActions"
 import { useEffect } from "react"
 import Loading from "./components/Loading"
+import Settings from "./pages/Settings"
 
 function App({ getCities }) {
   useEffect(() => {
@@ -43,6 +44,7 @@ function App({ getCities }) {
         <Route path="/form/add" component={FormAdd}></Route>
         <Route path="/404" component={E404}></Route>
         <Route path="/loading" component={Loading} />
+        <Route path="/settings" component={Settings} />
         <Redirect to="/404"></Redirect>
       </Switch>
       <Footer />

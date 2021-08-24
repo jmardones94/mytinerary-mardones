@@ -4,6 +4,7 @@ import Swal from "sweetalert2"
 import withReactContent from "sweetalert2-react-content"
 import citiesActions from "../../redux/actions/citiesActions"
 import { connect } from "react-redux"
+import FormInput from "../../components/FormInput"
 
 const MySwal = withReactContent(Swal)
 const Toast = MySwal.mixin({
@@ -98,87 +99,60 @@ const FormAdd = (props) => {
         <p className="-mt-5 w-full text-right text-sm underline tracking-tight">
           * Required field
         </p>
-        <div className="flex justify-between w-100">
-          <label className="font-medium" htmlFor="name">
-            City Name *
-          </label>
-          <input
-            name="name"
-            className="px-2 focus:outline-none transform focus:scale-105 rounded text-black border-gray-500 border dark:border-gray-200"
-            type="text"
-            placeholder="New York"
-            onChange={inputHandler}
-            value={data.name}
-            required
-          ></input>
-        </div>
-        <div className="flex justify-between w-100">
-          <label className="font-medium" htmlFor="country">
-            Country *
-          </label>
-          <input
-            className="px-2 focus:outline-none transform focus:scale-105 rounded text-black border-gray-500 border dark:border-gray-200"
-            name="country"
-            type="text"
-            placeholder="United States"
-            onChange={inputHandler}
-            value={data.country}
-          ></input>
-        </div>
-        <div className="flex justify-between w-100">
-          <label className="font-medium" htmlFor="src">
-            City Photo
-          </label>
-          <input
-            className="px-2 focus:outline-none transform focus:scale-105 rounded text-black border-gray-500 border dark:border-gray-200"
-            name="src"
-            type="text"
-            placeholder="https://example.url.com/cityphoto.jpg"
-            onChange={inputHandler}
-            value={data.src}
-          ></input>
-        </div>
-        <div className="flex justify-between w-100">
-          <label className="font-medium" htmlFor="currencyCode">
-            Currency Code
-          </label>
-          <input
-            className="px-2 focus:outline-none transform focus:scale-105 rounded text-black border-gray-500 border dark:border-gray-200"
-            name="currencyCode"
-            type="text"
-            placeholder="USD"
-            onChange={inputHandler}
-            value={data.currencyCode}
-            maxLength="3"
-          ></input>
-        </div>
-        <div className="flex justify-between w-100">
-          <label className="font-medium" htmlFor="currencyCode">
-            Flag Image
-          </label>
-          <input
-            className="px-2 focus:outline-none transform focus:scale-105 rounded text-black border-gray-500 border dark:border-gray-200"
-            name="countryFlag"
-            type="text"
-            placeholder="https://example.com/flag.png"
-            onChange={inputHandler}
-            value={data.countryFlag}
-          ></input>
-        </div>
-        <div className="flex justify-between w-100">
-          <label className="font-medium" htmlFor="country">
-            Description
-          </label>
-          <input
-            className="px-2 focus:outline-none transform focus:scale-105 rounded text-black border-gray-500 border dark:border-gray-200"
-            name="description"
-            type="text"
-            placeholder="It's a really fun place."
-            onChange={inputHandler}
-            value={data.description}
-          ></input>
-        </div>
-
+        <FormInput
+          name="name"
+          type="text"
+          label="City Name *"
+          value={data.name}
+          inputHandler={inputHandler}
+          required={true}
+          placeholder="New York"
+        />
+        <FormInput
+          name="country"
+          type="text"
+          label="Country *"
+          value={data.country}
+          inputHandler={inputHandler}
+          required={true}
+          placeholder="United States"
+        />
+        <FormInput
+          name="src"
+          type="text"
+          label="City Photo"
+          value={data.src}
+          inputHandler={inputHandler}
+          required={false}
+          placeholder="https://example.url.com/cityphoto.jpg"
+        />
+        <FormInput
+          name="currencyCode"
+          type="text"
+          label="Currency Code"
+          value={data.currencyCode}
+          inputHandler={inputHandler}
+          required={false}
+          placeholder="USD"
+        />
+        <FormInput
+          name="countryFlag"
+          type="text"
+          label="Flag Image"
+          value={data.countryFlag}
+          inputHandler={inputHandler}
+          required={false}
+          placeholder="https://example.com/flag.png"
+        />
+        <FormInput
+          name="description"
+          type="text"
+          label="Description"
+          value={data.description}
+          inputHandler={inputHandler}
+          required={false}
+          placeholder="New York is a city of USA."
+        />
         <button
           className="transform active:scale-95 rounded my-4 py-2 text-gray-100 bg-green-500"
           type="button"

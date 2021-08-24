@@ -1,6 +1,6 @@
 const SearchSection = ({ handleSearch, searchInput }) => {
   return (
-    <section className="w-full px-5 md:px-20 flex flex-wrap justify-center ">
+    <section className="w-full px-5 md:px-20 flex flex-wrap justify-center">
       <div className="relative py-10 flex items-center w-5/6 md:w-2/3">
         <svg
           className="dark:text-blue-500 text-red-600 w-5 h-5 absolute left-3"

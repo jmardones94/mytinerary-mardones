@@ -99,11 +99,14 @@ const FormDelete = (props) => {
       <h2 className="text-center text-lg mb-3 mt-16 md:mt-0">
         Select the city you want to delete
       </h2>
-      <FormSelect
-        selected={selected}
-        setSelected={setSelected}
-        cities={cities}
-      />
+      <div className="w-72 z-50">
+        <FormSelect
+          selected={selected}
+          setSelected={setSelected}
+          data={cities}
+          itemName="City"
+        />
+      </div>
       <div>
         <button
           onClick={(e) => {

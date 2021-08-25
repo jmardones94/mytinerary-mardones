@@ -1,5 +1,4 @@
 import { useState } from "react"
-import { Link } from "react-router-dom"
 import Swal from "sweetalert2"
 import withReactContent from "sweetalert2-react-content"
 import citiesActions from "../../redux/actions/citiesActions"
@@ -72,31 +71,32 @@ const FormAdd = (props) => {
   }
 
   return (
-    <main className="relative flex flex-col justify-center items-center px-5 md:px-20 transition duration-1000 text-gray-900 dark:text-gray-100 bg-gray-100 dark:bg-gray-900 flex-grow">
-      <div className="flex gap-3 absolute left-2 top-2">
-        <Link
-          className="bg-green-500 text-gray-100 py-1 px-3 w-20 text-center rounded "
-          to="/form/add"
+    <main className="relative flex flex-col justify-center items-center transition duration-1000 text-gray-900 dark:text-gray-100 bg-gray-100 dark:bg-gray-900 flex-grow">
+      <div className="flex justify-center gap-3 h-16 py-3">
+        <button
+          type="button"
+          className="bg-green-500 text-gray-100 w-20 text-center py-1 px-3 rounded "
+          onClick={() => props.setSection("add")}
         >
           Add
-        </Link>
-        <Link
-          className="border border-yellow-500 text-yellow-500 hover:bg-yellow-500 hover:text-gray-100 w-20 text-center py-1 px-3 rounded "
-          to="/form/update"
+        </button>
+        <button
+          type="button"
+          className="border border-yellow-500 text-yellow-500 hover:bg-yellow-500 hover:text-gray-100 py-1 px-3 w-20 text-center rounded "
+          onClick={() => props.setSection("update")}
         >
           Update
-        </Link>
-        <Link
+        </button>
+        <button
+          type="button"
           className="border border-red-500 text-red-500 hover:bg-red-500 hover:text-gray-100 w-20 text-center py-1 px-3 rounded "
-          to="/form/delete"
+          onClick={() => props.setSection("delete")}
         >
           Delete
-        </Link>
+        </button>
       </div>
-      <h2 className="text-center text-xl mb-5 mt-16 md:mt-5">Add a city</h2>
-
       <div className="flex flex-col gap-3 w-full" style={{ maxWidth: "330px" }}>
-        <p className="-mt-5 w-full text-right text-sm underline tracking-tight">
+        <p className="w-full text-right text-sm underline tracking-tight">
           * Required field
         </p>
         <FormInput

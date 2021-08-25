@@ -5,6 +5,8 @@ import FormSelect from "./Form/FormSelect"
 import Swal from "sweetalert2"
 import withReactContent from "sweetalert2-react-content"
 import axios from "axios"
+import usersActions from "../redux/actions/usersActions"
+import { connect } from "react-redux"
 
 const MySwal = withReactContent(Swal)
 const Toast = MySwal.mixin({
@@ -16,7 +18,7 @@ const Toast = MySwal.mixin({
   showCloseButton: true,
 })
 
-const SignUp = () => {
+const SignUp = (props) => {
   const [data, setData] = useState({
     firstName: "",
     lastName: "",
@@ -29,7 +31,6 @@ const SignUp = () => {
   const [selectedCountry, setSelectedCountry] = useState("")
 
   useEffect(() => {
-    console.log("Cargar los países")
     axios
       .get("https://restcountries.eu/rest/v2/all")
       .then((res) => {
@@ -48,27 +49,7 @@ const SignUp = () => {
     })
   }
 
-  const handleAddClick = () => {
-    const signup = async () => {
-      try {
-        console.log({ ...data, country: selectedCountry })
-        // if (res.success) {
-        //   Toast.fire({
-        //     icon: "success",
-        //     title: `${res.response} successfully added!`,
-        //   })
-        // } else {
-        //   throw new Error(`We couldn't add ${data.name}. Try again later.`)
-        // }
-      } catch (e) {
-        Toast.fire({
-          icon: "error",
-          title: e.message,
-        })
-        console.error(e)
-      }
-    }
-
+  const handleSignUp = async () => {
     if (
       !(
         data.firstName &&
@@ -84,17 +65,38 @@ const SignUp = () => {
         title: "All fields are required!",
       })
     } else {
-      signup()
-      setData({
-        firstName: "",
-        lastName: "",
-        email: "",
-        password: "",
-        confirmPassword: "",
-        photoURL: "",
-      })
-      setSelectedCountry("")
+      try {
+        const res = await props.signUp({ ...data, country: selectedCountry })
+        if (res.success) {
+          await Toast.fire({
+            icon: "success",
+            title: `Account created. Welcome to MyTinerary, ${res.response.firstName}!`,
+          })
+          props.history.push("/")
+          return false
+        } else {
+          throw new Error(
+            "We couldn't create the user. Please try again later."
+          )
+        }
+      } catch (e) {
+        Toast.fire({
+          icon: "error",
+          title: e.message,
+        })
+
+        console.error(e)
+      }
     }
+    setData({
+      firstName: "",
+      lastName: "",
+      email: "",
+      password: "",
+      confirmPassword: "",
+      photoURL: "",
+    })
+    setSelectedCountry("")
   }
   return (
     <main className="relative py-10 flex flex-col justify-center items-center px-5 md:px-20 transition duration-1000 text-gray-900 dark:text-gray-100 bg-gray-100 dark:bg-gray-900 flex-grow">
@@ -171,7 +173,7 @@ const SignUp = () => {
         <button
           className="transform active:scale-95 rounded mt-4 mb-1 py-2 text-gray-100 bg-green-500"
           type="button"
-          onClick={handleAddClick}
+          onClick={handleSignUp}
         >
           Sign Up
         </button>
@@ -186,4 +188,8 @@ const SignUp = () => {
   )
 }
 
-export default SignUp
+const mapDispatchToProps = {
+  signUp: usersActions.signUp,
+}
+
+export default connect(null, mapDispatchToProps)(SignUp)

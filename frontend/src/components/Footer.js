@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom"
+import { connect } from "react-redux"
 
-const Footer = () => {
+const Footer = ({ isLoggedIn }) => {
   const socials = ["Facebook", "Instagram", "Twitter"]
   return (
     <footer className="select-none transition duration-1000 w-100 min-h-56 py-5 text-gray-900 dark:text-white bg-gray-200 dark:bg-black flex flex-wrap justify-around md:justify-evenly items-center">
@@ -17,18 +18,22 @@ const Footer = () => {
             Cities
           </Link>
         </li>
-        <li className="font-medium hover:underline cursor-pointer">
-          <Link to="/signup">
-            <span className="inline-block h-3 w-1 bg-purple-500 mr-1"></span>
-            Sign Up
-          </Link>
-        </li>
-        <li className="font-medium hover:underline cursor-pointer">
-          <Link to="/login">
-            <span className="inline-block h-3 w-1 bg-red-500 mr-1"></span>
-            Log In
-          </Link>
-        </li>
+        {!isLoggedIn && (
+          <>
+            <li className="font-medium hover:underline cursor-pointer">
+              <Link to="/signup">
+                <span className="inline-block h-3 w-1 bg-purple-500 mr-1"></span>
+                Sign Up
+              </Link>
+            </li>
+            <li className="font-medium hover:underline cursor-pointer">
+              <Link to="/login">
+                <span className="inline-block h-3 w-1 bg-red-500 mr-1"></span>
+                Log In
+              </Link>
+            </li>
+          </>
+        )}
       </ul>
       <div className="w-full md:w-1/3 md:order-2 mt-4 order-last text-center">
         <Link to="/">
@@ -88,4 +93,7 @@ const Footer = () => {
   )
 }
 
-export default Footer
+const mapStateToProps = (state) => {
+  return { isLoggedIn: state.users.isLoggedIn }
+}
+export default connect(mapStateToProps)(Footer)

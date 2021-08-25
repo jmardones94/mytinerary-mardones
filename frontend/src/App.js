@@ -4,10 +4,6 @@ import E404 from "./pages/E404"
 import SignUp from "./pages/SignUp"
 import LogIn from "./pages/LogIn"
 import City from "./pages/City"
-import Form from "./pages/Form/Form"
-import FormUpdate from "./pages/Form/FormUpdate"
-import FormDelete from "./pages/Form/FormDelete"
-import FormAdd from "./pages/Form/FormAdd"
 import Header from "./components/Header"
 import Footer from "./components/Footer"
 import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom"
@@ -38,10 +34,6 @@ function App({ getCities }) {
         <Route path="/itineraries/:id" component={City} />
         <Route path="/signup" component={SignUp}></Route>
         <Route path="/login" component={LogIn}></Route>
-        <Route exact path="/form" component={Form} />
-        <Route path="/form/update" component={FormUpdate}></Route>
-        <Route path="/form/delete" component={FormDelete}></Route>
-        <Route path="/form/add" component={FormAdd}></Route>
         <Route path="/404" component={E404}></Route>
         <Route path="/loading" component={Loading} />
         <Route path="/settings" component={Settings} />

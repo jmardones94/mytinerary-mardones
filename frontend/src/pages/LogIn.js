@@ -1,6 +1,8 @@
 import { Link } from "react-router-dom"
 import { useState } from "react"
 import FormInput from "../components/FormInput"
+import usersActions from "../redux/actions/usersActions"
+import { connect } from "react-redux"
 import Swal from "sweetalert2"
 import withReactContent from "sweetalert2-react-content"
 
@@ -14,7 +16,7 @@ const Toast = MySwal.mixin({
   showCloseButton: true,
 })
 
-const LogIn = () => {
+const LogIn = (props) => {
   const [data, setData] = useState({
     email: "",
     password: "",
@@ -25,19 +27,18 @@ const LogIn = () => {
       [e.target.name]: e.target.value,
     })
   }
-
-  const handleAddClick = () => {
-    const add = async () => {
+  const handleLogIn = async () => {
+    const logIn = async () => {
       try {
-        console.log(data)
-        // if (res.success) {
-        //   Toast.fire({
-        //     icon: "success",
-        //     title: `${res.response} successfully added!`,
-        //   })
-        // } else {
-        //   throw new Error(`We couldn't add ${data.name}. Try again later.`)
-        // }
+        const res = await props.logIn(data)
+        if (res.success) {
+          Toast.fire({
+            icon: "success",
+            title: res.response,
+          })
+        } else {
+          throw new Error(res.error)
+        }
       } catch (e) {
         Toast.fire({
           icon: "error",
@@ -53,7 +54,7 @@ const LogIn = () => {
         title: "Both fields are required!",
       })
     } else {
-      add()
+      logIn()
       setData({
         email: "",
         password: "",
@@ -61,7 +62,7 @@ const LogIn = () => {
     }
   }
   return (
-    <main className="relative flex flex-col justify-center items-center px-5 md:px-20 transition duration-1000 text-gray-900 dark:text-gray-100 bg-gray-100 dark:bg-gray-900 flex-grow">
+    <main className="py-10 relative flex flex-col justify-center items-center px-5 md:px-20 transition duration-1000 text-gray-900 dark:text-gray-100 bg-gray-100 dark:bg-gray-900 flex-grow">
       <div className="flex flex-col gap-3 w-full" style={{ maxWidth: "330px" }}>
         <FormInput
           name="email"
@@ -84,13 +85,13 @@ const LogIn = () => {
         <button
           className="transform active:scale-95 rounded mt-2 mb-1 py-2 text-gray-100 bg-green-500"
           type="button"
-          onClick={handleAddClick}
+          onClick={handleLogIn}
         >
           Log In
         </button>
       </div>
       <p className="text-center">
-        Don't have an account?{" "}
+        Don't have an account yet?{" "}
         <Link className="underline" to="/signup">
           Sign up.
         </Link>
@@ -99,4 +100,8 @@ const LogIn = () => {
   )
 }
 
-export default LogIn
+const mapDispatchToProps = {
+  logIn: usersActions.logIn,
+}
+
+export default connect(null, mapDispatchToProps)(LogIn)

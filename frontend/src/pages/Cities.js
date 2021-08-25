@@ -4,6 +4,7 @@ import SearchSection from "../components/SearchSection"
 import Aos from "aos"
 import "aos/dist/aos.css"
 import { connect } from "react-redux"
+import Loading from "../components/Loading"
 
 const Cities = (props) => {
   const { citiesData } = props
@@ -33,7 +34,7 @@ const Cities = (props) => {
     setRenderedCities(citiesData)
   }, [citiesData])
 
-  if (!citiesData.length) return <NoCitiesFound />
+  if (!citiesData.length) return <Loading />
   return (
     <main className="transition duration-1000 bg-gray-100 dark:bg-gray-900 flex-grow">
       <SearchSection handleSearch={handleSearch} searchInput={searchInput} />
@@ -51,7 +52,7 @@ const Cities = (props) => {
               }`}
               className={`rounded flex-grow transform hover:scale-102 relative inline-block w-full sm:w-4/5 md:w-${
                 index % 3 === 0 ? "full" : "1/4"
-              } h-40 xs:h-64`}
+              } h-40 xs:h-60`}
               style={{
                 backgroundImage: `url("${city.src}")`,
                 backgroundSize: "cover",
@@ -76,22 +77,15 @@ const Cities = (props) => {
   )
 }
 
-const NoCitiesFound = () => {
-  return (
-    <main className="flex-col gap-3 transition duration-1000 bg-gray-100 dark:bg-gray-900 flex-grow flex items-center justify-center">
-      <h1 className="text-center text-3xl text-gray-900 dark:text-gray-100">
-        There are no cities in the database yet.
-      </h1>
-      <p className="text-center text-gray-900 dark:text-gray-100">
-        Do you want to
-        <Link className="font-medium mx-1 text-green-500" to="/form/add">
-          add
-        </Link>
-        one?
-      </p>
-    </main>
-  )
-}
+// const NoCitiesFound = () => {
+//   return (
+//     <main className="flex-col gap-3 transition duration-1000 bg-gray-100 dark:bg-gray-900 flex-grow flex items-center justify-center">
+//       <h1 className="text-center text-3xl text-gray-900 dark:text-gray-100">
+//         There are no cities in the database yet.
+//       </h1>
+//     </main>
+//   )
+// }
 
 const mapStateToProps = (state) => {
   return {

@@ -1,34 +1,47 @@
-import { Link } from "react-router-dom"
+import { useState } from "react"
+import FormAdd from "./FormAdd"
+import FormDelete from "./FormDelete"
+import FormUpdate from "./FormUpdate"
 
 const Form = () => {
-  return (
-    <main className="flex flex-col gap-5 py-10 text-gray-900 dark:text-gray-100 px-5 md:px-20 transition duration-1000 bg-gray-100 dark:bg-gray-900 flex-grow">
-      <h1 className="text-4xl text-center">Welcome!</h1>
-      <h2 className="text-center">
-        ¿Do you want to add, delete or update a City from our database?
-      </h2>
-      <section className="flex flex-col md:flex-row justify-center gap-5 items-center">
-        <Link
-          to="/form/add"
-          className="rounded flex justify-center items-center bg-green-500 h-20 w-full md:w-1/4"
-        >
-          <div className="text-center text-2xl">Add a City</div>
-        </Link>
-        <Link
-          to="/form/update"
-          className="rounded flex justify-center items-center bg-yellow-500 h-20 w-full md:w-1/4"
-        >
-          <div className="text-center text-2xl">Update a City</div>
-        </Link>
-        <Link
-          to="/form/delete"
-          className="rounded flex justify-center items-center bg-red-500 h-20 w-full md:w-1/4"
-        >
-          <div className="text-center text-2xl">Delete a City</div>
-        </Link>
-      </section>
-    </main>
-  )
+  const [internalSection, setInternalSection] = useState("")
+  switch (internalSection) {
+    case "add":
+      return <FormAdd setSection={setInternalSection} />
+    case "delete":
+      return <FormDelete setSection={setInternalSection} />
+    case "update":
+      return <FormUpdate setSection={setInternalSection} />
+    default:
+      return (
+        <section className="flex flex-col gap-4 justify-center text-gray-900 dark:text-gray-100 transition duration-1000 bg-gray-100 dark:bg-gray-900 flex-grow">
+          <div className="flex flex-col justify-center gap-2 items-center">
+            <div
+              onClick={() => setInternalSection("add")}
+              className="cursor-pointer rounded flex px-10 py-3 justify-center items-center bg-green-500 w-full md:w-1/2"
+            >
+              <div className="text-center text-lg lg:text-2xl">Add a City</div>
+            </div>
+            <div
+              onClick={() => setInternalSection("update")}
+              className="cursor-pointer rounded flex  px-10 py-3 justify-center items-center bg-yellow-500 w-full md:w-1/2"
+            >
+              <div className="text-center text-lg md:text-2xl">
+                Update a City
+              </div>
+            </div>
+            <div
+              onClick={() => setInternalSection("delete")}
+              className="cursor-pointer rounded flex  px-10 py-3 justify-center items-center bg-red-500 w-full md:w-1/2"
+            >
+              <div className="text-center text-lg md:text-2xl">
+                Delete a City
+              </div>
+            </div>
+          </div>
+        </section>
+      )
+  }
 }
 
 export default Form

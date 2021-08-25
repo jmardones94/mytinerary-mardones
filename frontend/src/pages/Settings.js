@@ -1,8 +1,10 @@
 import React, { useState } from "react"
-import { Link } from "react-router-dom"
 // import { Link } from "react-router-dom"
+import { connect } from "react-redux"
+import usersActions from "../redux/actions/usersActions"
+import Form from "./Form/Form"
 
-const Settings = () => {
+const Settings = (props) => {
   const [settingsSection, setSettingsSection] = useState("profile")
   return (
     <main className="flex flex-wrap flex-col md:flex-row gap-5 items-center md:items-start py-10 px-5 md:px-20 text-gray-900 dark:text-gray-100 transition duration-1000 bg-gray-100 dark:bg-gray-900 flex-grow">
@@ -30,12 +32,20 @@ const Settings = () => {
         >
           Favorites
         </button>
-        <hr className="w-5/6" />
-        <Link to="/form" className="w-full py-3 text-left pl-8">
-          Admin Panel (Hidden soon.)
-        </Link>
+        {props.user.admin && (
+          <>
+            <hr className="w-5/6" />
+            <button
+              type="button"
+              onClick={() => setSettingsSection("admin-panel")}
+              className="w-full py-3 text-left pl-8"
+            >
+              Admin Panel
+            </button>
+          </>
+        )}
       </div>
-      <div>
+      <div className="w-full md:w-3/5">
         <SettingsSection section={settingsSection} />
       </div>
     </main>
@@ -52,9 +62,19 @@ const SettingsSection = ({ section }) => {
       return <p>This is the favorites section</p>
     case "security":
       return <p>This is the security section</p>
+    case "admin-panel":
+      return <Form />
     default:
       return <p>?</p>
   }
 }
 
-export default Settings
+const mapStateToProps = (state) => {
+  return { isLoggedIn: state.users.isLoggedIn, user: state.users.user }
+}
+
+const mapDispatchToProps = {
+  logOut: usersActions.logOut,
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Settings)

@@ -7,6 +7,7 @@ const userSchema = new mongoose.Schema({
   password: { type: String, required: true },
   photoURL: { type: String, required: true },
   country: { type: String, required: true },
+  admin: { type: Boolean, default: false },
 })
 
 const User = mongoose.model("user", userSchema)

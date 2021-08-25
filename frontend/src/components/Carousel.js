@@ -1,3 +1,4 @@
+import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/solid"
 import { useEffect, useState } from "react"
 
 const Carousel = ({ citiesData }) => {
@@ -23,18 +24,7 @@ const Carousel = ({ citiesData }) => {
           onClick={() => setIndex((((index - 1) % 3) + 3) % 3)}
           className="hover:text-gray-700 cursor-pointer dark:text-gray-100 absolute top-1/2 transform -translate-y-1/2 -translate-x-8"
         >
-          <svg
-            className="w-8 h-8"
-            fill="currentColor"
-            viewBox="0 0 20 20"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              fillRule="evenodd"
-              d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z"
-              clipRule="evenodd"
-            />
-          </svg>
+          <ChevronLeftIcon className="w-8 h-8" />
         </span>
         {citiesData[index].map(({ src, city }) => {
           return (
@@ -57,18 +47,7 @@ const Carousel = ({ citiesData }) => {
           onClick={() => setIndex((index + 1) % 3)}
           className="cursor-pointer dark:text-gray-100 absolute top-1/2 -right-6 transform -translate-y-1/2"
         >
-          <svg
-            className="w-8 h-8"
-            fill="currentColor"
-            viewBox="0 0 20 20"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              fillRule="evenodd"
-              d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
-              clipRule="evenodd"
-            />
-          </svg>
+          <ChevronRightIcon className="w-8 h-8" />
         </span>
       </div>
     </section>

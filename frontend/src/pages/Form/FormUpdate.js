@@ -1,5 +1,4 @@
 import { useState } from "react"
-import { Link } from "react-router-dom"
 import Swal from "sweetalert2"
 import withReactContent from "sweetalert2-react-content"
 import citiesActions from "../../redux/actions/citiesActions"
@@ -116,26 +115,29 @@ const FormUpdate = (props) => {
   }
 
   return (
-    <main className="relative py-10 flex justify-center flex-col items-center px-5 md:px-20 transition duration-1000 text-gray-900 dark:text-gray-100 bg-gray-100 dark:bg-gray-900 flex-grow">
-      <div className="flex gap-3 absolute left-2 top-2">
-        <Link
+    <main className="relative flex justify-center flex-col items-center transition duration-1000 text-gray-900 dark:text-gray-100 bg-gray-100 dark:bg-gray-900 flex-grow">
+      <div className="flex justify-center gap-3 h-16 py-3">
+        <button
+          type="button"
           className="border border-green-500 text-green-500 hover:bg-green-500 hover:text-gray-100 w-20 text-center py-1 px-3 rounded "
-          to="/form/add"
+          onClick={() => props.setSection("add")}
         >
           Add
-        </Link>
-        <Link
+        </button>
+        <button
+          type="button"
           className="bg-yellow-500 text-gray-100 py-1 px-3 w-20 text-center rounded "
-          to="/form/update"
+          onClick={() => props.setSection("update")}
         >
           Update
-        </Link>
-        <Link
+        </button>
+        <button
+          type="button"
           className="border border-red-500 text-red-500 hover:bg-red-500 hover:text-gray-100 w-20 text-center py-1 px-3 rounded "
-          to="/form/delete"
+          onClick={() => props.setSection("delete")}
         >
           Delete
-        </Link>
+        </button>
       </div>
       <h2 className="text-center text-lg mb-3">
         Select the city you want to update

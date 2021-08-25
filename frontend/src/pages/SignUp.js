@@ -72,7 +72,6 @@ const SignUp = (props) => {
             icon: "success",
             title: `Account created. Welcome to MyTinerary, ${res.response.firstName}!`,
           })
-          props.history.push("/")
           return false
         } else {
           throw new Error(

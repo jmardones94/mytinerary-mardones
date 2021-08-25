@@ -1,5 +1,6 @@
 const User = require("../models/User")
 const bcryptjs = require("bcryptjs")
+const jwt = require("jsonwebtoken")
 
 // Test, la key sin hashear es 12345.
 const key = "$2a$10$6IErsP3d/sZXb.WLiMy6veaPhl5Y57lhfV4aGGpqFMskFAJnkOwKq"
@@ -48,7 +49,7 @@ const usersController = {
         photoURL,
         country,
       })
-      await newUser.save()
+      const user = await newUser.save()
       res.json({
         success: true,
         response: {
@@ -58,6 +59,7 @@ const usersController = {
           photoURL,
           country,
           admin: false,
+          token: jwt.sign(user, process.env.SECRETORKEY),
         },
         error: null,
       })
@@ -75,7 +77,15 @@ const usersController = {
       const { firstName, lastName, photoURL, country, admin } = user
       res.json({
         success: true,
-        response: { firstName, lastName, email, photoURL, country, admin },
+        response: {
+          firstName,
+          lastName,
+          email,
+          photoURL,
+          country,
+          admin,
+          token: jwt.sign({ ...user }, process.env.SECRETORKEY),
+        },
         error: null,
       })
     } catch (e) {
@@ -135,6 +145,29 @@ const usersController = {
     } catch (e) {
       res.json({ success: false, response: null, error: e.message })
     }
+  },
+  tokenValidation: async (req, res) => {
+    jwt.verify(req.headers.token, process.env.SECRETORKEY, (err, result) => {
+      if (err) {
+        res.json({ success: false, response: null, error: err.message })
+      }
+      if (result._doc.email === req.body.email) {
+        res.json({ success: true, response: result._doc, error: null })
+      } else {
+        res.json({
+          success: false,
+          response: null,
+          error: "Token doesn't belong to this email.",
+        })
+      }
+    })
+
+    // try {
+    //   const result = jwt.decode(req.body.token, process.env.SECRETORKEY)
+    //   res.json({ success: true, response: result, error: null })
+    // } catch (e) {
+    //   res.json({ success: false, response: null, error: e })
+    // }
   },
 }
 

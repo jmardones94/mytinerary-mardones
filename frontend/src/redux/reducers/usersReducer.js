@@ -1,8 +1,6 @@
 const usersReducer = (
   state = {
-    user: JSON.parse(localStorage.getItem("user")) || {},
-    isLoggedIn: localStorage.getItem("isLoggedIn") === "true" || false,
-    usersList: [],
+    user: false,
   },
   action
 ) => {
@@ -11,24 +9,26 @@ const usersReducer = (
       return {
         ...state,
         user: action.payload,
-        isLoggedIn: true,
       }
     case "LOG_OUT":
       return {
         ...state,
-        user: {},
-        isLoggedIn: false,
+        user: false,
       }
-    case "GET_USERS":
-      return {
-        ...state,
-        usersList: action.payload,
-      }
+    // case "GET_USERS":
+    //   return {
+    //     ...state,
+    //     usersList: action.payload,
+    //   }
     case "SIGN_UP":
       return {
         ...state,
         user: action.payload,
-        isLoggedIn: true,
+      }
+    case "LOG_IN_LS":
+      return {
+        ...state,
+        user: action.payload,
       }
     default:
       return state

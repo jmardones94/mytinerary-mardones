@@ -1,7 +1,7 @@
 const Loading = () => {
   return (
     <div className="px-5 flex items-center justify-center flex-grow md:px-28 py-5 transition duration-1000 dark:bg-gray-900 bg-gray-100">
-      <h1 className="flex gap-1 text-center text-3xl dark:text-gray-100">
+      <h1 className="flex gap-px text-center text-3xl dark:text-gray-100">
         <span className="animate-bounce">L</span>
         <span className="animate-bounce animation-delay-100">o</span>
         <span className="animate-bounce animation-delay-200">a</span>

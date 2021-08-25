@@ -43,4 +43,6 @@ router
 
 router.route("/admin/:id").post(usersController.setAdmin)
 
+router.route("/user/token").post(usersController.tokenValidation)
+
 module.exports = router

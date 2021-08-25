@@ -35,7 +35,7 @@ const NavUser = (props) => {
     <div className="relative text-gray-900 dark:text-white dark:hover:text-gray-700 hover:text-gray-700">
       <Menu>
         <Menu.Button className="flex items-center">
-          {props.isLoggedIn ? (
+          {props.user ? (
             <div
               className="w-10 h-10 cursor-pointer rounded-full"
               style={{
@@ -57,7 +57,7 @@ const NavUser = (props) => {
           leaveTo="transform scale-95 opacity-0"
         >
           <Menu.Items className="flex flex-col gap-px absolute text-gray-900 bg-gray-200 dark:bg-gray-800 dark:text-white rounded-lg w-40 -left-32">
-            {props.isLoggedIn ? (
+            {props.user ? (
               <>
                 {" "}
                 <Menu.Item>
@@ -133,7 +133,7 @@ const NavUser = (props) => {
 }
 
 const mapStateToProps = (state) => {
-  return { isLoggedIn: state.users.isLoggedIn, user: state.users.user }
+  return { user: state.users.user }
 }
 
 const mapDispatchToProps = {

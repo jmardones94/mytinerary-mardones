@@ -70,7 +70,7 @@ const SettingsSection = ({ section }) => {
 }
 
 const mapStateToProps = (state) => {
-  return { isLoggedIn: state.users.isLoggedIn, user: state.users.user }
+  return { user: state.users.user }
 }
 
 const mapDispatchToProps = {

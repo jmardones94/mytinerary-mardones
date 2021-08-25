@@ -19,13 +19,11 @@ const usersActions = {
   logIn: (userData) => {
     return async (dispatch) => {
       try {
-        console.log(userData)
         const res = await axios.post(
           "http://localhost:4000/api/user/login",
           userData
         )
         if (res.data.success) {
-          localStorage.setItem("isLoggedIn", "true")
           localStorage.setItem("user", JSON.stringify(res.data.response))
           dispatch({ type: "LOG_IN", payload: res.data.response })
 
@@ -43,9 +41,8 @@ const usersActions = {
   },
   logOut: () => {
     return (dispatch) => {
-      localStorage.setItem("isLoggedIn", "false")
       localStorage.removeItem("user")
-      dispatch({ type: "LOG_OUT", payload: null })
+      dispatch({ type: "LOG_OUT" })
     }
   },
   signUp: (newUser) => {
@@ -56,7 +53,6 @@ const usersActions = {
           newUser
         )
         if (res.data.success) {
-          localStorage.setItem("isLoggedIn", "true")
           localStorage.setItem("user", JSON.stringify(res.data.response))
           dispatch({ type: "SIGN_UP", payload: res.data.response })
           return { success: true, response: res.data.response, error: null }
@@ -65,6 +61,31 @@ const usersActions = {
         }
       } catch (e) {
         return { success: false, response: null, error: e.message }
+      }
+    }
+  },
+  logInLS: (token, email) => {
+    return async (dispatch, getState) => {
+      const headers = { token }
+      try {
+        const res = await axios.post(
+          "http://localhost:4000/api/user/token",
+          { email: email },
+          { headers }
+        )
+        if (res.data.success) {
+          const { firstName, lastName, email, photoURL, country, admin } =
+            res.data.response
+          dispatch({
+            type: "LOG_IN_LS",
+            payload: { firstName, lastName, email, photoURL, country, admin },
+          })
+          return { success: true, error: null }
+        } else {
+          throw new Error(res.data.error.message)
+        }
+      } catch (e) {
+        return { success: false, error: e.message }
       }
     }
   },

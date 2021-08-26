@@ -33,11 +33,11 @@ router
 router.route("/user/signup").post(usersController.createUser)
 router.route("/user/login").post(usersController.logIn)
 
-router.route("/users").get(usersController.getUsers)
+router.route("/users").get(usersController.getUsers) // DELETE OR PROTECT THIS
 
 router
-  .route("/user/:id")
-  .get(usersController.getUserById)
+  .route("/user/:email")
+  .get(usersController.getUserByEmail)
   .delete(usersController.deleteUser)
   .put(usersController.updateUser)
 

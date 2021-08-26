@@ -6,6 +6,7 @@ const FormInput = ({
   type,
   placeholder,
   required,
+  keyDownHandler,
 }) => {
   return (
     <div className="flex justify-between items-center w-full">
@@ -19,6 +20,7 @@ const FormInput = ({
         type={type}
         placeholder={placeholder}
         onChange={inputHandler}
+        onKeyDown={keyDownHandler}
         value={value}
         required={required}
       ></input>

@@ -15,9 +15,9 @@ const usersController = {
       res.json({ success: false, response: null, error: e.message })
     }
   },
-  getUserById: async (req, res) => {
+  getUserByEmail: async (req, res) => {
     try {
-      const user = await User.findOne({ _id: req.params.id })
+      const user = await User.findOne({ email: req.params.email })
       if (!user) throw new Error("User not found.")
       res.json({ success: true, response: user, error: null })
     } catch (e) {
@@ -59,7 +59,7 @@ const usersController = {
           photoURL,
           country,
           admin: false,
-          token: jwt.sign(user, process.env.SECRETORKEY),
+          token: jwt.sign({ ...user }, process.env.SECRETORKEY),
         },
         error: null,
       })
@@ -94,7 +94,7 @@ const usersController = {
   },
   deleteUser: async (req, res) => {
     try {
-      await User.findOneAndDelete({ _id: req.params.id })
+      await User.findOneAndDelete({ email: req.params.email })
       res.json({ success: true, response: "User deleted.", error: null })
     } catch (e) {
       res.json({ success: false, response: null, error: e.message })
@@ -104,7 +104,7 @@ const usersController = {
     // work on validations later...
     const { firstName, lastName, email, password, photoURL, country } = req.body
     try {
-      const user = await User.findOne({ _id: req.params.id })
+      const user = await User.findOne({ email: req.params.email })
       let hashedNewPassword
       if (!user) throw new Error("Invalid id.")
       if (password) {
@@ -151,23 +151,14 @@ const usersController = {
       if (err) {
         res.json({ success: false, response: null, error: err.message })
       }
-      if (result._doc.email === req.body.email) {
-        res.json({ success: true, response: result._doc, error: null })
-      } else {
-        res.json({
-          success: false,
-          response: null,
-          error: "Token doesn't belong to this email.",
-        })
-      }
+      const { firstName, lastName, email, photoURL, country, admin } =
+        result._doc
+      res.json({
+        success: true,
+        response: { firstName, lastName, email, photoURL, country, admin },
+        error: null,
+      })
     })
-
-    // try {
-    //   const result = jwt.decode(req.body.token, process.env.SECRETORKEY)
-    //   res.json({ success: true, response: result, error: null })
-    // } catch (e) {
-    //   res.json({ success: false, response: null, error: e })
-    // }
   },
 }
 

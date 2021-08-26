@@ -24,7 +24,8 @@ const usersActions = {
           userData
         )
         if (res.data.success) {
-          localStorage.setItem("user", JSON.stringify(res.data.response))
+          console.log(res.data.response.token)
+          localStorage.setItem("token", res.data.response.token)
           dispatch({ type: "LOG_IN", payload: res.data.response })
 
           return {
@@ -41,7 +42,7 @@ const usersActions = {
   },
   logOut: () => {
     return (dispatch) => {
-      localStorage.removeItem("user")
+      localStorage.removeItem("token")
       dispatch({ type: "LOG_OUT" })
     }
   },
@@ -53,7 +54,8 @@ const usersActions = {
           newUser
         )
         if (res.data.success) {
-          localStorage.setItem("user", JSON.stringify(res.data.response))
+          // console.log(res.data.response.token)
+          localStorage.setItem("token", res.data.response.token)
           dispatch({ type: "SIGN_UP", payload: res.data.response })
           return { success: true, response: res.data.response, error: null }
         } else {
@@ -64,21 +66,19 @@ const usersActions = {
       }
     }
   },
-  logInLS: (token, email) => {
-    return async (dispatch, getState) => {
+  logInLS: (token) => {
+    return async (dispatch) => {
       const headers = { token }
       try {
         const res = await axios.post(
           "http://localhost:4000/api/user/token",
-          { email: email },
+          null,
           { headers }
         )
         if (res.data.success) {
-          const { firstName, lastName, email, photoURL, country, admin } =
-            res.data.response
           dispatch({
             type: "LOG_IN_LS",
-            payload: { firstName, lastName, email, photoURL, country, admin },
+            payload: { ...res.data.response, token },
           })
           return { success: true, error: null }
         } else {
@@ -86,6 +86,25 @@ const usersActions = {
         }
       } catch (e) {
         return { success: false, error: e.message }
+      }
+    }
+  },
+  validateToken: (token) => {
+    return async (dispatch) => {
+      const headers = { token }
+      try {
+        const res = await axios.post(
+          "http://localhost:4000/api/user/token",
+          null,
+          { headers }
+        )
+        if (res.data.success) {
+          return { success: true, response: res.data.response, error: null }
+        } else {
+          throw new Error(res.data.error)
+        }
+      } catch (e) {
+        return { success: false, response: null, error: e.message }
       }
     }
   },

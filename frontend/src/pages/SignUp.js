@@ -49,6 +49,11 @@ const SignUp = (props) => {
     })
   }
 
+  const keyDownHandler = (e) => {
+    if (e.key === "Enter") {
+      handleSignUp()
+    }
+  }
   const handleSignUp = async () => {
     if (
       !(
@@ -87,15 +92,6 @@ const SignUp = (props) => {
         console.error(e)
       }
     }
-    setData({
-      firstName: "",
-      lastName: "",
-      email: "",
-      password: "",
-      confirmPassword: "",
-      photoURL: "",
-    })
-    setSelectedCountry("")
   }
   return (
     <main className="relative py-10 flex flex-col justify-center items-center px-5 md:px-20 transition duration-1000 text-gray-900 dark:text-gray-100 bg-gray-100 dark:bg-gray-900 flex-grow">
@@ -110,8 +106,9 @@ const SignUp = (props) => {
           label="First Name"
           value={data.firstName}
           inputHandler={inputHandler}
+          keyDownHandler={keyDownHandler}
           required={true}
-          placeholder="John"
+          placeholder="Shinichi"
         />
         <FormInput
           name="lastName"
@@ -119,8 +116,9 @@ const SignUp = (props) => {
           label="Last Name"
           value={data.lastName}
           inputHandler={inputHandler}
+          keyDownHandler={keyDownHandler}
           required={true}
-          placeholder="Cena"
+          placeholder="Kudo"
         />
         <FormInput
           name="email"
@@ -128,6 +126,7 @@ const SignUp = (props) => {
           label="Email"
           value={data.email}
           inputHandler={inputHandler}
+          keyDownHandler={keyDownHandler}
           required={true}
           placeholder="example@email.com"
         />
@@ -137,8 +136,9 @@ const SignUp = (props) => {
           label="Password"
           value={data.password}
           inputHandler={inputHandler}
+          keyDownHandler={keyDownHandler}
           required={true}
-          placeholder="Secure@Password#123456789"
+          placeholder="A really long and s3cure password!"
         />
         <FormInput
           name="confirmPassword"
@@ -146,8 +146,9 @@ const SignUp = (props) => {
           label="Confirm Password"
           value={data.confirmPassword}
           inputHandler={inputHandler}
+          keyDownHandler={keyDownHandler}
           required={true}
-          placeholder="Secure@Password#123456789"
+          placeholder="A really long and s3cure password!"
         />
         <FormInput
           name="photoURL"
@@ -155,6 +156,7 @@ const SignUp = (props) => {
           label="Photo URL"
           value={data.photoURL}
           inputHandler={inputHandler}
+          keyDownHandler={keyDownHandler}
           required={true}
           placeholder="https://example.com/your_photo.jpg"
         />

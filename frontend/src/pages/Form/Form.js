@@ -1,10 +1,28 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
+import usersActions from "../../redux/actions/usersActions"
 import FormAdd from "./FormAdd"
 import FormDelete from "./FormDelete"
 import FormUpdate from "./FormUpdate"
+import { connect } from "react-redux"
 
-const Form = () => {
+const Form = (props) => {
   const [internalSection, setInternalSection] = useState("")
+  const [validToken, setValidToken] = useState(false)
+
+  useEffect(() => {
+    const handlePermission = async () => {
+      const result = await props.validateToken(props.user.token)
+      if (result.success && result.response.admin) {
+        setValidToken(true)
+      }
+    }
+    handlePermission()
+    // eslint-disable-next-line
+  }, [])
+
+  if (!validToken) {
+    return <p>You have no access to this section.</p>
+  }
   switch (internalSection) {
     case "add":
       return <FormAdd setSection={setInternalSection} />
@@ -44,4 +62,14 @@ const Form = () => {
   }
 }
 
-export default Form
+const mapStateToProps = (state) => {
+  return {
+    user: state.users.user,
+  }
+}
+
+const mapDispatchToProps = {
+  validateToken: usersActions.validateToken,
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Form)

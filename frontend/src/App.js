@@ -19,11 +19,9 @@ function App({ getCities, logInLS, user }) {
   useEffect(() => {
     const getData = async () => {
       try {
-        const user = JSON.parse(localStorage.getItem("user"))
-
-        if (user) {
-          const { token, email } = user
-          await logInLS(token, email)
+        const token = localStorage.getItem("token")
+        if (token) {
+          await logInLS(token)
         }
         await getCities()
       } catch (e) {

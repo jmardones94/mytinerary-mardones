@@ -27,6 +27,13 @@ const LogIn = (props) => {
       [e.target.name]: e.target.value,
     })
   }
+
+  const keyDownHandler = (e) => {
+    if (e.key === "Enter") {
+      handleLogIn()
+    }
+  }
+
   const handleLogIn = async () => {
     const logIn = async () => {
       try {
@@ -70,6 +77,7 @@ const LogIn = (props) => {
           label="Email"
           value={data.email}
           inputHandler={inputHandler}
+          keyDownHandler={keyDownHandler}
           required={true}
           placeholder="example@email.com"
         />
@@ -80,6 +88,7 @@ const LogIn = (props) => {
           value={data.password}
           inputHandler={inputHandler}
           required={true}
+          keyDownHandler={keyDownHandler}
           placeholder="Secure@Password#123456789"
         />
         <button

@@ -4,7 +4,7 @@ import SearchSection from "../components/SearchSection"
 import Aos from "aos"
 import "aos/dist/aos.css"
 import { connect } from "react-redux"
-import Loading from "../components/Loading"
+// import Loading from "../components/Loading"
 
 const Cities = (props) => {
   const { citiesData } = props
@@ -34,12 +34,12 @@ const Cities = (props) => {
     setRenderedCities(citiesData)
   }, [citiesData])
 
-  if (!citiesData.length) return <Loading />
+  if (!citiesData.length) return <NoCitiesFound />
   return (
     <main className="transition duration-1000 bg-gray-100 dark:bg-gray-900 flex-grow">
       <SearchSection handleSearch={handleSearch} searchInput={searchInput} />
       <section className="overflow-x-hidden flex flex-wrap gap-3 justify-center py-5 px-2 xs:px-10 md:px-20">
-        {renderedCities.length === 0 ? (
+        {citiesData.length && renderedCities.length === 0 ? (
           <h1 className="text-center text-3xl text-gray-900 dark:text-gray-100">
             No cities matching selected criteria.
           </h1>
@@ -77,15 +77,17 @@ const Cities = (props) => {
   )
 }
 
-// const NoCitiesFound = () => {
-//   return (
-//     <main className="flex-col gap-3 transition duration-1000 bg-gray-100 dark:bg-gray-900 flex-grow flex items-center justify-center">
-//       <h1 className="text-center text-3xl text-gray-900 dark:text-gray-100">
-//         There are no cities in the database yet.
-//       </h1>
-//     </main>
-//   )
-// }
+const NoCitiesFound = () => {
+  return (
+    <main className="flex-col gap-3 transition duration-1000 text-gray-900 dark:text-gray-100 bg-gray-100 dark:bg-gray-900 flex-grow flex items-center justify-center">
+      <h1 className="text-center text-3xl ">We didn't found any city.</h1>
+      <p>
+        There are no cities in the database or you don't have access to this
+        information.
+      </p>
+    </main>
+  )
+}
 
 const mapStateToProps = (state) => {
   return {

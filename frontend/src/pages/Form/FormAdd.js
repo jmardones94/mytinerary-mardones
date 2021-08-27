@@ -35,7 +35,6 @@ const FormAdd = (props) => {
     const add = async () => {
       try {
         const res = await props.addCity(data)
-        console.log(res)
         if (res.success) {
           Toast.fire({
             icon: "success",

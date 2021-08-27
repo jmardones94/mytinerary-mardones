@@ -1,6 +1,7 @@
 import React, { useState } from "react"
 import { connect } from "react-redux"
 import usersActions from "../redux/actions/usersActions"
+import DeleteAccount from "./Form/DeleteAccount"
 import Form from "./Form/Form"
 
 const Settings = (props) => {
@@ -43,8 +44,16 @@ const Settings = (props) => {
             </button>
           </>
         )}
+        <hr className="w-5/6" />
+        <button
+          type="button"
+          onClick={() => setSettingsSection("delete")}
+          className="w-full py-3 text-left pl-8"
+        >
+          Delete account
+        </button>
       </div>
-      <div className="w-full md:w-3/5">
+      <div className="w-full h-full flex items-center justify-center py-5 md:w-3/5">
         <SettingsSection section={settingsSection} />
       </div>
     </main>
@@ -63,6 +72,8 @@ const SettingsSection = ({ section }) => {
       return <p>This is the security section</p>
     case "admin-panel":
       return <Form />
+    case "delete":
+      return <DeleteAccount />
     default:
       return <p>?</p>
   }

@@ -7,20 +7,20 @@ import { connect } from "react-redux"
 
 const Form = (props) => {
   const [internalSection, setInternalSection] = useState("")
-  const [validToken, setValidToken] = useState(false)
+  const [admin, setAdmin] = useState(false)
 
   useEffect(() => {
     const handlePermission = async () => {
-      const result = await props.validateToken(props.user.token)
-      if (result.success && result.response.admin) {
-        setValidToken(true)
+      const result = await props.validateAdmin(props.user.token)
+      if (result.success) {
+        setAdmin(true)
       }
     }
     handlePermission()
     // eslint-disable-next-line
   }, [])
 
-  if (!validToken) {
+  if (!admin) {
     return <p>You have no access to this section.</p>
   }
   switch (internalSection) {
@@ -69,7 +69,7 @@ const mapStateToProps = (state) => {
 }
 
 const mapDispatchToProps = {
-  validateToken: usersActions.validateToken,
+  validateAdmin: usersActions.validateAdmin,
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Form)

@@ -1,21 +1,6 @@
 import axios from "axios"
 
 const usersActions = {
-  getUsers: () => {
-    return async (dispatch) => {
-      try {
-        const res = await axios.get("http://localhost:4000/api/users")
-        if (res.data.success) {
-          dispatch({ type: "GET_USERS", payload: res.data.response })
-          return { success: true, response: "Users fetched.", error: null }
-        } else {
-          throw new Error("Couldn't get the users.")
-        }
-      } catch (e) {
-        return { success: false, response: null, error: e.message }
-      }
-    }
-  },
   logIn: (userData) => {
     return async (dispatch) => {
       try {
@@ -24,7 +9,6 @@ const usersActions = {
           userData
         )
         if (res.data.success) {
-          console.log(res.data.response.token)
           localStorage.setItem("token", res.data.response.token)
           dispatch({ type: "LOG_IN", payload: res.data.response })
 
@@ -54,12 +38,17 @@ const usersActions = {
           newUser
         )
         if (res.data.success) {
-          // console.log(res.data.response.token)
           localStorage.setItem("token", res.data.response.token)
           dispatch({ type: "SIGN_UP", payload: res.data.response })
           return { success: true, response: res.data.response, error: null }
         } else {
-          throw new Error(res.data.error)
+          return {
+            success: false,
+            response: null,
+            error: res.data.errors
+              .map((e) => e.message)
+              .reduce((a, b) => a + " " + b),
+          }
         }
       } catch (e) {
         return { success: false, response: null, error: e.message }
@@ -68,11 +57,10 @@ const usersActions = {
   },
   logInLS: (token) => {
     return async (dispatch) => {
-      const headers = { token }
+      const headers = { Authorization: `Bearer ${token}` }
       try {
-        const res = await axios.post(
-          "http://localhost:4000/api/user/token",
-          null,
+        const res = await axios.get(
+          "http://localhost:4000/api/validate/token",
           { headers }
         )
         if (res.data.success) {
@@ -91,20 +79,56 @@ const usersActions = {
   },
   validateToken: (token) => {
     return async (dispatch) => {
-      const headers = { token }
+      const headers = { Authorization: `Bearer ${token}` }
       try {
-        const res = await axios.post(
-          "http://localhost:4000/api/user/token",
-          null,
+        const res = await axios.get(
+          "http://localhost:4000/api/validate/token",
           { headers }
         )
         if (res.data.success) {
-          return { success: true, response: res.data.response, error: null }
+          return { success: true, error: null }
         } else {
           throw new Error(res.data.error)
         }
       } catch (e) {
-        return { success: false, response: null, error: e.message }
+        return { success: false, error: e.message }
+      }
+    }
+  },
+  validateAdmin: (token) => {
+    return async (dispatch) => {
+      try {
+        const headers = { Authorization: `Bearer ${token}` }
+        const res = await axios.get(
+          "http://localhost:4000/api/validate/admin",
+          { headers }
+        )
+        if (res.data.success) {
+          return { success: true, error: null }
+        } else {
+          throw new Error(res.data.error)
+        }
+      } catch (e) {
+        return { success: false, error: e.message }
+      }
+    }
+  },
+  deleteAccount: (password) => {
+    return async (dispatch, getState) => {
+      try {
+        const token = getState().users.user.token
+        const res = await axios.delete("http://localhost:4000/api/user", {
+          headers: { Authorization: `Bearer ${token}` },
+          data: { password },
+        })
+        if (res.data.success) {
+          dispatch({ type: "LOG_OUT" })
+          return { success: true, error: null }
+        } else {
+          throw new Error(res.data.error)
+        }
+      } catch (e) {
+        return { success: false, error: e.message }
       }
     }
   },

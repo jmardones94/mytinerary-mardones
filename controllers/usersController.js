@@ -6,40 +6,11 @@ const jwt = require("jsonwebtoken")
 const key = "$2a$10$6IErsP3d/sZXb.WLiMy6veaPhl5Y57lhfV4aGGpqFMskFAJnkOwKq"
 
 const usersController = {
-  getUsers: async (req, res) => {
-    try {
-      const users = await User.find()
-      if (!users.length) throw new Error("No users found.")
-      res.json({ success: true, response: users, error: null })
-    } catch (e) {
-      res.json({ success: false, response: null, error: e.message })
-    }
-  },
-  getUserByEmail: async (req, res) => {
-    try {
-      const user = await User.findOne({ email: req.params.email })
-      if (!user) throw new Error("User not found.")
-      res.json({ success: true, response: user, error: null })
-    } catch (e) {
-      res.json({ success: false, response: null, error: e.message })
-    }
-  },
   createUser: async (req, res) => {
-    const {
-      firstName,
-      lastName,
-      email,
-      password,
-      confirmPassword,
-      photoURL,
-      country,
-    } = req.body
-
+    const { firstName, lastName, email, password, photoURL, country } = req.body
     try {
       const alreadyExist = await User.findOne({ email: email })
       if (alreadyExist) throw new Error("Email in use.")
-      if (password !== confirmPassword)
-        throw new Error("Passwords doesn't match.")
       const hashedPassword = await bcryptjs.hash(password, 10)
       const newUser = new User({
         firstName,
@@ -94,8 +65,16 @@ const usersController = {
   },
   deleteUser: async (req, res) => {
     try {
-      await User.findOneAndDelete({ email: req.params.email })
-      res.json({ success: true, response: "User deleted.", error: null })
+      const isValidPassword = await bcryptjs.compare(
+        req.body.password,
+        req.user.password
+      )
+      if (isValidPassword) {
+        await User.findOneAndDelete({ _id: req.user._id })
+        res.json({ success: true, response: "User deleted.", error: null })
+      } else {
+        throw new Error("Invalid password.")
+      }
     } catch (e) {
       res.json({ success: false, response: null, error: e.message })
     }
@@ -146,19 +125,16 @@ const usersController = {
       res.json({ success: false, response: null, error: e.message })
     }
   },
-  tokenValidation: async (req, res) => {
-    jwt.verify(req.headers.token, process.env.SECRETORKEY, (err, result) => {
-      if (err) {
-        res.json({ success: false, response: null, error: err.message })
-      }
-      const { firstName, lastName, email, photoURL, country, admin } =
-        result._doc
-      res.json({
-        success: true,
-        response: { firstName, lastName, email, photoURL, country, admin },
-        error: null,
-      })
+  tokenValidation: (req, res) => {
+    const { firstName, lastName, country, email, photoURL, admin } = req.user
+    res.json({
+      success: true,
+      response: { firstName, lastName, country, email, photoURL, admin },
+      error: null,
     })
+  },
+  adminValidation: (req, res) => {
+    res.json({ success: true, error: null })
   },
 }
 

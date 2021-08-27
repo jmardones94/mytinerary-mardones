@@ -42,11 +42,11 @@ function App({ getCities, logInLS, user }) {
           <Route exact path="/" component={Home} />
           <Route path="/cities" component={Cities} />
           <Route path="/itineraries/:id" component={City} />
-          <Route path="/signup" component={user ? Home : SignUp}></Route>
-          <Route path="/login" component={user ? Home : LogIn} />
+          {!user && <Route path="/signup" component={SignUp} />}
+          {!user && <Route path="/login" component={LogIn} />}
           <Route path="/404" component={E404} />
-          <Route path="/settings" component={user ? Settings : Home} />
-          <Redirect to="/404"></Redirect>
+          {user && <Route path="/settings" component={Settings} />}
+          <Redirect to="/"></Redirect>
         </Switch>
       )}
       <Footer />

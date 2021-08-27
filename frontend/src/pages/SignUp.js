@@ -13,7 +13,7 @@ const Toast = MySwal.mixin({
   toast: true,
   position: "bottom",
   showConfirmButton: false,
-  timer: 3000,
+  timer: 10000,
   timerProgressBar: true,
   showCloseButton: true,
 })
@@ -79,17 +79,13 @@ const SignUp = (props) => {
           })
           return false
         } else {
-          throw new Error(
-            "We couldn't create the user. Please try again later."
-          )
+          throw new Error(res.error)
         }
       } catch (e) {
         Toast.fire({
           icon: "error",
           title: e.message,
         })
-
-        console.error(e)
       }
     }
   }

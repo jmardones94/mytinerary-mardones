@@ -3,7 +3,11 @@ const router = express.Router()
 const citiesController = require("../controllers/citiesController")
 const itinerariesController = require("../controllers/itinerariesController")
 const usersController = require("../controllers/usersController")
+const passport = require("passport")
+const validator = require("../controllers/validator")
+const isAdmin = require("../controllers/isAdmin")
 
+// CITIES ROUTES
 router
   .route("/cities")
   .get(citiesController.getCities)
@@ -15,6 +19,7 @@ router
   .delete(citiesController.deleteCity)
   .put(citiesController.updateCity)
 
+// ITINERARIES ROUTES
 router
   .route("/itineraries")
   .get(itinerariesController.getAllItineraries)
@@ -30,19 +35,34 @@ router
   .delete(itinerariesController.deleteItinerary)
   .put(itinerariesController.updateItinerary)
 
-router.route("/user/signup").post(usersController.createUser)
+router.route("/user/signup").post(validator, usersController.createUser)
 router.route("/user/login").post(usersController.logIn)
 
-router.route("/users").get(usersController.getUsers) // DELETE OR PROTECT THIS
-
+// USER ROUTES
 router
-  .route("/user/:email")
-  .get(usersController.getUserByEmail)
-  .delete(usersController.deleteUser)
-  .put(usersController.updateUser)
+  .route("/user")
+  .delete(
+    passport.authenticate("jwt", { session: false }),
+    usersController.deleteUser
+  )
+  .put(
+    passport.authenticate("jwt", { session: false }),
+    usersController.updateUser
+  )
 
 router.route("/admin/:id").post(usersController.setAdmin)
 
-router.route("/user/token").post(usersController.tokenValidation)
-
+router
+  .route("/validate/token")
+  .get(
+    passport.authenticate("jwt", { session: false }),
+    usersController.tokenValidation
+  )
+router
+  .route("/validate/admin")
+  .get(
+    passport.authenticate("jwt", { session: false }),
+    isAdmin,
+    usersController.adminValidation
+  )
 module.exports = router

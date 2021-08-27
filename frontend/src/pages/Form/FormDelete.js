@@ -57,7 +57,7 @@ const FormDelete = (props) => {
       },
       iconColor: "#FBBF24",
       background: `${
-        window.document.documentElement.classList.contains("dark") && "#374151"
+        window.document.documentElement.classList.contains("dark") && "#1F2937"
       }`,
       buttonsStyling: false,
     }).then((result) => {

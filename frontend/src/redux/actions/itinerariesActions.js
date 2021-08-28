@@ -49,7 +49,7 @@ const itinerariesActions = {
     return async (dispatch, getState) => {
       try {
         const res = await axios.put(
-          "http://localhost:4000/api/itinerary/unlike",
+          "http://localhost:4000/api/itinerary/dislike",
           { itineraryId },
           {
             headers: { Authorization: `Bearer ${getState().users.user.token}` },

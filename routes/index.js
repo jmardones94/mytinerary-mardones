@@ -36,7 +36,7 @@ router
     itinerariesController.addLike
   )
 router
-  .route("/itinerary/unlike")
+  .route("/itinerary/dislike")
   .put(
     passport.authenticate("jwt", { session: false }),
     itinerariesController.removeLike

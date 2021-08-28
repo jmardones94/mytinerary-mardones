@@ -289,6 +289,7 @@ module.exports = {
       ],
       silt: "Shadows Into Light Two",
       lemon: "Lemon Tuesday",
+      ui: "system-ui",
     },
     fontSize: {
       xs: ["0.75rem", { lineHeight: "1rem" }],

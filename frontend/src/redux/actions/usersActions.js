@@ -2,7 +2,7 @@ import axios from "axios"
 
 const usersActions = {
   logIn: (userData) => {
-    return async (dispatch) => {
+    return async (dispatch, getState) => {
       try {
         const res = await axios.post(
           "http://localhost:4000/api/user/login",
@@ -11,7 +11,7 @@ const usersActions = {
         if (res.data.success) {
           localStorage.setItem("token", res.data.response.token)
           dispatch({ type: "LOG_IN", payload: res.data.response })
-
+          console.log(getState().users)
           return {
             success: true,
             response: `Welcome, ${res.data.response.firstName}`,
@@ -42,12 +42,13 @@ const usersActions = {
           dispatch({ type: "SIGN_UP", payload: res.data.response })
           return { success: true, response: res.data.response, error: null }
         } else {
+          console.log(res.data)
           return {
             success: false,
             response: null,
-            error: res.data.errors
-              .map((e) => e.message)
-              .reduce((a, b) => a + " " + b),
+            error: res.data.errors,
+            // .map((e) => e.message)
+            // .reduce((a, b) => a + " " + b),
           }
         }
       } catch (e) {
@@ -73,6 +74,8 @@ const usersActions = {
           throw new Error(res.data.error.message)
         }
       } catch (e) {
+        localStorage.removeItem("token")
+        dispatch({ type: "LOG_OUT" })
         return { success: false, error: e.message }
       }
     }

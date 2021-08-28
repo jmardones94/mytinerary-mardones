@@ -5,6 +5,7 @@ import usersActions from "../redux/actions/usersActions"
 import { connect } from "react-redux"
 import Swal from "sweetalert2"
 import withReactContent from "sweetalert2-react-content"
+import GoogleLogin from "react-google-login"
 
 const MySwal = withReactContent(Swal)
 const Toast = MySwal.mixin({
@@ -68,6 +69,29 @@ const LogIn = (props) => {
       })
     }
   }
+  const responseGoogle = async (response) => {
+    if (response.error) return false
+    try {
+      const res = await props.logIn({
+        email: response.profileObj.email,
+        password: response.profileObj.googleId,
+        flagGoogle: true,
+      })
+      if (res.success) {
+        Toast.fire({
+          icon: "success",
+          title: res.response,
+        })
+      } else {
+        throw new Error(res.error)
+      }
+    } catch (e) {
+      Toast.fire({
+        icon: "error",
+        title: e.message,
+      })
+    }
+  }
   return (
     <main className="py-10 relative flex flex-col justify-center items-center px-5 md:px-20 transition duration-1000 text-gray-900 dark:text-gray-100 bg-gray-100 dark:bg-gray-900 flex-grow">
       <div className="flex flex-col gap-3 w-full" style={{ maxWidth: "330px" }}>
@@ -105,6 +129,20 @@ const LogIn = (props) => {
           Sign up.
         </Link>
       </p>
+      <div
+        className="py-2 w-full flex flex-col items-center"
+        style={{ maxWidth: "330px" }}
+      >
+        <hr className="w-full mb-4" />
+        <GoogleLogin
+          className="w-full flex justify-center"
+          clientId="882777434849-bt8b0ir8d36unblj1gcsuf6glt1l0k11.apps.googleusercontent.com"
+          buttonText="Log In with Google"
+          onSuccess={responseGoogle}
+          onFailure={responseGoogle}
+          cookiePolicy={"single_host_origin"}
+        />
+      </div>
     </main>
   )
 }

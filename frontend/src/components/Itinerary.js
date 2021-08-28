@@ -8,8 +8,21 @@ import {
 import { default as HeartIconSolid } from "@heroicons/react/solid/HeartIcon"
 import React, { useState, useEffect } from "react"
 import Comments from "./Comments"
+import { connect } from "react-redux"
+import Swal from "sweetalert2"
+import withReactContent from "sweetalert2-react-content"
+import itinerariesActions from "../redux/actions/itinerariesActions"
 
-const Itinerary = ({ itinerary }) => {
+const MySwal = withReactContent(Swal)
+const Toast = MySwal.mixin({
+  toast: true,
+  position: "bottom",
+  showConfirmButton: false,
+  timer: 3000,
+  showCloseButton: true,
+})
+
+const Itinerary = ({ itinerary, user, addLike, removeLike }) => {
   const [visible, setVisible] = useState(false)
   const [ix, setIx] = useState(0)
   useEffect(() => {
@@ -24,6 +37,22 @@ const Itinerary = ({ itinerary }) => {
     }
     // eslint-disable-next-line
   }, [ix])
+  const likesHandler = async () => {
+    if (!user) {
+      Toast.fire({
+        title: "You have to be logged in to like an itinerary!",
+        icon: "warning",
+      })
+      return false
+    }
+    if (itinerary.likes.includes(user._id)) {
+      const res = await removeLike(itinerary._id, user._id)
+      console.log(res)
+    } else {
+      const res = await addLike(itinerary._id, user._id)
+      console.log(res)
+    }
+  }
   return (
     <div className="dark:bg-gray-800 bg-white w-full rounded text-gray-900 dark:text-gray-200">
       <div className="flex flex-col-reverse md:flex-row">
@@ -50,15 +79,18 @@ const Itinerary = ({ itinerary }) => {
                   ))}
               </span>
             </span>
-            <span className="flex items-center gap-1">
+            <span
+              onClick={likesHandler}
+              className="cursor-pointer flex items-center gap-1"
+            >
               {/* Change true to like-user condition */}
-              {true ? (
+              {!user || !itinerary.likes.includes(user._id) ? (
                 <HearIconOutline className="inline-block h-6 w-6 text-red-500" />
               ) : (
                 <HeartIconSolid className="inline-block h-6 w-6 text-red-500" />
               )}
 
-              {itinerary.likes}
+              {itinerary.likes.length}
             </span>
           </div>
           <div className="flex flex-wrap justify-center gap-3 text-sm italic font-thin text-gray-700 dark:text-gray-300">
@@ -118,4 +150,15 @@ const Author = ({ author }) => {
   )
 }
 
-export default Itinerary
+const mapStateToProps = (state) => {
+  return {
+    user: state.users.user,
+  }
+}
+
+const mapDispatchToProps = {
+  addLike: itinerariesActions.addLike,
+  removeLike: itinerariesActions.removeLike,
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Itinerary)

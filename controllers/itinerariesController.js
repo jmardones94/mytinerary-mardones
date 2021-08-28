@@ -74,6 +74,32 @@ const itinerariesController = {
       })
     }
   },
+  addLike: async (req, res) => {
+    try {
+      const { itineraryId } = req.body
+      const itinerary = await Itinerary.findOneAndUpdate(
+        { _id: itineraryId },
+        { $addToSet: { likes: req.user._id } },
+        { new: true }
+      )
+      res.json({ success: true, response: itinerary, error: null })
+    } catch (e) {
+      res.json({ success: false, response: null, error: e.message })
+    }
+  },
+  removeLike: async (req, res) => {
+    try {
+      const { itineraryId } = req.body
+      const itinerary = await Itinerary.findOneAndUpdate(
+        { _id: itineraryId },
+        { $pull: { likes: req.user._id } },
+        { new: true }
+      )
+      res.json({ success: true, response: itinerary, error: null })
+    } catch (e) {
+      res.json({ success: false, response: null, error: e.message })
+    }
+  },
 }
 
 module.exports = itinerariesController

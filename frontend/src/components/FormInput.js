@@ -9,7 +9,7 @@ const FormInput = ({
   keyDownHandler,
 }) => {
   return (
-    <div className="flex justify-between items-center w-full">
+    <div className="flex justify-between gap-4 items-center w-full">
       <label className="font-medium" htmlFor={name}>
         {label}
       </label>

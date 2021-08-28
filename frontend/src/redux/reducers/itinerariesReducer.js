@@ -5,6 +5,27 @@ const itinerariesReducer = (state = { itineraries: [] }, action) => {
         ...state,
         itineraries: [...state.itineraries, ...action.payload],
       }
+    case "ADD_LIKE":
+      return {
+        ...state,
+        itineraries: state.itineraries.map((i) =>
+          i._id === action.payload.itinerary._id
+            ? { ...i, likes: action.payload.itinerary.likes }
+            : i
+        ),
+      }
+    case "REMOVE_LIKE":
+      return {
+        ...state,
+        itineraries: state.itineraries.map((i) =>
+          i._id === action.payload.itinerary._id
+            ? {
+                ...i,
+                likes: action.payload.itinerary.likes,
+              }
+            : i
+        ),
+      }
     default:
       return state
   }

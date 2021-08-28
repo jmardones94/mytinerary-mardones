@@ -7,7 +7,8 @@ const key = "$2a$10$6IErsP3d/sZXb.WLiMy6veaPhl5Y57lhfV4aGGpqFMskFAJnkOwKq"
 
 const usersController = {
   createUser: async (req, res) => {
-    const { firstName, lastName, email, password, photoURL, country } = req.body
+    const { firstName, lastName, email, password, photoURL, country, google } =
+      req.body
     try {
       const alreadyExist = await User.findOne({ email: email })
       if (alreadyExist) throw new Error("Email in use.")
@@ -19,6 +20,7 @@ const usersController = {
         password: hashedPassword,
         photoURL,
         country,
+        google,
       })
       const user = await newUser.save()
       res.json({
@@ -30,6 +32,7 @@ const usersController = {
           photoURL,
           country,
           admin: false,
+          _id: user._id,
           token: jwt.sign({ ...user }, process.env.SECRETORKEY),
         },
         error: null,
@@ -39,10 +42,14 @@ const usersController = {
     }
   },
   logIn: async (req, res) => {
-    const { email, password } = req.body
+    const { email, password, flagGoogle } = req.body
     try {
       const user = await User.findOne({ email: email })
       if (!user) throw new Error("Invalid credentials.")
+      if (user.google && !flagGoogle)
+        throw new Error(
+          "You have a google account registered, please log in with them."
+        )
       const isValidPassword = await bcryptjs.compare(password, user.password)
       if (!isValidPassword) throw new Error("Invalid credentials.")
       const { firstName, lastName, photoURL, country, admin } = user
@@ -56,6 +63,7 @@ const usersController = {
           country,
           admin,
           token: jwt.sign({ ...user }, process.env.SECRETORKEY),
+          _id: user._id,
         },
         error: null,
       })
@@ -126,10 +134,11 @@ const usersController = {
     }
   },
   tokenValidation: (req, res) => {
-    const { firstName, lastName, country, email, photoURL, admin } = req.user
+    const { firstName, lastName, country, email, photoURL, admin, _id } =
+      req.user
     res.json({
       success: true,
-      response: { firstName, lastName, country, email, photoURL, admin },
+      response: { firstName, lastName, country, email, photoURL, admin, _id },
       error: null,
     })
   },

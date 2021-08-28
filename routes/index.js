@@ -30,15 +30,29 @@ router
   .get(itinerariesController.getItinerariesByCityId)
 
 router
+  .route("/itinerary/like")
+  .put(
+    passport.authenticate("jwt", { session: false }),
+    itinerariesController.addLike
+  )
+router
+  .route("/itinerary/unlike")
+  .put(
+    passport.authenticate("jwt", { session: false }),
+    itinerariesController.removeLike
+  )
+
+router
   .route("/itinerary/:id")
   .get(itinerariesController.getItineraryById)
   .delete(itinerariesController.deleteItinerary)
   .put(itinerariesController.updateItinerary)
 
+// USER ROUTES
+
 router.route("/user/signup").post(validator, usersController.createUser)
 router.route("/user/login").post(usersController.logIn)
 
-// USER ROUTES
 router
   .route("/user")
   .delete(

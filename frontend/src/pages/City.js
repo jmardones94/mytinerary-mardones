@@ -99,7 +99,7 @@ const City = (props) => {
           }}
         ></div>
 
-        <div className="pt-10 md:px-5 text-lg text-justify tracking-normal leading-relaxed">
+        <div className="pt-10 md:px-5 text-lg text-justify tracking-normal leading-normal">
           {city.description}
         </div>
       </section>

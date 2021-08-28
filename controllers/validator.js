@@ -14,10 +14,9 @@ const validator = async (req, res, next) => {
       "any.required": "Email is required.",
       "string.email": "Invalid email.",
     }),
-    password: joi.string().min(3).max(16).required().messages({
+    password: joi.string().min(3).required().messages({
       "any.required": "Password is required.",
       "string.min": "Password must have at least 3 characters.",
-      "string.max": "Password must have at most 16 characters.",
     }),
     confirmPassword: joi
       .string()
@@ -33,6 +32,7 @@ const validator = async (req, res, next) => {
     country: joi.string().required().trim().messages({
       "any.required": "Country is required.",
     }),
+    google: joi.boolean().optional(),
   })
   try {
     await schema.validateAsync(req.body, {
@@ -40,6 +40,7 @@ const validator = async (req, res, next) => {
     })
     next()
   } catch (e) {
+    console.log(e.details)
     res.json({ success: false, errors: e.details })
   }
 }

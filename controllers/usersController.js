@@ -91,7 +91,7 @@ const usersController = {
     // work on validations later...
     const { firstName, lastName, email, password, photoURL, country } = req.body
     try {
-      const user = await User.findOne({ email: req.params.email })
+      const user = await User.findOne({ _id: req.params.id })
       let hashedNewPassword
       if (!user) throw new Error("Invalid id.")
       if (password) {

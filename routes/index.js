@@ -2,10 +2,12 @@ const express = require("express")
 const router = express.Router()
 const citiesController = require("../controllers/citiesController")
 const itinerariesController = require("../controllers/itinerariesController")
+const activitiesController = require("../controllers/activitiesController")
 const usersController = require("../controllers/usersController")
 const passport = require("passport")
 const validator = require("../controllers/validator")
 const isAdmin = require("../controllers/isAdmin")
+const commentsController = require("../controllers/commentsController")
 
 // CITIES ROUTES
 router
@@ -43,6 +45,32 @@ router
   )
 
 router
+  .route("/itinerary/comments/:itineraryId")
+  .get(commentsController.getComments)
+  .post(
+    passport.authenticate("jwt", { session: false }),
+    commentsController.addComment
+  )
+router
+  .route("/itinerary/comment/:commentId")
+  .put(
+    passport.authenticate("jwt", { session: false }),
+    commentsController.updateComment
+  )
+  .delete(commentsController.removeComment)
+
+router
+  .route("/itinerary/activity/:itineraryId") //
+  .get(activitiesController.getActivitiesByItineraryId)
+  .post(activitiesController.addActivity)
+
+router
+  .route("/activity/:id")
+  .get(activitiesController.getActivityById)
+  .put(activitiesController.updateActivity)
+  .delete(activitiesController.deleteActivity)
+
+router
   .route("/itinerary/:id")
   .get(itinerariesController.getItineraryById)
   .delete(itinerariesController.deleteItinerary)
@@ -54,7 +82,7 @@ router.route("/user/signup").post(validator, usersController.createUser)
 router.route("/user/login").post(usersController.logIn)
 
 router
-  .route("/user")
+  .route("/user/:id")
   .delete(
     passport.authenticate("jwt", { session: false }),
     usersController.deleteUser
@@ -79,4 +107,5 @@ router
     isAdmin,
     usersController.adminValidation
   )
+
 module.exports = router

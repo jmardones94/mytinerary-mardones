@@ -1,4 +1,7 @@
-const itinerariesReducer = (state = { itineraries: [] }, action) => {
+const itinerariesReducer = (
+  state = { itineraries: [], comments: [] },
+  action
+) => {
   switch (action.type) {
     case "GET_CITY_ITINERARIES":
       return {
@@ -25,6 +28,31 @@ const itinerariesReducer = (state = { itineraries: [] }, action) => {
               }
             : i
         ),
+      }
+    case "GET_COMMENTS":
+      return {
+        ...state,
+        comments: [...state.comments, ...action.payload],
+      }
+    case "ADD_COMMENT":
+      return {
+        ...state,
+        comments: [...state.comments, action.payload],
+      }
+    case "REMOVE_COMMENT":
+      return {
+        ...state,
+        comments: state.comments.filter((c) => c._id !== action.payload),
+      }
+    case "UPDATE_COMMENT":
+      return {
+        ...state,
+        comments: state.comments.map((c) => {
+          if (c._id === action.payload._id) {
+            return { ...c, content: action.payload.content }
+          }
+          return c
+        }),
       }
     default:
       return state

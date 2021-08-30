@@ -56,15 +56,15 @@ const NavUser = (props) => {
           leaveFrom="transform scale-100 opacity-100"
           leaveTo="transform scale-95 opacity-0"
         >
-          <Menu.Items className="flex flex-col gap-px absolute text-gray-900 bg-gray-200 dark:bg-gray-800 dark:text-white rounded-lg w-40 -left-32">
+          <Menu.Items className="flex flex-col gap-px absolute text-gray-900 bg-gray-200 dark:bg-gray-800 dark:text-white rounded w-40 mt-1 -left-28">
             {props.user ? (
               <>
                 {" "}
                 <Menu.Item>
                   {({ active }) => (
                     <Link
-                      className={`w-100 px-3 py-1 rounded-lg ${
-                        active && "bg-blue-300 dark:bg-gray-700"
+                      className={`w-100 px-3 py-1 rounded ${
+                        active && "bg-gray-400 dark:bg-gray-700"
                       }`}
                       to="/settings"
                     >
@@ -78,8 +78,8 @@ const NavUser = (props) => {
                 <Menu.Item onClick={handleLogOut}>
                   {({ active }) => (
                     <div
-                      className={`cursor-pointer w-100 px-3 py-1 rounded-lg ${
-                        active && "bg-blue-300 dark:bg-gray-700"
+                      className={`cursor-pointer w-100 px-3 py-1 rounded ${
+                        active && "bg-gray-400 dark:bg-gray-700"
                       }`}
                     >
                       <LogoutIcon className="w-6 h-6 inline-block mr-5" />
@@ -96,14 +96,14 @@ const NavUser = (props) => {
                 <Menu.Item>
                   {({ active }) => (
                     <Link
-                      className={`w-100 px-3 py-1 rounded-lg ${
-                        active && "bg-blue-300 dark:bg-gray-700"
+                      className={`w-100 px-3 py-1 rounded ${
+                        active && "bg-gray-400 dark:bg-gray-700"
                       }`}
-                      to="/signup"
+                      to="/login"
                     >
-                      <UserAddIcon className="w-6 h-6 inline-block mr-5" />
+                      <LoginIcon className="w-6 h-6 inline-block mr-5" />
                       <p className="font-medium inline-block text-center">
-                        Sign Up
+                        Log In
                       </p>
                     </Link>
                   )}
@@ -111,14 +111,14 @@ const NavUser = (props) => {
                 <Menu.Item>
                   {({ active }) => (
                     <Link
-                      className={`w-100 px-3 py-1 rounded-lg ${
-                        active && "bg-blue-300 dark:bg-gray-700"
+                      className={`w-100 px-3 py-1 rounded ${
+                        active && "bg-gray-400 dark:bg-gray-700"
                       }`}
-                      to="/login"
+                      to="/signup"
                     >
-                      <LoginIcon className="w-6 h-6 inline-block mr-5" />
+                      <UserAddIcon className="w-6 h-6 inline-block mr-5" />
                       <p className="font-medium inline-block text-center">
-                        Log In
+                        Sign Up
                       </p>
                     </Link>
                   )}

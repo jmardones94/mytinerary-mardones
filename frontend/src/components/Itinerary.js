@@ -9,9 +9,9 @@ import { default as HeartIconSolid } from "@heroicons/react/solid/HeartIcon"
 import React, { useState, useEffect } from "react"
 import Comments from "./Comments"
 import { connect } from "react-redux"
+import itinerariesActions from "../redux/actions/itinerariesActions"
 import Swal from "sweetalert2"
 import withReactContent from "sweetalert2-react-content"
-import itinerariesActions from "../redux/actions/itinerariesActions"
 
 const MySwal = withReactContent(Swal)
 const Toast = MySwal.mixin({
@@ -40,7 +40,7 @@ const Itinerary = ({ itinerary, user, addLike, removeLike }) => {
   const likesHandler = async () => {
     if (!user) {
       Toast.fire({
-        title: "You have to be logged in to like an itinerary!",
+        title: "You have to log in to like an itinerary!",
         icon: "warning",
       })
       return false
@@ -112,7 +112,7 @@ const Itinerary = ({ itinerary, user, addLike, removeLike }) => {
         </div>
       </div>
 
-      {visible && <Comments />}
+      {visible && <Comments itineraryId={itinerary._id} />}
       <button
         type="button"
         className="text-white font-medium tracking-wide text-center rounded-b w-full py-2 bg-gray-900 dark:bg-black relative"

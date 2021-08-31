@@ -23,7 +23,7 @@ const usersReducer = (
     case "SIGN_UP":
       return {
         ...state,
-        user: action.payload,
+        user: { ...action.payload, google: action.payload.google || false },
       }
     case "LOG_IN_LS":
       return {

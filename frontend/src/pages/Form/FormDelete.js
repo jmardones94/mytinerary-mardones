@@ -65,7 +65,7 @@ const FormDelete = (props) => {
         deleteAction()
       } else {
         Toast.fire({
-          title: "Cancelled. The city is safe :).",
+          title: "Cancelled.",
           icon: "error",
         })
       }

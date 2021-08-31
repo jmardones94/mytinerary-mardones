@@ -30,6 +30,7 @@ const City = (props) => {
   const { allItineraries, cities, getItineraries } = props
   const city =
     cities.find((city) => city._id === props.match.params.id) || false
+
   useEffect(() => {
     window.scrollTo(0, 0)
     const getData = async () => {
@@ -61,13 +62,15 @@ const City = (props) => {
     getData()
     // eslint-disable-next-line
   }, [])
+
   const cityItineraries = allItineraries.filter(
     (itinerary) => itinerary.cityId === props.match.params.id
   )
+
   if (loading) return <Loading />
   if (!city) return <CityNotFound />
   return (
-    <main className="px-5 flex-grow md:px-28 py-5 transition duration-1000 dark:bg-gray-900 bg-gray-100">
+    <main className="px-5 flex-grow md:px-10 lg:px-28 py-5 transition duration-1000 dark:bg-gray-900 bg-gray-100">
       <section className="text-gray-900 dark:text-gray-200 pb-10">
         <div className="flex flex-col md:flex-row justify-between py-3 items-center">
           <div className="flex gap-5 items-center">
@@ -120,7 +123,7 @@ const City = (props) => {
         <NoItinerariesFound />
       )}
 
-      <Link className="flex w-full justify-center m-3" to="/cities">
+      <Link className="flex w-full justify-center my-3" to="/cities">
         <button className="transform active:scale-95 text-center text-gray-100 px-6 py-3 w-60 bg-red-500 rounded">
           Back to Cities
         </button>

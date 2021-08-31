@@ -82,7 +82,7 @@ router.route("/user/signup").post(validator, usersController.createUser)
 router.route("/user/login").post(usersController.logIn)
 
 router
-  .route("/user/:id")
+  .route("/user")
   .delete(
     passport.authenticate("jwt", { session: false }),
     usersController.deleteUser

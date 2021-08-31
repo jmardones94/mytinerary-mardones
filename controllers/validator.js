@@ -40,7 +40,6 @@ const validator = async (req, res, next) => {
     })
     next()
   } catch (e) {
-    console.log(e.details)
     res.json({ success: false, errors: e.details })
   }
 }

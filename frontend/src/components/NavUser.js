@@ -64,7 +64,7 @@ const NavUser = (props) => {
                   {({ active }) => (
                     <Link
                       className={`w-100 px-3 py-1 rounded ${
-                        active && "bg-gray-400 dark:bg-gray-700"
+                        active && "bg-gray-300 dark:bg-gray-700"
                       }`}
                       to="/settings"
                     >
@@ -79,7 +79,7 @@ const NavUser = (props) => {
                   {({ active }) => (
                     <div
                       className={`cursor-pointer w-100 px-3 py-1 rounded ${
-                        active && "bg-gray-400 dark:bg-gray-700"
+                        active && "bg-gray-300 dark:bg-gray-700"
                       }`}
                     >
                       <LogoutIcon className="w-6 h-6 inline-block mr-5" />
@@ -97,7 +97,7 @@ const NavUser = (props) => {
                   {({ active }) => (
                     <Link
                       className={`w-100 px-3 py-1 rounded ${
-                        active && "bg-gray-400 dark:bg-gray-700"
+                        active && "bg-gray-300 dark:bg-gray-700"
                       }`}
                       to="/login"
                     >
@@ -112,7 +112,7 @@ const NavUser = (props) => {
                   {({ active }) => (
                     <Link
                       className={`w-100 px-3 py-1 rounded ${
-                        active && "bg-gray-400 dark:bg-gray-700"
+                        active && "bg-gray-300 dark:bg-gray-700"
                       }`}
                       to="/signup"
                     >

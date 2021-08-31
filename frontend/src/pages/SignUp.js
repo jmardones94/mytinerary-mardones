@@ -8,6 +8,7 @@ import { connect } from "react-redux"
 import GoogleLogin from "react-google-login"
 import Swal from "sweetalert2"
 import withReactContent from "sweetalert2-react-content"
+import { PhotographIcon } from "@heroicons/react/outline"
 
 const MySwal = withReactContent(Swal)
 const Toast = MySwal.mixin({
@@ -39,6 +40,7 @@ const SignUp = (props) => {
     photoURL: "",
     country: "",
   })
+  const [avatarSectionVisible, setAvatarSectionVisible] = useState(false)
 
   useEffect(() => {
     axios
@@ -52,6 +54,7 @@ const SignUp = (props) => {
       })
       .catch((e) => console.error(e.message))
   }, [])
+
   const inputHandler = (e) => {
     setData({
       ...data,
@@ -64,6 +67,7 @@ const SignUp = (props) => {
       handleSignUp()
     }
   }
+
   const handleSignUp = async () => {
     if (
       !(
@@ -85,34 +89,37 @@ const SignUp = (props) => {
         if (res.success) {
           await Toast.fire({
             icon: "success",
-            title: `Account created. Welcome to MyTinerary, ${res.response.firstName}!`,
+            title: `Account created. Welcome, ${res.response.firstName}!`,
           })
           return false
         } else {
-          setErrors({
-            firstName: res.error.find((e) => e.context.label === "firstName")
-              ?.message,
-            lastName: res.error.find((e) => e.context.label === "lastName")
-              ?.message,
-            email: res.error.find((e) => e.context.label === "email")?.message,
-            password: res.error.find((e) => e.context.label === "password")
-              ?.message,
-            confirmPassword: res.error.find(
-              (e) => e.context.label === "confirmPassword"
-            )?.message,
-            photoURL: res.error.find((e) => e.context.label === "photoURL")
-              ?.message,
-            country: res.error.find((e) => e.context.label === "countryURL")
-              ?.message,
-          })
-          console.log(res.error)
-          throw new Error(res.error)
+          if (Array.isArray(res.error)) {
+            setErrors({
+              firstName: res.error.find((e) => e.context.label === "firstName")
+                ?.message,
+              lastName: res.error.find((e) => e.context.label === "lastName")
+                ?.message,
+              email: res.error.find((e) => e.context.label === "email")
+                ?.message,
+              password: res.error.find((e) => e.context.label === "password")
+                ?.message,
+              confirmPassword: res.error.find(
+                (e) => e.context.label === "confirmPassword"
+              )?.message,
+              photoURL: res.error.find((e) => e.context.label === "photoURL")
+                ?.message,
+              country: res.error.find((e) => e.context.label === "countryURL")
+                ?.message,
+            })
+          } else {
+            throw new Error(res.error)
+          }
         }
       } catch (e) {
-        // Toast.fire({
-        //   icon: "error",
-        //   title: e.message,
-        // })
+        Toast.fire({
+          icon: "error",
+          title: e.message,
+        })
         console.log(e)
       }
     }
@@ -148,8 +155,24 @@ const SignUp = (props) => {
       })
     }
   }
+
+  const avatars = [
+    "https://i.imgur.com/OqloSPp.jpg",
+    "https://i.imgur.com/wWZHn3v.jpg",
+    "https://i.imgur.com/2TlFTKV.jpg",
+    "https://i.imgur.com/zeEQeRZ.jpg",
+    "https://i.imgur.com/O4rwcXT.jpg",
+    "https://i.imgur.com/guyrHyC.jpg",
+  ]
   return (
-    <main className="relative py-10 flex flex-col justify-center items-center px-5 md:px-20 transition duration-1000 text-gray-900 dark:text-gray-100 bg-gray-100 dark:bg-gray-900 flex-grow">
+    <main
+      onClick={(e) => {
+        if (!e.target.id.includes("avatar") && e.target.tagName !== "path") {
+          setAvatarSectionVisible(false)
+        }
+      }}
+      className="relative py-10 flex flex-col justify-center items-center px-5 md:px-20 transition duration-1000 text-gray-900 dark:text-gray-100 bg-gray-100 dark:bg-gray-900 flex-grow"
+    >
       <h2 className="font-medium text-xl md:text-3xl mb-8">
         Create your <span className="font-silt tracking-wide">MyTinerary</span>{" "}
         account
@@ -219,7 +242,7 @@ const SignUp = (props) => {
             inputHandler={inputHandler}
             keyDownHandler={keyDownHandler}
             required={true}
-            placeholder="A really long and s3cure password!"
+            placeholder="Secure password"
           />
           <ErrorMessage content={errors.password} />
           <FormInput
@@ -230,23 +253,53 @@ const SignUp = (props) => {
             inputHandler={inputHandler}
             keyDownHandler={keyDownHandler}
             required={true}
-            placeholder="A really long and s3cure password!"
+            placeholder="Secure password"
           />
           <ErrorMessage content={errors.confirmPassword} />
-          <FormInput
-            name="photoURL"
-            type="text"
-            label="Photo URL"
-            value={data.photoURL}
-            inputHandler={inputHandler}
-            keyDownHandler={keyDownHandler}
-            required={true}
-            placeholder="https://example.com/your_photo.jpg"
-          />
+          <div className="relative flex">
+            <FormInput
+              name="photoURL"
+              type="text"
+              label="Photo URL"
+              value={data.photoURL}
+              inputHandler={inputHandler}
+              keyDownHandler={keyDownHandler}
+              required={true}
+              placeholder="Or choose an avatar! →"
+            />
+            <PhotographIcon
+              id="avatar-visibility-toggle"
+              onClick={() => setAvatarSectionVisible(!avatarSectionVisible)}
+              className="z-50 cursor-pointer absolute transition duration-1000 text-gray-900 bg-gray-100 dark:text-gray-100 dark:bg-gray-900 -right-7 h-full rounded"
+            />
+            {avatarSectionVisible && (
+              <div className="z-40 py-2 absolute w-full justify-center -right-3 bottom-0 rounded bg-white flex gap-2 flex-wrap">
+                {avatars.map((avatar, i) => (
+                  <div
+                    key={avatar}
+                    onClick={() => {
+                      setAvatarSectionVisible(false)
+                      setData({
+                        ...data,
+                        photoURL: avatar,
+                      })
+                    }}
+                    id={`avatar${i + 1}`}
+                    className="cursor-pointer w-24 h-24 rounded-full"
+                    style={{
+                      backgroundImage: `url("${avatar}")`,
+                      backgroundSize: "cover",
+                      backgroundPosition: "center",
+                    }}
+                  ></div>
+                ))}
+              </div>
+            )}
+          </div>
           <ErrorMessage content={errors.photoURL} />
           <div className="flex justify-between items-center w-100">
             <label className="font-medium">Country</label>
-            <div className="w-48 z-50">
+            <div className="w-48 z-30">
               <FormSelect
                 data={countries}
                 selected={selectedCountry}

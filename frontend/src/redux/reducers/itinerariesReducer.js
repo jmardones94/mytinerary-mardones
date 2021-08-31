@@ -1,5 +1,5 @@
 const itinerariesReducer = (
-  state = { itineraries: [], comments: [] },
+  state = { itineraries: [], comments: [], activities: [] },
   action
 ) => {
   switch (action.type) {
@@ -53,6 +53,11 @@ const itinerariesReducer = (
           }
           return c
         }),
+      }
+    case "GET_ACTIVITIES":
+      return {
+        ...state,
+        activities: [...state.activities, ...action.payload],
       }
     default:
       return state

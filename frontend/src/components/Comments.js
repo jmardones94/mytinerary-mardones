@@ -30,6 +30,7 @@ const Comments = ({
   const comments = allComments.filter((c) => c.itineraryId === itineraryId)
   const [inputContent, setInputContent] = useState("")
   const [loading, setLoading] = useState(true)
+  // const [isButtonDisabled, setIsButtonDisabled] = useState(false)
 
   useEffect(() => {
     const getData = async () => {
@@ -48,6 +49,7 @@ const Comments = ({
   }, [getComments, itineraryId])
 
   const addCommentHandler = async () => {
+    setInputContent("")
     if (!inputContent) return false
     try {
       const res = await addComment(itineraryId, inputContent)
@@ -55,19 +57,24 @@ const Comments = ({
     } catch (e) {
       console.error(e.message)
     }
-    setInputContent("")
   }
+  const keyDownHandler = (e) => {
+    if (e.key === "Enter") {
+      addCommentHandler()
+    }
+  }
+
   if (loading) return <Loading className="bg-gray-800 transform scale-50" />
   return (
-    <div className="flex flex-col-reverse md:flex-row">
-      <div className="flex flex-col w-full md:w-3/5 rounded justify-between">
-        <div
-          className={` min-h-28 min-w-full h-1/2s overflow-auto px-2 rounded flex flex-col gap-4`}
-        >
-          <p className="text-center">
-            This is the comments section. Currently under construction.
-          </p>
-          {comments.map((comment) => (
+    <div className="flex flex-col md:px-20 w-full rounded justify-between pt-10">
+      <div
+        className={`min-h-64 min-w-full max-h-1/2s overflow-auto px-2 rounded flex flex-col gap-4`}
+      >
+        <h3 className="comments text-center text-xl font-semibold mb-5">
+          Comments
+        </h3>
+        {comments.length ? (
+          comments.map((comment) => (
             <Comment
               key={comment._id}
               user={user}
@@ -75,31 +82,33 @@ const Comments = ({
               editComment={editComment}
               removeComment={removeComment}
             />
-          ))}
-        </div>
-        <div className="flex gap-2 items-center justify-center w-full py-2">
-          <input
-            type="text"
-            className="w-1/2 rounded h-full flex-grow py-2 px-3 text-gray-900 focus:outline-none"
-            value={inputContent}
-            onChange={(e) => setInputContent(e.target.value)}
-            placeholder={`${
-              user === false ? "Log in to leave a comment." : "Leave a comment."
-            }`}
-            disabled={user === false}
-          />
-          <button
-            className="px-3 py-1 h-full bg-black text-gray-100 rounded"
-            onClick={addCommentHandler}
-            type="button"
-          >
-            <PaperAirplaneIcon className="h-5 w-5 transform rotate-90" />
-          </button>
-        </div>
+          ))
+        ) : (
+          <p className="w-full text-center text-lg self-center mt-16">
+            There's no comments yet. Be the first!
+          </p>
+        )}
       </div>
-
-      <div className={`w-full min-h-1/2s md:w-2/5 flex-grow px-5`}>
-        Aquí adentro van las fotos de las actividades.
+      <div className="flex gap-2 items-center justify-center w-full p-2">
+        <input
+          type="text"
+          className="w-1/2 border border-gray-300 dark:border-transparent rounded h-10 flex-grow py-2 px-3 text-gray-900 focus:outline-none"
+          value={inputContent}
+          onChange={(e) => setInputContent(e.target.value)}
+          placeholder={`${
+            user === false ? "Log in to leave a comment." : "Leave a comment."
+          }`}
+          disabled={user === false}
+          onKeyDown={keyDownHandler}
+        />
+        <button
+          className="px-3 h-10 py-1 bg-black text-gray-100 rounded"
+          onClick={addCommentHandler}
+          type="button"
+          title="Post comment"
+        >
+          <PaperAirplaneIcon className="h-5 w-5 transform rotate-90" />
+        </button>
       </div>
     </div>
   )
@@ -141,8 +150,12 @@ const Comment = ({ comment, user, editComment, removeComment }) => {
           <div className="w-full mx-2">
             <textarea
               autoFocus
+              onFocus={(e) => {
+                e.target.value = ""
+                e.target.value = editContent
+              }}
               type="text"
-              className="text-gray-900 w-full focus:outline-none px-4 h-20 overflow-auto rounded m-1 resize-none"
+              className=" border border-gray-300 dark:border-transparent text-gray-900 w-full focus:outline-none px-4 h-20 overflow-auto rounded m-1 resize-none"
               value={editContent}
               onChange={(e) => setEditContent(e.target.value)}
             />
@@ -171,15 +184,21 @@ const Comment = ({ comment, user, editComment, removeComment }) => {
         {user?._id === comment.userId._id && (
           <div className="flex gap-px pt-1">
             {!editMode && (
-              <PencilAltIcon
+              <button
+                className="w-5 h-5 inline-block"
+                title="Edit comment"
                 onClick={() => setEditMode(!editMode)}
-                className="cursor-pointer w-5 h-5 inline-block"
-              />
+                type="button"
+              >
+                <PencilAltIcon className="cursor-pointer w-5 h-5 inline-block" />
+              </button>
             )}
-            <TrashIcon
+            <button
+              title="Delete comment"
               onClick={() => removeComment(comment._id)}
-              className="cursor-pointer w-5 h-5 inline-block"
-            />
+            >
+              <TrashIcon className="cursor-pointer w-5 h-5 inline-block" />
+            </button>
           </div>
         )}
       </div>
@@ -189,7 +208,7 @@ const Comment = ({ comment, user, editComment, removeComment }) => {
 
 const Loading = () => {
   return (
-    <div className="px-5 h-1/2s flex items-center justify-center flex-grow md:px-28 py-5 transition duration-1000 dark:bg-gray-800 bg-gray-100">
+    <div className="px-5 h-1/2s flex items-center justify-center flex-grow py-5 transition duration-1000 dark:bg-gray-800 bg-white">
       <h1 className="flex gap-px text-center text-2xl dark:text-gray-100">
         <span className="animate-bounce">L</span>
         <span className="animate-bounce animation-delay-100">o</span>

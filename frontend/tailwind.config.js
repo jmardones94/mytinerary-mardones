@@ -562,6 +562,7 @@ module.exports = {
       ...theme("spacing"),
       full: "100%",
       screen: "100vh",
+      "1/2s": "50vh",
     }),
     maxWidth: (theme, { breakpoints }) => ({
       none: "none",

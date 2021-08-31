@@ -34,6 +34,7 @@ const usersController = {
           admin: false,
           _id: user._id,
           token: jwt.sign({ ...user }, process.env.SECRETORKEY),
+          google,
         },
         error: null,
       })
@@ -52,7 +53,7 @@ const usersController = {
         )
       const isValidPassword = await bcryptjs.compare(password, user.password)
       if (!isValidPassword) throw new Error("Invalid credentials.")
-      const { firstName, lastName, photoURL, country, admin } = user
+      const { firstName, lastName, photoURL, country, admin, google } = user
       res.json({
         success: true,
         response: {
@@ -64,6 +65,7 @@ const usersController = {
           admin,
           token: jwt.sign({ ...user }, process.env.SECRETORKEY),
           _id: user._id,
+          google,
         },
         error: null,
       })
@@ -73,15 +75,20 @@ const usersController = {
   },
   deleteUser: async (req, res) => {
     try {
-      const isValidPassword = await bcryptjs.compare(
-        req.body.password,
-        req.user.password
-      )
-      if (isValidPassword) {
+      if (req.user.google) {
         await User.findOneAndDelete({ _id: req.user._id })
         res.json({ success: true, response: "User deleted.", error: null })
       } else {
-        throw new Error("Invalid password.")
+        const isValidPassword = await bcryptjs.compare(
+          req.body.password,
+          req.user.password
+        )
+        if (isValidPassword) {
+          await User.findOneAndDelete({ _id: req.user._id })
+          res.json({ success: true, response: "User deleted.", error: null })
+        } else {
+          throw new Error("Invalid password.")
+        }
       }
     } catch (e) {
       res.json({ success: false, response: null, error: e.message })
@@ -91,7 +98,7 @@ const usersController = {
     // work on validations later...
     const { firstName, lastName, email, password, photoURL, country } = req.body
     try {
-      const user = await User.findOne({ _id: req.params.id })
+      const user = await User.findOne({ _id: req.user._id })
       let hashedNewPassword
       if (!user) throw new Error("Invalid id.")
       if (password) {
@@ -102,7 +109,7 @@ const usersController = {
         if (newEmailInUse) throw new Error("Email already in use.")
       }
       const newData = await User.findOneAndUpdate(
-        { _id: req.params.id },
+        { _id: req.user._id },
         {
           firstName: firstName || user.firstName,
           lastName: lastName || user.lastName,
@@ -134,11 +141,28 @@ const usersController = {
     }
   },
   tokenValidation: (req, res) => {
-    const { firstName, lastName, country, email, photoURL, admin, _id } =
-      req.user
+    const {
+      google,
+      firstName,
+      lastName,
+      country,
+      email,
+      photoURL,
+      admin,
+      _id,
+    } = req.user
     res.json({
       success: true,
-      response: { firstName, lastName, country, email, photoURL, admin, _id },
+      response: {
+        firstName,
+        lastName,
+        country,
+        email,
+        photoURL,
+        admin,
+        _id,
+        google,
+      },
       error: null,
     })
   },

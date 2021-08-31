@@ -11,7 +11,6 @@ const usersActions = {
         if (res.data.success) {
           localStorage.setItem("token", res.data.response.token)
           dispatch({ type: "LOG_IN", payload: res.data.response })
-          console.log(getState().users)
           return {
             success: true,
             response: `Welcome, ${res.data.response.firstName}`,
@@ -42,13 +41,10 @@ const usersActions = {
           dispatch({ type: "SIGN_UP", payload: res.data.response })
           return { success: true, response: res.data.response, error: null }
         } else {
-          console.log(res.data)
           return {
             success: false,
             response: null,
-            error: res.data.errors,
-            // .map((e) => e.message)
-            // .reduce((a, b) => a + " " + b),
+            error: res.data.errors || res.data.error,
           }
         }
       } catch (e) {
@@ -124,6 +120,7 @@ const usersActions = {
           headers: { Authorization: `Bearer ${token}` },
           data: { password },
         })
+        console.log(res.data)
         if (res.data.success) {
           dispatch({ type: "LOG_OUT" })
           return { success: true, error: null }

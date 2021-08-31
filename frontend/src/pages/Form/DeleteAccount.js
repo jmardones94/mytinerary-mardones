@@ -16,8 +16,42 @@ const Toast = MySwal.mixin({
 
 const DeleteAccount = (props) => {
   const [password, setPassword] = useState("")
+
+  const confirmDelete = () => {
+    MySwal.fire({
+      title: "Are you sure?",
+      html: "<p class='dark:text-gray-200'>Your account will be permanent removed from our database.</p>",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "Yes, delete it!",
+      cancelButtonText: "No, cancel!",
+      reverseButtons: true,
+      customClass: {
+        confirmButton: "bg-red-600 px-6 py-2 rounded mx-2 text-gray-200",
+        cancelButton: "bg-green-600 px-6 py-2 rounded mx-2 text-gray-200",
+        title: "dark:text-gray-200",
+        text: "dark:text-gray-200",
+      },
+      iconColor: "#FBBF24",
+      background: `${
+        window.document.documentElement.classList.contains("dark") && "#1F2937"
+      }`,
+      buttonsStyling: false,
+    }).then((result) => {
+      if (result.isConfirmed) {
+        deleteHandler()
+      } else {
+        Toast.fire({
+          title: "Cancelled.",
+          icon: "error",
+        })
+      }
+    })
+  }
+
   const deleteHandler = async () => {
     const res = await props.deleteAccount(password)
+    console.log(res)
     if (res.success) {
       Toast.fire({
         icon: "success",
@@ -30,6 +64,7 @@ const DeleteAccount = (props) => {
       })
     }
   }
+  console.log(props.user)
   return (
     <div className="flex flex-col gap-5 flex-grow items-center justify-center">
       <h1 className="text-2xl font-medium">
@@ -39,18 +74,21 @@ const DeleteAccount = (props) => {
       <div className="flex flex-col items-center gap-5">
         <p>
           To <span className="underline">permanently</span> delete your account,
-          please enter your password and click delete.
+          {!props.user?.google && " please enter your password,"} click delete
+          and confirm.
         </p>
         <div className="flex flex-col w-60 justify-center items-center gap-2">
-          <input
-            className="text-gray-900 text-center rounded w-full px-2 py-1"
-            type="password"
-            placeholder="Enter your password"
-            onChange={(e) => setPassword(e.target.value)}
-            value={password}
-          ></input>
+          {!props.user?.google && (
+            <input
+              className="text-gray-900 text-center rounded w-full px-2 py-1 focus:outline-none focus:scale-102 transform"
+              type="password"
+              placeholder="Enter your password"
+              onChange={(e) => setPassword(e.target.value)}
+              value={password}
+            />
+          )}
           <button
-            onClick={deleteHandler}
+            onClick={confirmDelete}
             className="rounded px-5 py-2 w-full bg-red-500 text-gray-100"
           >
             Delete account
@@ -61,8 +99,14 @@ const DeleteAccount = (props) => {
   )
 }
 
+const mapStateToProps = (state) => {
+  return {
+    user: state.users.user,
+  }
+}
+
 const mapDispatchToProps = {
   deleteAccount: usersActions.deleteAccount,
 }
 
-export default connect(null, mapDispatchToProps)(DeleteAccount)
+export default connect(mapStateToProps, mapDispatchToProps)(DeleteAccount)

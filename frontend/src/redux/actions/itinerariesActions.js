@@ -150,6 +150,23 @@ const itinerariesActions = {
       }
     }
   },
+  getActivities: (itineraryId) => {
+    return async (dispatch, getState) => {
+      try {
+        const res = await axios.get(
+          `http://localhost:4000/api/itinerary/activity/${itineraryId}`
+        )
+        if (res.data.success) {
+          dispatch({ type: "GET_ACTIVITIES", payload: res.data.response })
+          return { success: true, error: null }
+        } else {
+          throw new Error(res.data.error)
+        }
+      } catch (e) {
+        return { success: false, error: e.message }
+      }
+    }
+  },
 }
 
 export default itinerariesActions

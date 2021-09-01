@@ -1,14 +1,14 @@
 import { Link } from "react-router-dom"
 import { useEffect, useState } from "react"
 import FormInput from "../components/FormInput"
-import FormSelect from "./Form/FormSelect"
+import FormSelect from "./Settings/FormSelect"
 import axios from "axios"
 import usersActions from "../redux/actions/usersActions"
 import { connect } from "react-redux"
 import GoogleLogin from "react-google-login"
+import { PhotographIcon } from "@heroicons/react/outline"
 import Swal from "sweetalert2"
 import withReactContent from "sweetalert2-react-content"
-import { PhotographIcon } from "@heroicons/react/outline"
 
 const MySwal = withReactContent(Swal)
 const Toast = MySwal.mixin({
@@ -182,10 +182,8 @@ const SignUp = (props) => {
           className="py-2 w-full flex flex-col mt-4 items-center"
           style={{ maxWidth: "340px" }}
         >
-          {/* <hr className="w-4/5 mb-4 mt-1" /> */}
           <GoogleLogin
             className="w-full flex justify-center font-ui"
-            // style={{ fontFamily: "system-ui" }}
             clientId="882777434849-bt8b0ir8d36unblj1gcsuf6glt1l0k11.apps.googleusercontent.com"
             buttonText="Sign up with Google"
             onSuccess={responseGoogle}

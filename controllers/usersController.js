@@ -95,16 +95,31 @@ const usersController = {
     }
   },
   updateUser: async (req, res) => {
-    // work on validations later...
-    const { firstName, lastName, email, password, photoURL, country } = req.body
+    const {
+      firstName,
+      lastName,
+      email,
+      password,
+      confirmPassword,
+      oldPassword,
+      photoURL,
+      country,
+    } = req.body
     try {
       const user = await User.findOne({ _id: req.user._id })
-      let hashedNewPassword
       if (!user) throw new Error("Invalid id.")
+      let isValidOldPassword = false
+      if (oldPassword) {
+        isValidOldPassword = await bcryptjs.compare(oldPassword, user.password)
+        if (!isValidOldPassword) throw new Error("Invalid old password.")
+      }
+      let hashedNewPassword
       if (password) {
+        if (password !== confirmPassword)
+          throw new Error("Failed to confirm new password.")
         hashedNewPassword = await bcryptjs.hash(password, 10)
       }
-      if (email) {
+      if (email && email !== req.user.email) {
         const newEmailInUse = await User.findOne({ email: email })
         if (newEmailInUse) throw new Error("Email already in use.")
       }
@@ -120,7 +135,21 @@ const usersController = {
         },
         { new: true }
       )
-      res.json({ success: true, response: newData, error: null })
+      res.json({
+        success: true,
+        response: {
+          firstName: newData.firstName,
+          lastName: newData.lastName,
+          email: newData.email,
+          photoURL: newData.photoURL,
+          country: newData.country,
+          admin: newData.admin,
+          _id: newData._id,
+          token: jwt.sign({ ...newData }, process.env.SECRETORKEY),
+          google: newData.google,
+        },
+        error: null,
+      })
     } catch (e) {
       res.json({ success: false, response: null, error: e.message })
     }

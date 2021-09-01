@@ -28,15 +28,6 @@ const Itinerary = ({ itinerary, user, addLike, removeLike }) => {
   useEffect(() => {
     window.scrollTo(0, 0)
   }, [])
-  // useEffect(() => {
-  //   const interval = setTimeout(() => {
-  //     setIx((ix + 1) % itinerary.photos.length)
-  //   }, 5000)
-  //   return () => {
-  //     clearTimeout(interval)
-  //   }
-  //   // eslint-disable-next-line
-  // }, [ix])
   const likesHandler = async () => {
     if (!user) {
       Toast.fire({
@@ -45,18 +36,24 @@ const Itinerary = ({ itinerary, user, addLike, removeLike }) => {
       })
       return false
     }
+    let res
     if (itinerary.likes.includes(user._id)) {
-      // eslint-disable-next-line
-      const res = await removeLike(itinerary._id, user._id)
-      // validate
+      res = await removeLike(itinerary._id, user._id)
     } else {
-      // eslint-disable-next-line
-      const res = await addLike(itinerary._id, user._id)
-      // validate
+      res = await addLike(itinerary._id, user._id)
+    }
+    if (res.error) {
+      Toast.fire({
+        title: "We couldn't process that action ☹ try again later.",
+        icon: "error",
+      })
     }
   }
   return (
-    <div className="dark:bg-gray-800 bg-white w-full rounded text-gray-900 dark:text-gray-200">
+    <div
+      id={itinerary._id}
+      className="dark:bg-gray-800 bg-white w-full rounded text-gray-900 dark:text-gray-200"
+    >
       <div className="flex flex-col-reverse md:flex-row">
         <div className="flex flex-col min-h-full w-full md:w-3/5 px-6 md:px-8 lg:px-10 py-2 md:py-5">
           <h2 className="pb-3 text-xl font-medium">

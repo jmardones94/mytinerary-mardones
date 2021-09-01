@@ -100,6 +100,16 @@ const itinerariesController = {
       res.json({ success: false, response: null, error: e.message })
     }
   },
+  getUserFavorites: async (req, res) => {
+    console.log(req.user)
+    try {
+      const { _id } = req.user
+      const itineraries = await Itinerary.find({ likes: _id })
+      res.json({ success: true, response: itineraries, error: null })
+    } catch (e) {
+      res.json({ success: false, response: null, error: e.message })
+    }
+  },
 }
 
 module.exports = itinerariesController

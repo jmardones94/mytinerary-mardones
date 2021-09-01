@@ -1,8 +1,11 @@
 import React, { useState } from "react"
 import { connect } from "react-redux"
 import usersActions from "../redux/actions/usersActions"
-import DeleteAccount from "./Form/DeleteAccount"
-import Form from "./Form/Form"
+import settingsActions from "../redux/actions/settingsActions"
+import DeleteAccount from "./Settings/DeleteAccount"
+import Form from "./Settings/Form"
+import Favorites from "./Settings/Favorites"
+import Profile from "./Settings/Profile"
 
 const Settings = (props) => {
   const [settingsSection, setSettingsSection] = useState("profile")
@@ -53,7 +56,7 @@ const Settings = (props) => {
           Delete account
         </button>
       </div>
-      <div className="w-full h-full flex items-center justify-center py-5 md:w-3/5">
+      <div className="w-full h-full flex items-center justify-center md:w-3/5">
         <SettingsSection section={settingsSection} />
       </div>
     </main>
@@ -63,13 +66,11 @@ const Settings = (props) => {
 const SettingsSection = ({ section }) => {
   switch (section) {
     case "profile":
-      return <p>This is the profile section</p>
+      return <Profile />
     case "mytineraries":
       return <p>This is the mytineraries section</p>
     case "favorites":
-      return <p>This is the favorites section</p>
-    case "security":
-      return <p>This is the security section</p>
+      return <Favorites />
     case "admin-panel":
       return <Form />
     case "delete":
@@ -80,11 +81,12 @@ const SettingsSection = ({ section }) => {
 }
 
 const mapStateToProps = (state) => {
-  return { user: state.users.user }
+  return { user: state.users.user, itinerariesState: state.itineraries }
 }
 
 const mapDispatchToProps = {
   logOut: usersActions.logOut,
+  getFavorites: settingsActions.getFavorites,
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Settings)

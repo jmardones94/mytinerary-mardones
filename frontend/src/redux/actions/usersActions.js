@@ -132,6 +132,23 @@ const usersActions = {
       }
     }
   },
+  updateUser: (data) => {
+    return async (dispatch, getState) => {
+      try {
+        const res = await axios.put("http://localhost:4000/api/user", data, {
+          headers: { Authorization: `Bearer ${getState().users.user.token}` },
+        })
+        if (res.data.success) {
+          dispatch({ type: "LOG_IN", payload: res.data.response })
+          return { success: true, error: null }
+        } else {
+          throw new Error(res.data.error)
+        }
+      } catch (e) {
+        return { success: false, error: e.message }
+      }
+    }
+  },
 }
 
 export default usersActions

@@ -28,6 +28,13 @@ router
   .post(itinerariesController.addItinerary)
 
 router
+  .route("/itineraries/user")
+  .get(
+    passport.authenticate("jwt", { session: false }),
+    itinerariesController.getUserFavorites
+  )
+
+router
   .route("/itineraries/:id")
   .get(itinerariesController.getItinerariesByCityId)
 

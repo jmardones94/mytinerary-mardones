@@ -104,7 +104,10 @@ const itinerariesActions = {
           }
         )
         if (res.data.success) {
-          dispatch({ type: "UPDATE_COMMENT", payload: res.data.response })
+          dispatch({
+            type: "UPDATE_COMMENT",
+            payload: res.data.response.find((c) => c._id === commentId),
+          })
           return { success: true, error: null }
         } else {
           throw new Error(res.data.error)
@@ -117,11 +120,12 @@ const itinerariesActions = {
       }
     }
   },
-  removeComment: (commentId) => {
+  removeComment: (commentId, itineraryId) => {
     return async (dispatch) => {
       try {
         const response = await axios.delete(
-          `http://localhost:4000/api/itinerary/comment/${commentId}`
+          `http://localhost:4000/api/itinerary/comment/${commentId}`,
+          { data: { itineraryId } }
         )
         if (response.data.success) {
           dispatch({ type: "REMOVE_COMMENT", payload: commentId })

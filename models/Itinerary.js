@@ -14,8 +14,9 @@ const itinerarySchema = new mongoose.Schema({
   likes: [{ type: mongoose.Types.ObjectId, ref: "user" }],
   comments: [
     {
-      uid: { type: mongoose.Types.ObjectId, ref: "user", required: true },
+      userId: { type: mongoose.Types.ObjectId, ref: "user", required: true },
       content: { type: String, required: true },
+      itineraryId: { type: String, required: true },
     },
   ],
   cityId: { type: mongoose.Types.ObjectId, ref: "city", required: true },

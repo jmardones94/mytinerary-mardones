@@ -1,46 +1,49 @@
-const Comment = require("../models/Comment")
+const Itinerary = require("../models/Itinerary")
 
 const commentsController = {
   addComment: async (req, res) => {
-    // Cuando pruebe con frontend, mandar token, pasar por passport y obtener uid de req.user.id
     try {
       const userId = req.user._id
       const itineraryId = req.params.itineraryId
       const content = req.body.content
-      const newComment = new Comment({
+      const newComment = {
         userId,
-        itineraryId,
         content,
+        itineraryId,
+      }
+      const updatedItinerary = await Itinerary.findOneAndUpdate(
+        { _id: itineraryId },
+        { $push: { comments: newComment } },
+        { new: true }
+      ).populate("comments.userId", 'firstName lastName photoURL _id email"')
+      const lastComment =
+        updatedItinerary.comments[updatedItinerary.comments.length - 1]
+      res.json({
+        success: true,
+        response: {
+          _id: lastComment._id,
+          itineraryId: updatedItinerary._id,
+          content: lastComment.content,
+          userId: lastComment.userId,
+        },
+        error: null,
       })
-      const comment = await newComment.save()
-      await Comment.populate(comment, "userId", (err, data) =>
-        res.json({
-          success: true,
-          response: {
-            _id: data._id,
-            userId: {
-              firstName: data.userId.firstName,
-              lastName: data.userId.lastName,
-              photoURL: data.userId.photoURL,
-              _id: data.userId._id,
-              email: data.userId.email,
-            },
-            itineraryId: data.itineraryId,
-            content: data.content,
-          },
-          error: null,
-        })
-      )
     } catch (e) {
       res.json({ success: false, response: null, error: e.message })
     }
   },
   removeComment: async (req, res) => {
     try {
-      const comment = await Comment.findOneAndDelete({
-        _id: req.params.commentId,
+      const removedComment = await Itinerary.findByIdAndUpdate(
+        { _id: req.body.itineraryId },
+        { $pull: { comments: { _id: req.params.commentId } } },
+        { new: true }
+      )
+      res.json({
+        success: true,
+        response: removedComment.comments[removedComment.comments.length - 1],
+        error: null,
       })
-      res.json({ success: true, response: comment, error: null })
     } catch (e) {
       res.json({ success: false, response: null, error: e.message })
     }
@@ -48,11 +51,11 @@ const commentsController = {
   getComments: async (req, res) => {
     try {
       const { itineraryId } = req.params
-      const comments = await Comment.find({ itineraryId }).populate(
-        "userId",
+      const itinerary = await Itinerary.findOne({ _id: itineraryId }).populate(
+        "comments.userId",
         "firstName lastName photoURL _id email"
       )
-      res.json({ success: true, response: comments, error: null })
+      res.json({ success: true, response: itinerary.comments, error: null })
     } catch (e) {
       res.json({ success: false, response: null, error: e.message })
     }
@@ -60,12 +63,12 @@ const commentsController = {
   updateComment: async (req, res) => {
     try {
       const { content } = req.body
-      const comment = await Comment.findOneAndUpdate(
-        { _id: req.params.commentId },
-        { content },
+      const itinerary = await Itinerary.findOneAndUpdate(
+        { "comments._id": req.params.commentId },
+        { $set: { "comments.$.content": content } },
         { new: true }
       )
-      res.json({ success: true, response: comment, error: null })
+      res.json({ success: true, response: itinerary.comments, error: null })
     } catch (e) {
       res.json({ success: false, response: null, error: e.message })
     }

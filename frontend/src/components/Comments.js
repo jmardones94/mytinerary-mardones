@@ -81,6 +81,7 @@ const Comments = ({
               comment={comment}
               editComment={editComment}
               removeComment={removeComment}
+              itineraryId={itineraryId}
             />
           ))
         ) : (
@@ -114,7 +115,13 @@ const Comments = ({
   )
 }
 
-const Comment = ({ comment, user, editComment, removeComment }) => {
+const Comment = ({
+  comment,
+  user,
+  itineraryId,
+  editComment,
+  removeComment,
+}) => {
   const [editContent, setEditContent] = useState(comment.content)
   const [editMode, setEditMode] = useState(false)
 
@@ -195,7 +202,7 @@ const Comment = ({ comment, user, editComment, removeComment }) => {
             )}
             <button
               title="Delete comment"
-              onClick={() => removeComment(comment._id)}
+              onClick={() => removeComment(comment._id, itineraryId)}
             >
               <TrashIcon className="cursor-pointer w-5 h-5 inline-block" />
             </button>

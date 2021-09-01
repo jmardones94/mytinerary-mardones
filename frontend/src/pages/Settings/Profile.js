@@ -1,16 +1,11 @@
-import {
-  PencilAltIcon,
-  PhotographIcon,
-  EyeIcon,
-  EyeOffIcon,
-} from "@heroicons/react/outline"
+import { PencilAltIcon, PhotographIcon } from "@heroicons/react/outline"
 import { useState } from "react"
 import { connect } from "react-redux"
 import usersActions from "../../redux/actions/usersActions"
 
 const Profile = ({ user, updateUser }) => {
   const [editMode, setEditMode] = useState(false)
-  const [isPasswordVisible, setIsPasswordVisible] = useState(false)
+
   const [data, setData] = useState({
     firstName: user.firstName,
     lastName: user.lastName,
@@ -19,11 +14,7 @@ const Profile = ({ user, updateUser }) => {
     country: user.country,
   })
   const [avatarSectionVisible, setAvatarSectionVisible] = useState(false)
-  const [newPasswordData, setNewPasswordData] = useState({
-    oldPassword: "",
-    password: "",
-    confirmPassword: "",
-  })
+
   const avatars = [
     "https://i.imgur.com/OqloSPp.jpg",
     "https://i.imgur.com/wWZHn3v.jpg",
@@ -41,30 +32,10 @@ const Profile = ({ user, updateUser }) => {
       setEditMode(false)
     }
   }
-
-  const updatePasswordHandler = async () => {
-    const res = await updateUser(newPasswordData)
-    if (res.error) {
-      console.error(res.error)
-    } else {
-      setNewPasswordData({
-        oldPassword: "",
-        password: "",
-        confirmPassword: "",
-      })
-      console.log("Clave cambiada con éxito")
-    }
-  }
-  const onChangePasswordHandler = (e) => {
-    setNewPasswordData({
-      ...newPasswordData,
-      [e.target.name]: e.target.value,
-    })
-  }
   return (
     <div className="flex flex-col lg:flex-row lg:justify-evenly lg:items-start items-center flex-grow gap-2 w-full min-h-64">
-      <div className="flex flex-col justify-between min-h-72">
-        <div className="w-72 items-center flex mb-4 justify-between">
+      <div className="flex flex-col min-h-72">
+        <div className="w-64 sm:w-72 items-center flex mb-4 justify-between">
           <h2 className="text-lg font-semibold">User info</h2>
           {!editMode && (
             <button
@@ -77,15 +48,17 @@ const Profile = ({ user, updateUser }) => {
           )}
         </div>
         <div className="flex flex-col gap-2">
-          <div className=" w-72 flex flex-col gap-2"></div>
+          <div className=" w-64 sm:w-72 flex flex-col gap-2"></div>
           <div className="flex w-max gap-2">
             <p className="w-24 font-medium"> First name </p>
             {!editMode ? (
-              <p className="text-right w-48 px-3 h-6">{user.firstName}</p>
+              <p className="text-right w-32 sm:w-48 px-3 h-6">
+                {user.firstName}
+              </p>
             ) : (
               <input
                 autoFocus
-                className="text-right w-48 text-gray-900 px-3 h-6 focus:outline-none rounded"
+                className="text-right w-32 sm:w-48 text-gray-900 px-3 h-6 focus:outline-none rounded"
                 name="firstName"
                 type="text"
                 onChange={(e) =>
@@ -99,10 +72,12 @@ const Profile = ({ user, updateUser }) => {
           <div className="flex w-max gap-2">
             <p className="w-24 font-medium"> Last name </p>
             {!editMode ? (
-              <p className="text-right w-48 px-3 h-6">{user.lastName}</p>
+              <p className="text-right w-32 sm:w-48 px-3 h-6">
+                {user.lastName}
+              </p>
             ) : (
               <input
-                className="text-right text-gray-900 w-48 px-3 h-6 focus:outline-none rounded"
+                className="text-right text-gray-900 w-32 sm:w-48 px-3 h-6 focus:outline-none rounded"
                 name="lastName"
                 type="text"
                 onChange={(e) =>
@@ -117,10 +92,10 @@ const Profile = ({ user, updateUser }) => {
             {!user.google && <p className="w-24 font-medium">Email</p>}
             {!user.google &&
               (!editMode ? (
-                <p className="text-right w-48 px-3 h-6">{user.email}</p>
+                <p className="text-right w-32 sm:w-48 px-3 h-6">{user.email}</p>
               ) : (
                 <input
-                  className="text-right text-gray-900 w-48 px-3 h-6 focus:outline-none rounded"
+                  className="text-right text-gray-900 w-32 sm:w-48 px-3 h-6 focus:outline-none rounded"
                   name="email"
                   type="text"
                   onChange={(e) =>
@@ -133,7 +108,7 @@ const Profile = ({ user, updateUser }) => {
           <div className="flex relative items-center w-max gap-2">
             <p className="w-24 font-medium"> Photo </p>
             {!editMode ? (
-              <div className="w-48 flex justify-end">
+              <div className="w-32 sm:w-48 flex justify-end">
                 <div
                   className="mr-2 w-8 h-8 rounded-full"
                   style={{
@@ -146,7 +121,7 @@ const Profile = ({ user, updateUser }) => {
             ) : (
               <>
                 <input
-                  className="text-right text-gray-900 w-48 px-3 h-8 focus:outline-none rounded"
+                  className="text-right text-gray-900 w-32 sm:w-48 px-3 h-8 focus:outline-none rounded"
                   name="photoURL"
                   type="text"
                   onChange={(e) =>
@@ -188,10 +163,10 @@ const Profile = ({ user, updateUser }) => {
           <div className="flex w-max gap-2">
             <p className="w-24 font-medium"> Country </p>
             {!editMode ? (
-              <p className="text-right w-48 px-3 h-6">{user.country}</p>
+              <p className="text-right w-32 sm:w-48 px-3 h-6">{user.country}</p>
             ) : (
               <input
-                className="text-right text-gray-900 w-48 px-3 h-6 focus:outline-none rounded"
+                className="text-right text-gray-900 w-32 sm:w-48 px-3 h-6 focus:outline-none rounded"
                 name="country"
                 type="text"
                 onChange={(e) =>
@@ -202,7 +177,7 @@ const Profile = ({ user, updateUser }) => {
             )}
           </div>
           {editMode && (
-            <div className="w-72 flex justify-center gap-2">
+            <div className="w-64 sm:w-72 flex justify-center gap-2">
               <button
                 onClick={() => {
                   setEditMode(false)
@@ -228,69 +203,6 @@ const Profile = ({ user, updateUser }) => {
               </button>
             </div>
           )}
-        </div>
-      </div>
-      <div className="w-72 lg:w-80 flex flex-col justify-between gap-2 md:min-h-72">
-        <div className="flex justify-between mb-3 items-center">
-          <h2 className="text-lg font-semibold ">Change password</h2>
-          {isPasswordVisible ? (
-            <EyeIcon
-              onClick={() => setIsPasswordVisible(!isPasswordVisible)}
-              className="cursor-pointer w-5 h-5 inline-block"
-            />
-          ) : (
-            <EyeOffIcon
-              onClick={() => setIsPasswordVisible(!isPasswordVisible)}
-              className="cursor-pointer w-5 h-5 inline-block"
-            />
-          )}
-        </div>
-        <div className="flex flex-col gap-2">
-          <div>
-            <div className="flex w-max">
-              <p className="w-48 font-medium"> Old password </p>
-              <input
-                className="text-right text-gray-900 w-32 px-3 h-6 focus:outline-none rounded"
-                name="oldPassword"
-                type={isPasswordVisible ? "text" : "password"}
-                onChange={onChangePasswordHandler}
-                value={newPasswordData.oldPassword}
-              />
-            </div>
-          </div>
-          <div>
-            <div className="flex w-max">
-              <p className="w-48 font-medium"> New password </p>
-              <input
-                className="text-right text-gray-900 w-32 px-3 h-6 focus:outline-none rounded"
-                name="password"
-                type={isPasswordVisible ? "text" : "password"}
-                onChange={onChangePasswordHandler}
-                value={newPasswordData.password}
-              />
-            </div>
-          </div>
-          <div>
-            <div className="flex w-max">
-              <p className="w-48 font-medium"> Confirm new password </p>
-              <input
-                className="text-right text-gray-900 w-32 px-3 h-6 focus:outline-none rounded"
-                name="confirmPassword"
-                type={isPasswordVisible ? "text" : "password"}
-                onChange={onChangePasswordHandler}
-                value={newPasswordData.confirmPassword}
-              />
-            </div>
-          </div>
-        </div>
-        <div className="flex justify-end">
-          <button
-            type="button"
-            onClick={updatePasswordHandler}
-            className="bg-gray-300 text-gray-900 font-medium rounded w-40 px-3 py-2"
-          >
-            Change password
-          </button>
         </div>
       </div>
     </div>

@@ -6,6 +6,7 @@ import DeleteAccount from "./Settings/DeleteAccount"
 import Form from "./Settings/Form"
 import Favorites from "./Settings/Favorites"
 import Profile from "./Settings/Profile"
+import Security from "./Settings/Security"
 
 const Settings = (props) => {
   const [settingsSection, setSettingsSection] = useState("profile")
@@ -18,6 +19,14 @@ const Settings = (props) => {
           className="w-full py-3 text-left pl-8"
         >
           Profile
+        </button>
+        <hr className="w-5/6" />
+        <button
+          type="button"
+          onClick={() => setSettingsSection("security")}
+          className="w-full py-3 text-left pl-8"
+        >
+          Security
         </button>
         <hr className="w-5/6" />
         <button
@@ -67,6 +76,8 @@ const SettingsSection = ({ section }) => {
   switch (section) {
     case "profile":
       return <Profile />
+    case "security":
+      return <Security />
     case "mytineraries":
       return <p>This is the mytineraries section</p>
     case "favorites":

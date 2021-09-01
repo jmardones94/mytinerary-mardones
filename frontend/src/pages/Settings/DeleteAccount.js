@@ -51,7 +51,6 @@ const DeleteAccount = (props) => {
 
   const deleteHandler = async () => {
     const res = await props.deleteAccount(password)
-    console.log(res)
     if (res.success) {
       Toast.fire({
         icon: "success",
@@ -64,7 +63,6 @@ const DeleteAccount = (props) => {
       })
     }
   }
-  console.log(props.user)
   return (
     <div className="flex flex-col gap-5 flex-grow items-center justify-center">
       <h1 className="text-2xl font-medium">

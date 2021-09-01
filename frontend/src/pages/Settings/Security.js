@@ -2,6 +2,18 @@ import { useState } from "react"
 import { EyeIcon, EyeOffIcon } from "@heroicons/react/outline"
 import usersActions from "../../redux/actions/usersActions"
 import { connect } from "react-redux"
+import Swal from "sweetalert2"
+import withReactContent from "sweetalert2-react-content"
+
+const MySwal = withReactContent(Swal)
+const Toast = MySwal.mixin({
+  toast: true,
+  position: "bottom",
+  showConfirmButton: false,
+  timer: 10000,
+  timerProgressBar: true,
+  showCloseButton: true,
+})
 
 const Security = ({ updateUser }) => {
   const [newPasswordData, setNewPasswordData] = useState({
@@ -10,18 +22,23 @@ const Security = ({ updateUser }) => {
     confirmPassword: "",
   })
   const [isPasswordVisible, setIsPasswordVisible] = useState(false)
-  console.log(updateUser)
   const updatePasswordHandler = async () => {
     const res = await updateUser(newPasswordData)
     if (res.error) {
-      console.error(res.error)
+      Toast.fire({
+        icon: "error",
+        title: res.error,
+      })
     } else {
       setNewPasswordData({
         oldPassword: "",
         password: "",
         confirmPassword: "",
       })
-      console.log("Clave cambiada con éxito")
+      Toast.fire({
+        title: "Password updated",
+        icon: "success",
+      })
     }
   }
   const onChangePasswordHandler = (e) => {
@@ -49,7 +66,7 @@ const Security = ({ updateUser }) => {
       <div className="flex flex-col gap-2">
         <div>
           <div className="flex w-max">
-            <p className="w-44 sm:w-48 font-medium"> Old password </p>
+            <p className="w-44 sm:w-48 font-medium"> Current password </p>
             <input
               className="flex-shrink text-right text-gray-900 w-20 sm:w-32 px-3 h-6 focus:outline-none rounded"
               name="oldPassword"

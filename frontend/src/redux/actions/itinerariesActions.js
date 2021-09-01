@@ -21,7 +21,7 @@ const itinerariesActions = {
       }
     }
   },
-  addLike: (itineraryId, userId) => {
+  addLike: (itineraryId) => {
     return async (dispatch, getState) => {
       try {
         const res = await axios.put(
@@ -45,7 +45,7 @@ const itinerariesActions = {
       }
     }
   },
-  removeLike: (itineraryId, userId) => {
+  removeLike: (itineraryId) => {
     return async (dispatch, getState) => {
       try {
         const res = await axios.put(

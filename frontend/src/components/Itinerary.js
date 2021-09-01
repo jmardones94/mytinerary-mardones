@@ -38,9 +38,9 @@ const Itinerary = ({ itinerary, user, addLike, removeLike }) => {
     }
     let res
     if (itinerary.likes.includes(user._id)) {
-      res = await removeLike(itinerary._id, user._id)
+      res = await removeLike(itinerary._id)
     } else {
-      res = await addLike(itinerary._id, user._id)
+      res = await addLike(itinerary._id)
     }
     if (res.error) {
       Toast.fire({

@@ -1,7 +1,6 @@
 import axios from "axios"
 
 const citiesActions = {
-  //Esta es la original, sin restricción.
   getCities: () => {
     return async (dispatch) => {
       try {

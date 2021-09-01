@@ -47,7 +47,6 @@ const activitiesController = {
     }
   },
   deleteActivity: async (req, res) => {
-    console.log("activity deleted.")
     try {
       const activity = await Activity.findOneAndDelete({ _id: req.params.id })
       res.json({ success: true, response: activity, error: null })

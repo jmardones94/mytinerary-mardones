@@ -82,8 +82,8 @@ const NoCitiesFound = () => {
     <main className="flex-col gap-3 transition duration-1000 text-gray-900 dark:text-gray-100 bg-gray-100 dark:bg-gray-900 flex-grow flex items-center justify-center">
       <h1 className="text-center text-3xl ">We didn't found any city.</h1>
       <p>
-        There are no cities in the database or you don't have access to this
-        information.
+        There are no cities in the database or there was an internal error. If
+        the problem persists please contact us.
       </p>
     </main>
   )

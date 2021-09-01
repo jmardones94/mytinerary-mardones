@@ -36,7 +36,7 @@ const Profile = ({ user, updateUser }) => {
     <div className="flex flex-col lg:flex-row lg:justify-evenly lg:items-start items-center flex-grow gap-2 w-full min-h-64">
       <div className="flex flex-col min-h-72">
         <div className="w-64 sm:w-72 items-center flex mb-4 justify-between">
-          <h2 className="text-lg font-semibold">User info</h2>
+          <h2 className="text-lg py-1 font-semibold">User info</h2>
           {!editMode && (
             <button
               type="button"

@@ -1,19 +1,10 @@
 import { useState, useEffect } from "react"
-import Swal from "sweetalert2"
-import withReactContent from "sweetalert2-react-content"
 import citiesActions from "../../redux/actions/citiesActions"
 import FormSelect from "./FormSelect"
 import { connect } from "react-redux"
 import axios from "axios"
-
-const MySwal = withReactContent(Swal)
-const Toast = MySwal.mixin({
-  toast: true,
-  position: "bottom",
-  showConfirmButton: false,
-  timer: 3000,
-  timerProgressBar: true,
-})
+import toast, { Toaster } from "react-hot-toast"
+import { PencilAltIcon, XIcon } from "@heroicons/react/solid"
 
 const FormUpdate = (props) => {
   const cities = [...props.cities] || []
@@ -37,29 +28,25 @@ const FormUpdate = (props) => {
           })
         )
       })
-      .catch((e) => console.error(e.message))
+      .catch((e) => toast.error(e.message))
   }, [])
 
-  const handleUpdateClick = () => {
-    if (
-      !(
-        newData.name &&
-        selectedCountry &&
-        newData.src &&
-        newData.currencyCode &&
-        newData.description
-      )
-    ) {
-      Toast.fire({
-        icon: "error",
-        title: "All fields are required!",
-      })
+  const handleUpdateClick = async () => {
+    if (!(newData.name && selectedCountry)) {
+      toast.error("All fields are required!")
     } else {
-      //make dispatch
-      props.updateCity(cities.find((city) => city.name === selectedName)._id, {
-        ...newData,
-        country: selectedCountry,
-      })
+      const res = await props.updateCity(
+        cities.find((city) => city.name === selectedName)._id,
+        {
+          ...newData,
+          country: selectedCountry,
+        }
+      )
+      if (res.success) {
+        toast.success(`${newData.name} updated!`)
+      } else {
+        toast.error(res.error)
+      }
       setSelectedName("")
     }
   }
@@ -72,6 +59,7 @@ const FormUpdate = (props) => {
   return (
     <div className="relative flex justify-center flex-col items-center transition duration-1000 text-gray-900 dark:text-gray-100 bg-gray-100 dark:bg-gray-900 flex-grow">
       <div className="flex justify-center gap-3 h-16 py-3">
+        <Toaster position="bottom-right" />
         <button
           type="button"
           className="border border-green-500 text-green-500 hover:bg-green-500 hover:text-gray-100 w-20 text-center py-1 px-3 rounded "
@@ -181,7 +169,28 @@ const FormUpdate = (props) => {
               ></input>
             </div>
             <button
-              onClick={handleUpdateClick}
+              onClick={() =>
+                toast((t) => (
+                  <div className="flex flex-col gap-1">
+                    <p className="font-semibold text-center">Are you sure?</p>
+                    <button
+                      onClick={() => {
+                        handleUpdateClick()
+                        toast.dismiss(t.id)
+                      }}
+                      className="rounded bg-yellow-500 text-gray-100 px-4 py-1 font-medium"
+                    >
+                      Confirm <PencilAltIcon className="h-5 w-5 inline-block" />
+                    </button>
+                    <button
+                      onClick={() => toast.dismiss(t.id)}
+                      className="rounded bg-gray-600 text-gray-100 font-medium px-4 py-1"
+                    >
+                      Cancel <XIcon className="inline-block w-5 h-5" />
+                    </button>
+                  </div>
+                ))
+              }
               className="transform active:scale-95 py-2 px-10 w-full mt-3 font-medium bg-yellow-500 text-gray-100 rounded"
             >
               Update

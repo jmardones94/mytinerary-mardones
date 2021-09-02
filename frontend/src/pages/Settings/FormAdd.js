@@ -1,21 +1,10 @@
 import { useState, useEffect } from "react"
-import Swal from "sweetalert2"
-import withReactContent from "sweetalert2-react-content"
 import citiesActions from "../../redux/actions/citiesActions"
 import { connect } from "react-redux"
 import FormInput from "../../components/FormInput"
 import axios from "axios"
 import FormSelect from "./FormSelect"
-
-const MySwal = withReactContent(Swal)
-const Toast = MySwal.mixin({
-  toast: true,
-  position: "bottom",
-  showConfirmButton: false,
-  timer: 3000,
-  timerProgressBar: true,
-  showCloseButton: true,
-})
+import toast, { Toaster } from "react-hot-toast"
 
 const FormAdd = (props) => {
   const [selectedCountry, setSelectedCountry] = useState("")
@@ -43,38 +32,34 @@ const FormAdd = (props) => {
           })
         )
       })
-      .catch((e) => console.error(e.message))
+      .catch((e) => toast.error(e.message))
   }, [])
+
   const handleAddClick = () => {
     const add = async () => {
       try {
         const res = await props.addCity({ ...data, country: selectedCountry })
         if (res.success) {
-          Toast.fire({
-            icon: "success",
-            title: `${res.response} successfully added!`,
-          })
+          toast.success(`${res.response} added!`)
         } else {
           throw new Error(`We couldn't add ${data.name}. Try again later.`)
         }
       } catch (e) {
-        Toast.fire({
-          icon: "error",
-          title: e.message,
-        })
+        toast.error(e.message)
         console.error(e)
       }
     }
-    if (!(data.name && data.country)) {
-      Toast.fire({
-        icon: "error",
-        title: "There are some empty fields required!",
-      })
+    if (!(data.name && selectedCountry)) {
+      toast.error(
+        <p className="text-center">
+          There are some empty fields that are required!
+        </p>
+      )
     } else {
       add()
+      setSelectedCountry("")
       setData({
         name: "",
-        country: "",
         src: "",
         currencyCode: "",
         countryFlag: "",
@@ -86,6 +71,7 @@ const FormAdd = (props) => {
   return (
     <main className="relative flex flex-col justify-center items-center transition duration-1000 text-gray-900 dark:text-gray-100 bg-gray-100 dark:bg-gray-900 flex-grow">
       <div className="flex justify-center gap-3 h-16 py-3">
+        <Toaster position="bottom-center" />
         <button
           type="button"
           className="bg-green-500 text-gray-100 w-20 text-center py-1 px-3 rounded "

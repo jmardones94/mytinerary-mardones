@@ -1,19 +1,9 @@
 import { useState } from "react"
-import { EyeIcon, EyeOffIcon } from "@heroicons/react/outline"
+import { EyeIcon, EyeOffIcon, PencilAltIcon } from "@heroicons/react/outline"
 import usersActions from "../../redux/actions/usersActions"
 import { connect } from "react-redux"
-import Swal from "sweetalert2"
-import withReactContent from "sweetalert2-react-content"
-
-const MySwal = withReactContent(Swal)
-const Toast = MySwal.mixin({
-  toast: true,
-  position: "bottom",
-  showConfirmButton: false,
-  timer: 10000,
-  timerProgressBar: true,
-  showCloseButton: true,
-})
+import toast, { Toaster } from "react-hot-toast"
+import { XIcon } from "@heroicons/react/solid"
 
 const Security = ({ updateUser }) => {
   const [newPasswordData, setNewPasswordData] = useState({
@@ -23,22 +13,32 @@ const Security = ({ updateUser }) => {
   })
   const [isPasswordVisible, setIsPasswordVisible] = useState(false)
   const updatePasswordHandler = async () => {
+    if (
+      !(
+        newPasswordData.oldPassword &&
+        newPasswordData.password &&
+        newPasswordData.confirmPassword
+      )
+    ) {
+      toast.error("All fields are required!")
+      return false
+    }
+    if (newPasswordData.password !== newPasswordData.confirmPassword) {
+      toast.error(
+        <p className="text-center">New password fields doesn't match</p>
+      )
+      return false
+    }
     const res = await updateUser(newPasswordData)
     if (res.error) {
-      Toast.fire({
-        icon: "error",
-        title: res.error,
-      })
+      toast.error(res.error)
     } else {
       setNewPasswordData({
         oldPassword: "",
         password: "",
         confirmPassword: "",
       })
-      Toast.fire({
-        title: "Password updated",
-        icon: "success",
-      })
+      toast.success("Password updated")
     }
   }
   const onChangePasswordHandler = (e) => {
@@ -50,6 +50,7 @@ const Security = ({ updateUser }) => {
   return (
     <div className="w-64 sm:w-80 lg:w-80 flex flex-col justify-between gap-2 md:min-h-72">
       <div className="flex justify-between mb-3 items-center">
+        <Toaster position="bottom-center" />
         <h2 className="text-lg font-semibold ">Change password</h2>
         {isPasswordVisible ? (
           <EyeIcon
@@ -104,7 +105,29 @@ const Security = ({ updateUser }) => {
       <div className="flex justify-end">
         <button
           type="button"
-          onClick={updatePasswordHandler}
+          onClick={() =>
+            toast((t) => (
+              <div className="flex flex-col gap-1">
+                <p className="font-semibold">Are you sure?</p>
+                <button
+                  className="px-4 py-1 rounded bg-yellow-500 text-gray-100"
+                  onClick={() => {
+                    updatePasswordHandler()
+                    toast.dismiss(t.id)
+                  }}
+                >
+                  Confirm <PencilAltIcon className="w-5 h-5 inline-block" />
+                </button>
+                <button
+                  onClick={() => toast.dismiss(t.id)}
+                  className="px-4 py-1 rounded bg-gray-600 text-gray-100"
+                >
+                  Cancel
+                  <XIcon className="w-5 h-5 inline-block" />
+                </button>
+              </div>
+            ))
+          }
           className="bg-gray-300 text-gray-900 font-medium rounded w-40 px-3 py-2"
         >
           Change password

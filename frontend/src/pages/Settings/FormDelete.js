@@ -2,16 +2,8 @@ import { useState, useEffect } from "react"
 import { connect } from "react-redux"
 import citiesActions from "../../redux/actions/citiesActions"
 import FormSelect from "./FormSelect"
-import Swal from "sweetalert2"
-import withReactContent from "sweetalert2-react-content"
-
-const MySwal = withReactContent(Swal)
-const Toast = MySwal.mixin({
-  toast: true,
-  position: "bottom",
-  showConfirmButton: false,
-  timer: 3000,
-})
+import toast, { Toaster } from "react-hot-toast"
+import { TrashIcon, XIcon } from "@heroicons/react/solid"
 
 const FormDelete = (props) => {
   const cities = [...props.cities] || []
@@ -27,54 +19,42 @@ const FormDelete = (props) => {
           cities.find((city) => city.name === selected)._id
         )
         if (res.success) {
-          Toast.fire({
-            icon: "success",
-            title: `${selected} successfully deleted.`,
-          })
+          toast.success(`${selected} succesfully deleted.`)
         } else {
           throw new Error(res.error)
         }
       } catch (e) {
-        Toast.fire({
-          title: e.message,
-          icon: "error",
-        })
+        toast.error(e.message)
       }
     }
-    MySwal.fire({
-      title: "Are you sure?",
-      html: "<p class='dark:text-gray-200'>The city will be permanent removed from our database.</p>",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonText: "Yes, delete the city!",
-      cancelButtonText: "No, cancel!",
-      reverseButtons: true,
-      customClass: {
-        confirmButton: "bg-red-600 px-6 py-2 rounded mx-2 text-gray-200",
-        cancelButton: "bg-green-600 px-6 py-2 rounded mx-2 text-gray-200",
-        title: "dark:text-gray-200",
-        text: "dark:text-gray-200",
-      },
-      iconColor: "#FBBF24",
-      background: `${
-        window.document.documentElement.classList.contains("dark") && "#1F2937"
-      }`,
-      buttonsStyling: false,
-    }).then((result) => {
-      if (result.isConfirmed) {
-        deleteAction()
-      } else {
-        Toast.fire({
-          title: "Cancelled.",
-          icon: "error",
-        })
-      }
-    })
+
+    toast((t) => (
+      <div className="flex flex-col gap-2 font-semibold bg-white">
+        <p>Are you sure?</p>
+        <button
+          className="text-gray-100 rounded bg-red-500 px-4 py-1"
+          onClick={() => {
+            deleteAction()
+            toast.dismiss(t.id)
+          }}
+        >
+          Delete
+          <TrashIcon className="inline-block w-5 h-5" />
+        </button>
+        <button
+          className="rounded text-gray-100 bg-gray-600 px-3 py-1"
+          onClick={() => toast.dismiss(t.id)}
+        >
+          Cancel <XIcon className=" inline-block w-5 h-5" />
+        </button>
+      </div>
+    ))
     setSelected("")
   }
 
   return (
     <main className="relative flex justify-center flex-col items-center px-5 md:px-20 transition duration-1000 text-gray-900 dark:text-gray-100 bg-gray-100 dark:bg-gray-900 flex-grow">
+      <Toaster position="bottom-center" />
       <div className="flex justify-center gap-3 h-16 py-3">
         <button
           type="button"

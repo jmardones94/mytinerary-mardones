@@ -5,18 +5,9 @@ import {
   PaperAirplaneIcon,
   TrashIcon,
   PencilAltIcon,
+  XIcon,
 } from "@heroicons/react/solid"
-import Swal from "sweetalert2"
-import withReactContent from "sweetalert2-react-content"
-
-const MySwal = withReactContent(Swal)
-const Toast = MySwal.mixin({
-  toast: true,
-  position: "bottom",
-  showConfirmButton: false,
-  timer: 3000,
-  showCloseButton: true,
-})
+import toast, { Toaster } from "react-hot-toast"
 
 const Comments = ({
   itineraryId,
@@ -55,7 +46,7 @@ const Comments = ({
       const res = await addComment(itineraryId, inputContent)
       if (!res.success) throw new Error(res.error)
     } catch (e) {
-      console.error(e.message)
+      toast.error(e.message)
     }
   }
   const keyDownHandler = (e) => {
@@ -70,6 +61,7 @@ const Comments = ({
       <div
         className={`min-h-64 min-w-full max-h-1/2s overflow-auto px-2 rounded flex flex-col gap-4`}
       >
+        <Toaster position="bottom-center" />
         <h3 className="comments text-center text-xl font-semibold mb-5">
           Comments
         </h3>
@@ -128,10 +120,7 @@ const Comment = ({
   const updateClickHandler = async () => {
     const res = await editComment(comment._id, editContent)
     if (!res.success) {
-      Toast.fire({
-        title: res.error,
-        icon: "error",
-      })
+      toast.error(res.error)
     }
     setEditMode(false)
   }
@@ -207,7 +196,29 @@ const Comment = ({
             )}
             <button
               title="Delete comment"
-              onClick={() => removeComment(comment._id, itineraryId)}
+              onClick={() => {
+                toast((t) => (
+                  <div className="flex flex-col gap-2 font-semibold bg-white">
+                    <p>Are you sure?</p>
+                    <button
+                      className="text-gray-100 rounded bg-red-500 px-4 py-1"
+                      onClick={() => {
+                        removeComment(comment._id, itineraryId)
+                        toast.dismiss(t.id)
+                      }}
+                    >
+                      Delete
+                      <TrashIcon className="inline-block w-5 h-5" />
+                    </button>
+                    <button
+                      className="rounded text-gray-100 bg-gray-600 px-3 py-1"
+                      onClick={() => toast.dismiss(t.id)}
+                    >
+                      Cancel <XIcon className=" inline-block w-5 h-5" />
+                    </button>
+                  </div>
+                ))
+              }}
             >
               <TrashIcon className="cursor-pointer w-5 h-5 inline-block" />
             </button>

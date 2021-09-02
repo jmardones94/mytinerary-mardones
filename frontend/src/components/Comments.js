@@ -157,6 +157,11 @@ const Comment = ({
           <div className="w-full mx-2">
             <textarea
               autoFocus
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  updateClickHandler()
+                }
+              }}
               onFocus={(e) => {
                 e.target.value = ""
                 e.target.value = editContent

@@ -1,9 +1,10 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import Swal from "sweetalert2"
 import withReactContent from "sweetalert2-react-content"
 import citiesActions from "../../redux/actions/citiesActions"
 import FormSelect from "./FormSelect"
 import { connect } from "react-redux"
+import axios from "axios"
 
 const MySwal = withReactContent(Swal)
 const Toast = MySwal.mixin({
@@ -15,81 +16,35 @@ const Toast = MySwal.mixin({
 })
 
 const FormUpdate = (props) => {
-  // const [cities, setCities] = useState([])
   const cities = [...props.cities] || []
-  // const [updateCount, setUpdateCount] = useState(0)
   const [selectedName, setSelectedName] = useState("")
-  const [newData, setNewData] = useState(null)
-  // const [loading, setLoading] = useState(true)
-  // const [fetchOk, setFetchOk] = useState(null)
-
+  const [newData, setNewData] = useState({})
+  const [selectedCountry, setSelectedCountry] = useState(newData?.country || "")
+  const [countries, setCountries] = useState([])
   const inputHandler = (e) => {
     setNewData({
       ...newData,
       [e.target.name]: e.target.value,
     })
   }
-
-  // useEffect(() => {
-  //   setLoading(true)
-  //   axios
-  //     .get("http://localhost:4000/api/cities")
-  //     .then((res) => {
-  //       setCities(res.data.response)
-  //       setFetchOk(true)
-  //     })
-  //     .catch((err) => {
-  //       Toast.fire({
-  //         title: err.message,
-  //         icon: "error",
-  //       })
-  //       setFetchOk(false)
-  //     })
-  //     .finally(() => setLoading(false))
-  // }, [updateCount])
-
-  // const handleUpdateClick = async () => {
-  //   if (
-  //     !(newData.name && newData.country && newData.src && newData.currencyCode)
-  //   ) {
-  //     Toast.fire({
-  //       icon: "error",
-  //       title: "All fields are required!",
-  //     })
-  //   } else {
-  //     try {
-  //       const cityId = cities.find((city) => city.name === selectedName)._id
-  //       const res = await axios.put(
-  //         `http://localhost:4000/api/city/${cityId}`,
-  //         newData
-  //       )
-  //       if (res.data.success) {
-  //         Toast.fire({
-  //           title: `${newData.name} successfully updated.`,
-  //           icon: "success",
-  //         })
-  //         setUpdateCount(updateCount + 1)
-  //         setSelectedName("")
-  //       } else {
-  //         console.error(res.data.error)
-  //         throw new Error(
-  //           "Our database couldn't process your request. Please try again later."
-  //         )
-  //       }
-  //     } catch (e) {
-  //       Toast.fire({
-  //         title: e.message,
-  //         icon: "error",
-  //       })
-  //     }
-  //   }
-  // }
+  useEffect(() => {
+    axios
+      .get("https://restcountries.eu/rest/v2/all")
+      .then((res) => {
+        setCountries(
+          res.data.map((c) => {
+            return { name: c.name }
+          })
+        )
+      })
+      .catch((e) => console.error(e.message))
+  }, [])
 
   const handleUpdateClick = () => {
     if (
       !(
         newData.name &&
-        newData.country &&
+        selectedCountry &&
         newData.src &&
         newData.currencyCode &&
         newData.description
@@ -101,21 +56,21 @@ const FormUpdate = (props) => {
       })
     } else {
       //make dispatch
-      props.updateCity(
-        cities.find((city) => city.name === selectedName)._id,
-        newData
-      )
+      props.updateCity(cities.find((city) => city.name === selectedName)._id, {
+        ...newData,
+        country: selectedCountry,
+      })
       setSelectedName("")
     }
   }
-
   const handleSelect = (e) => {
     setSelectedName(e)
     setNewData({ ...cities.find((city) => city.name === e) })
+    setSelectedCountry(cities.find((city) => city.name === e).country)
   }
 
   return (
-    <main className="relative flex justify-center flex-col items-center transition duration-1000 text-gray-900 dark:text-gray-100 bg-gray-100 dark:bg-gray-900 flex-grow">
+    <div className="relative flex justify-center flex-col items-center transition duration-1000 text-gray-900 dark:text-gray-100 bg-gray-100 dark:bg-gray-900 flex-grow">
       <div className="flex justify-center gap-3 h-16 py-3">
         <button
           type="button"
@@ -142,7 +97,7 @@ const FormUpdate = (props) => {
       <h2 className="text-center text-lg mb-3">
         Select the city you want to update
       </h2>
-      <div className="w-72 z-50">
+      <div className="w-72 z-50 flex justify-center">
         <FormSelect
           selected={selectedName}
           setSelected={handleSelect}
@@ -170,18 +125,20 @@ const FormUpdate = (props) => {
                 required
               ></input>
             </div>
-            <div className="flex justify-between w-100">
+            <div className="flex justify-between items-center w-100">
               <label className="font-medium" htmlFor="country">
                 Country
               </label>
-              <input
-                className="px-2 focus:outline-none transform focus:scale-105 rounded text-black border-gray-500 border dark:border-gray-200"
-                name="country"
-                type="text"
-                placeholder="United States"
-                onChange={inputHandler}
-                value={newData.country}
-              ></input>
+              <div className="w-48 z-30 flex justify-center">
+                <FormSelect
+                  data={countries}
+                  name="country"
+                  selected={selectedCountry}
+                  setSelected={setSelectedCountry}
+                  itemName="Country"
+                />
+                {/* <ErrorMessage content={errors.countries} /> */}
+              </div>
             </div>
             <div className="flex justify-between w-100">
               <label className="font-medium" htmlFor="src">
@@ -232,7 +189,7 @@ const FormUpdate = (props) => {
           </div>
         </div>
       )}
-    </main>
+    </div>
   )
 }
 

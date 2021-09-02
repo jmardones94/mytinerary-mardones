@@ -29,14 +29,14 @@ const Settings = (props) => {
           Security
         </button>
         <hr className="w-5/6" />
-        <button
+        {/* <button
           type="button"
           onClick={() => setSettingsSection("mytineraries")}
           className="w-full py-3 text-left pl-8"
         >
           Manage MyTineraries
         </button>
-        <hr className="w-5/6" />
+        <hr className="w-5/6" /> */}
         <button
           type="button"
           onClick={() => setSettingsSection("favorites")}

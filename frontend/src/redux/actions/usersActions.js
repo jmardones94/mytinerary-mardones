@@ -120,7 +120,6 @@ const usersActions = {
           headers: { Authorization: `Bearer ${token}` },
           data: { password },
         })
-        console.log(res.data)
         if (res.data.success) {
           dispatch({ type: "LOG_OUT" })
           return { success: true, error: null }

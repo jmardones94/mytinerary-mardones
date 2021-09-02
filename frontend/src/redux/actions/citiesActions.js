@@ -18,9 +18,11 @@ const citiesActions = {
     }
   },
   addCity: (data) => {
-    return async (dispatch) => {
+    return async (dispatch, getState) => {
       try {
-        const res = await axios.post("http://localhost:4000/api/cities", data)
+        const res = await axios.post("http://localhost:4000/api/cities", data, {
+          headers: { Authorization: `Bearer ${getState().users.user.token}` },
+        })
         if (res.data.success) {
           dispatch({ type: "ADD_CITY", payload: res.data.response })
           return {
@@ -37,9 +39,11 @@ const citiesActions = {
     }
   },
   deleteCity: (id) => {
-    return async (dispatch) => {
+    return async (dispatch, getState) => {
       try {
-        const res = await axios.delete(`http://localhost:4000/api/city/${id}`)
+        const res = await axios.delete(`http://localhost:4000/api/city/${id}`, {
+          headers: { Authorization: `Bearer ${getState().users.user.token}` },
+        })
         if (res.data.success) {
           dispatch({ type: "DELETE_CITY", payload: id })
           return { success: true, error: null }
@@ -52,11 +56,14 @@ const citiesActions = {
     }
   },
   updateCity: (id, newData) => {
-    return async (dispatch) => {
+    return async (dispatch, getState) => {
       try {
         const res = await axios.put(
           `http://localhost:4000/api/city/${id}`,
-          newData
+          newData,
+          {
+            headers: { Authorization: `Bearer ${getState().users.user.token}` },
+          }
         )
         if (res.data.success) {
           dispatch({

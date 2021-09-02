@@ -19,10 +19,10 @@ const Carousel = ({ cities }) => {
     setCitiesData([0, 1, 2].map((i) => [...cities.slice(4 * i, 4 * (i + 1))]))
   }, [cities])
   return (
-    <section className="transition duration-1000 h-carousel bg-gradient-to-b from-gray-100 to-gray-200 dark:from-gray-900 dark:to-black md:h-screen w-100 flex flex-col items-center py-20 justify-center">
+    <section className="transition duration-1000 h-carousel bg-gray-100 dark:bg-gray-900 md:h-screen w-100 flex flex-col items-center py-20 justify-center">
       <h2 className="text-3xl text-gray-900 dark:text-gray-200 md:text-4xl mb-8 mt-4 font-semibold">
         Popular
-        <span className="font-silt tracking-wider">MyTineraries</span>
+        <span className="font-silt tracking-wider"> MyTineraries</span>
       </h2>
       <div className="h-5/6 w-4/5 flex flex-wrap gap-2 p-2 relative">
         <span

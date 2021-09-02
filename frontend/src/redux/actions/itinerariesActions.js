@@ -121,11 +121,14 @@ const itinerariesActions = {
     }
   },
   removeComment: (commentId, itineraryId) => {
-    return async (dispatch) => {
+    return async (dispatch, getState) => {
       try {
         const response = await axios.delete(
           `http://localhost:4000/api/itinerary/comment/${commentId}`,
-          { data: { itineraryId } }
+          {
+            headers: { Authorization: `Bearer ${getState().users.user.token}` },
+            data: { itineraryId },
+          }
         )
         if (response.data.success) {
           dispatch({ type: "REMOVE_COMMENT", payload: commentId })

@@ -13,13 +13,25 @@ const commentsController = require("../controllers/commentsController")
 router
   .route("/cities")
   .get(citiesController.getCities)
-  .post(citiesController.addCity)
+  .post(
+    passport.authenticate("jwt", { session: false }),
+    isAdmin,
+    citiesController.addCity
+  )
 
 router
   .route("/city/:id")
   .get(citiesController.getCity)
-  .delete(citiesController.deleteCity)
-  .put(citiesController.updateCity)
+  .delete(
+    passport.authenticate("jwt", { session: false }),
+    isAdmin,
+    citiesController.deleteCity
+  )
+  .put(
+    passport.authenticate("jwt", { session: false }),
+    isAdmin,
+    citiesController.updateCity
+  )
 
 // ITINERARIES ROUTES
 router
@@ -64,7 +76,10 @@ router
     passport.authenticate("jwt", { session: false }),
     commentsController.updateComment
   )
-  .delete(commentsController.removeComment)
+  .delete(
+    passport.authenticate("jwt", { session: false }),
+    commentsController.removeComment
+  )
 
 router
   .route("/itinerary/activity/:itineraryId") //

@@ -2,12 +2,12 @@ import { Listbox, Transition } from "@headlessui/react"
 import { CheckIcon, SelectorIcon } from "@heroicons/react/solid"
 import { Fragment } from "react"
 
-const FormSelect = ({ selected, setSelected, data, itemName }) => {
+const FormSelect = ({ selected, setSelected, data, itemName, width }) => {
   return (
     <Listbox value={selected} onChange={setSelected}>
-      <div className="relative mt-1">
+      <div className="relative mt-1" style={{ width: width || "190px" }}>
         <Listbox.Button className="relative w-full py-2 pl-3 pr-10 text-left bg-white rounded-lg shadow-md cursor-default focus:outline-none focus-visible:ring-2 focus-visible:ring-opacity-75 focus-visible:ring-white focus-visible:ring-offset-orange-300 focus-visible:ring-offset-2 focus-visible:border-indigo-500 sm:text-sm">
-          <span className="text-gray-900 block truncate">
+          <span className="text-gray-900 block truncate text-center">
             <p>{selected || `Select a ${itemName}`}</p>
           </span>
           <span className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">

@@ -1,9 +1,11 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import Swal from "sweetalert2"
 import withReactContent from "sweetalert2-react-content"
 import citiesActions from "../../redux/actions/citiesActions"
 import { connect } from "react-redux"
 import FormInput from "../../components/FormInput"
+import axios from "axios"
+import FormSelect from "./FormSelect"
 
 const MySwal = withReactContent(Swal)
 const Toast = MySwal.mixin({
@@ -16,9 +18,10 @@ const Toast = MySwal.mixin({
 })
 
 const FormAdd = (props) => {
+  const [selectedCountry, setSelectedCountry] = useState("")
+  const [countries, setCountries] = useState([])
   const [data, setData] = useState({
     name: "",
-    country: "",
     src: "",
     currencyCode: "",
     description: "",
@@ -30,11 +33,22 @@ const FormAdd = (props) => {
       [e.target.name]: e.target.value,
     })
   }
-
+  useEffect(() => {
+    axios
+      .get("https://restcountries.eu/rest/v2/all")
+      .then((res) => {
+        setCountries(
+          res.data.map((c) => {
+            return { name: c.name }
+          })
+        )
+      })
+      .catch((e) => console.error(e.message))
+  }, [])
   const handleAddClick = () => {
     const add = async () => {
       try {
-        const res = await props.addCity(data)
+        const res = await props.addCity({ ...data, country: selectedCountry })
         if (res.success) {
           Toast.fire({
             icon: "success",
@@ -107,15 +121,17 @@ const FormAdd = (props) => {
           required={true}
           placeholder="New York"
         />
-        <FormInput
-          name="country"
-          type="text"
-          label="Country *"
-          value={data.country}
-          inputHandler={inputHandler}
-          required={true}
-          placeholder="United States"
-        />
+        <div className="flex items-center justify-between w-full z-30">
+          <p className="font-medium">Country</p>
+          <FormSelect
+            data={countries}
+            name="country"
+            selected={selectedCountry}
+            setSelected={setSelectedCountry}
+            itemName="Country"
+          />
+          {/* <ErrorMessage content={errors.countries} /> */}
+        </div>
         <FormInput
           name="src"
           type="text"

@@ -41,7 +41,6 @@ const Favorites = (props) => {
 }
 
 const Itinerary = ({ itinerary, city }) => {
-  console.log(city)
   return (
     <Link className="flex-grow" to={`/itineraries/${city._id}`}>
       <div className="dark:bg-gray-800 bg-white w-full rounded text-gray-900 dark:text-gray-200 py-3">

@@ -101,7 +101,7 @@ const FormDelete = (props) => {
       <h2 className="text-center text-lg mb-3 mt-16 md:mt-0">
         Select the city you want to delete
       </h2>
-      <div className="w-72 z-50">
+      <div className="w-72 z-50 flex justify-center">
         <FormSelect
           selected={selected}
           setSelected={setSelected}

@@ -4,7 +4,7 @@ import { connect } from "react-redux"
 const Footer = ({ user }) => {
   const socials = ["Facebook", "Instagram", "Twitter"]
   return (
-    <footer className="select-none transition duration-1000 w-100 min-h-56 py-5 text-gray-900 dark:text-white bg-gray-200 dark:bg-black flex flex-wrap justify-around md:justify-evenly items-center">
+    <footer className="select-none transition duration-1000 w-100 min-h-56 py-5 text-gray-900 dark:text-white bg-gray-100 dark:bg-black flex flex-wrap justify-around md:justify-evenly items-center">
       <ul className="w-1/3 pt-3 md:pt-5 md:w-1/6 md:pl-10 order-1">
         <li className="font-medium hover:underline cursor-pointer">
           <Link to="/">

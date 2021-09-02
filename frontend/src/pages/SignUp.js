@@ -120,7 +120,7 @@ const SignUp = (props) => {
           icon: "error",
           title: e.message,
         })
-        console.log(e)
+        console.error(e)
       }
     }
   }
@@ -159,8 +159,8 @@ const SignUp = (props) => {
   const avatars = [
     "https://i.imgur.com/OqloSPp.jpg",
     "https://i.imgur.com/wWZHn3v.jpg",
+    "https://i.imgur.com/dIvk0of.jpg",
     "https://i.imgur.com/2TlFTKV.jpg",
-    "https://i.imgur.com/zeEQeRZ.jpg",
     "https://i.imgur.com/O4rwcXT.jpg",
     "https://i.imgur.com/guyrHyC.jpg",
   ]

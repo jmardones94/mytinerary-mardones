@@ -1,31 +1,45 @@
 import { PencilAltIcon, PhotographIcon } from "@heroicons/react/outline"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { connect } from "react-redux"
 import usersActions from "../../redux/actions/usersActions"
+import axios from "axios"
+import FormSelect from "./FormSelect"
 
 const Profile = ({ user, updateUser }) => {
   const [editMode, setEditMode] = useState(false)
-
+  const [countries, setCountries] = useState([])
+  const [selectedCountry, setSelectedCountry] = useState(user.country || "")
+  useEffect(() => {
+    axios
+      .get("https://restcountries.eu/rest/v2/all")
+      .then((res) => {
+        setCountries(
+          res.data.map((c) => {
+            return { name: c.name }
+          })
+        )
+      })
+      .catch((e) => console.error(e.message))
+  }, [])
   const [data, setData] = useState({
     firstName: user.firstName,
     lastName: user.lastName,
     email: user.email,
     photoURL: user.photoURL,
-    country: user.country,
   })
   const [avatarSectionVisible, setAvatarSectionVisible] = useState(false)
 
   const avatars = [
     "https://i.imgur.com/OqloSPp.jpg",
     "https://i.imgur.com/wWZHn3v.jpg",
+    "https://i.imgur.com/dIvk0of.jpg",
     "https://i.imgur.com/2TlFTKV.jpg",
-    "https://i.imgur.com/zeEQeRZ.jpg",
     "https://i.imgur.com/O4rwcXT.jpg",
     "https://i.imgur.com/guyrHyC.jpg",
   ]
 
   const updateHandler = async () => {
-    const res = await updateUser(data)
+    const res = await updateUser({ ...data, country: selectedCountry })
     if (res.error) {
       console.error(res.error) // Agregar tostadita con el error eventualmente
     } else {
@@ -160,19 +174,28 @@ const Profile = ({ user, updateUser }) => {
               </>
             )}
           </div>
-          <div className="flex w-max gap-2">
+          <div className="flex w-max gap-2 items-center">
             <p className="w-24 font-medium"> Country </p>
             {!editMode ? (
-              <p className="text-right w-32 sm:w-48 px-3 h-6">{user.country}</p>
+              <p className="text-right w-32 sm:w-48 px-3 h-10">
+                {user.country}
+              </p>
             ) : (
-              <input
-                className="text-right text-gray-900 w-32 sm:w-48 px-3 h-6 focus:outline-none rounded"
+              // <input
+              //   className="text-right text-gray-900 w-32 sm:w-48 px-3 h-6 focus:outline-none rounded"
+              //   name="country"
+              //   type="text"
+              //   onChange={(e) =>
+              //     setData({ ...data, [e.target.name]: e.target.value })
+              //   }
+              //   value={data.country}
+              // />
+              <FormSelect
+                data={countries}
                 name="country"
-                type="text"
-                onChange={(e) =>
-                  setData({ ...data, [e.target.name]: e.target.value })
-                }
-                value={data.country}
+                selected={selectedCountry}
+                setSelected={setSelectedCountry}
+                itemName="Country"
               />
             )}
           </div>

@@ -42,10 +42,10 @@ function App({ getCities, logInLS, user }) {
           <Route exact path="/" component={Home} />
           <Route path="/cities" component={Cities} />
           <Route path="/itineraries/:id" component={City} />
-          {!user && <Route path="/signup" component={SignUp} />}
-          {!user && <Route path="/login" component={LogIn} />}
           <Route path="/404" component={E404} />
           {user && <Route path="/settings" component={Settings} />}
+          {!user && <Route path="/signup" component={SignUp} />}
+          {!user && <Route path="/login" component={LogIn} />}
           <Redirect to="/"></Redirect>
         </Switch>
       )}

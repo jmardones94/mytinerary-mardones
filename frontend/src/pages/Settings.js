@@ -21,13 +21,15 @@ const Settings = (props) => {
           Profile
         </button>
         <hr className="w-5/6" />
-        <button
-          type="button"
-          onClick={() => setSettingsSection("security")}
-          className="font-semibold w-full py-3 text-left pl-8"
-        >
-          Security
-        </button>
+        {!props.user.google && (
+          <button
+            type="button"
+            onClick={() => setSettingsSection("security")}
+            className="font-semibold w-full py-3 text-left pl-8"
+          >
+            Security
+          </button>
+        )}
         <hr className="w-5/6" />
         {/* <button
           type="button"

@@ -3,6 +3,7 @@ import usersActions from "../../redux/actions/usersActions"
 import { useState } from "react"
 import Swal from "sweetalert2"
 import withReactContent from "sweetalert2-react-content"
+import itinerariesActions from "../../redux/actions/itinerariesActions"
 
 const MySwal = withReactContent(Swal)
 const Toast = MySwal.mixin({
@@ -52,6 +53,7 @@ const DeleteAccount = (props) => {
   const deleteHandler = async () => {
     const res = await props.deleteAccount(password)
     if (res.success) {
+      await props.onDeleteAccount(res.response)
       Toast.fire({
         icon: "success",
         title: "Account deleted.",
@@ -105,6 +107,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = {
   deleteAccount: usersActions.deleteAccount,
+  onDeleteAccount: itinerariesActions.onDeleteAccount,
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(DeleteAccount)

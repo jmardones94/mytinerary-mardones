@@ -78,7 +78,7 @@ const Comments = ({
           ))
         ) : (
           <p className="w-full text-center text-lg self-center mt-16">
-            There's no comments yet. Be the first!
+            There are no comments yet, be the first!
           </p>
         )}
       </div>
@@ -198,10 +198,10 @@ const Comment = ({
               title="Delete comment"
               onClick={() => {
                 toast((t) => (
-                  <div className="flex flex-col gap-2 font-semibold bg-white">
+                  <div className="px-5 flex flex-col gap-2 font-semibold bg-white">
                     <p>Are you sure?</p>
                     <button
-                      className="text-gray-100 rounded bg-red-500 px-4 py-1"
+                      className="flex items-center justify-center gap-1 text-gray-100 rounded bg-red-500 px-4 py-1"
                       onClick={() => {
                         removeComment(comment._id, itineraryId)
                         toast.dismiss(t.id)
@@ -211,7 +211,7 @@ const Comment = ({
                       <TrashIcon className="inline-block w-5 h-5" />
                     </button>
                     <button
-                      className="rounded text-gray-100 bg-gray-600 px-3 py-1"
+                      className="flex gap-1 items-center justify-center rounded text-gray-100 bg-gray-600 px-3 py-1"
                       onClick={() => toast.dismiss(t.id)}
                     >
                       Cancel <XIcon className=" inline-block w-5 h-5" />

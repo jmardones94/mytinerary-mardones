@@ -63,9 +63,10 @@ const City = (props) => {
     // eslint-disable-next-line
   }, [])
 
-  const cityItineraries = allItineraries.filter(
-    (itinerary) => itinerary.cityId === props.match.params.id
-  )
+  const cityItineraries =
+    allItineraries?.filter(
+      (itinerary) => itinerary.cityId === props.match.params.id
+    ) || []
 
   if (loading) return <Loading />
   if (!city) return <CityNotFound />

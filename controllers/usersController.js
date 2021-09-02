@@ -1,4 +1,5 @@
 const User = require("../models/User")
+const Itinerary = require("../models/Itinerary")
 const bcryptjs = require("bcryptjs")
 const jwt = require("jsonwebtoken")
 
@@ -77,6 +78,15 @@ const usersController = {
     try {
       if (req.user.google) {
         await User.findOneAndDelete({ _id: req.user._id })
+        await Itinerary.updateMany(
+          { "comments.userId": req.user._id },
+          { $pull: { comments: { userId: req.user._id } } }
+        )
+        await Itinerary.updateMany(
+          { likes: req.user._id },
+          { $pull: { likes: req.user._id } }
+        )
+
         res.json({ success: true, response: "User deleted.", error: null })
       } else {
         const isValidPassword = await bcryptjs.compare(
@@ -85,6 +95,14 @@ const usersController = {
         )
         if (isValidPassword) {
           await User.findOneAndDelete({ _id: req.user._id })
+          await Itinerary.updateMany(
+            { "comments.userId": req.user._id },
+            { $pull: { comments: { userId: req.user._id } } }
+          )
+          await Itinerary.updateMany(
+            { likes: req.user._id },
+            { $pull: { likes: req.user._id } }
+          )
           res.json({ success: true, response: "User deleted.", error: null })
         } else {
           throw new Error("Invalid password.")

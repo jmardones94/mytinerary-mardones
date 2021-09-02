@@ -27,7 +27,7 @@ const Carousel = ({ cities }) => {
       <div className="h-5/6 w-4/5 flex flex-wrap gap-2 p-2 relative">
         <span
           onClick={() => setIndex((((index - 1) % 3) + 3) % 3)}
-          className="hover:text-gray-700 cursor-pointer dark:text-gray-100 absolute top-1/2 transform -translate-y-1/2 -translate-x-8"
+          className="hover:text-gray-800 cursor-pointer dark:text-gray-100 absolute top-1/2 transform -translate-y-1/2 -translate-x-8"
         >
           <ChevronLeftIcon className="w-8 h-8" />
         </span>
@@ -59,7 +59,7 @@ const Carousel = ({ cities }) => {
         )}
         <span
           onClick={() => setIndex((index + 1) % 3)}
-          className="cursor-pointer dark:text-gray-100 absolute top-1/2 -right-6 transform -translate-y-1/2"
+          className="hover:text-gray-800 cursor-pointer dark:text-gray-100 absolute top-1/2 -right-6 transform -translate-y-1/2"
         >
           <ChevronRightIcon className="w-8 h-8" />
         </span>

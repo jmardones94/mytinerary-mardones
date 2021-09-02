@@ -28,9 +28,9 @@ const Header = () => {
   return (
     <header className="transition duration-1000 w-100 min-h-32 py-5 md:h-28 px-5 md:px-20 flex flex-wrap justify-between md:items-center text-gray-900 bg-gray-100 dark:text-white dark:bg-black">
       <div className="justify-center flex w-full md:w-max text-center md:text-start text-lg">
-        <Link className="flex gap-1 items-center" to="/">
+        <Link className="flex gap-2 items-center" to="/">
           <div
-            className="w-20 h-20"
+            className="w-16 h-16"
             style={{
               backgroundImage: `url("${
                 theme === "dark" ? dark_logo.default : light_logo.default

@@ -80,6 +80,7 @@ const itinerariesActions = {
           }
         )
         if (response.data.success) {
+          console.log(response.data.response)
           dispatch({
             type: "ADD_COMMENT",
             payload: response.data.response,
@@ -172,6 +173,11 @@ const itinerariesActions = {
       } catch (e) {
         return { success: false, error: e.message }
       }
+    }
+  },
+  onDeleteAccount: (id) => {
+    return (dispatch, getState) => {
+      dispatch({ type: "ON_DELETE_ACCOUNT", payload: id })
     }
   },
 }

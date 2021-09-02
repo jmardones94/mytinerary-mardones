@@ -8,6 +8,19 @@ const itinerariesReducer = (
         ...state,
         itineraries: [...state.itineraries, ...action.payload],
       }
+    case "ON_DELETE_ACCOUNT":
+      return {
+        ...state,
+        comments: state.comments?.filter(
+          (c) => c.userId._id !== action.payload
+        ),
+        itineraries: state.itineraries.map((i) => {
+          return {
+            ...i,
+            likes: i.likes?.filter((uid) => uid !== action.payload),
+          }
+        }),
+      }
     case "ADD_LIKE":
       return {
         ...state,

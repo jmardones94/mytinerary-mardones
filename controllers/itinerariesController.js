@@ -100,25 +100,6 @@ const itinerariesController = {
       res.json({ success: false, response: null, error: e.message })
     }
   },
-  toggleLike: async (req, res) => {
-    try {
-      const { itineraryId, action } = req.body
-      let modify
-      if (action === "addToSet") {
-        modify = "$addToSet"
-      } else if (action === "pull") {
-        modify = "$pull"
-      }
-      const itinerary = await Itinerary.findOneAndUpdate(
-        { _id: itineraryId },
-        { modify: { likes: req.user._id } },
-        { new: true }
-      )
-      res.json({ success: true, response: itinerary, error: null })
-    } catch (e) {
-      res.json({ success: false, response: null, error: e.message })
-    }
-  },
   getUserFavorites: async (req, res) => {
     try {
       const { _id } = req.user

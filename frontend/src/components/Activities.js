@@ -37,7 +37,9 @@ const Activities = ({ allActivities, getActivities, itineraryId }) => {
               }}
             >
               <div className="w-full bg-gray-900 text-gray-200 bg-opacity-80 h-10 rounded-b flex justify-center items-center">
-                <p>{activity.title}</p>
+                <p className="font-semibold opacity-80">
+                  {activity.title.toUpperCase()}
+                </p>
               </div>
             </div>
           ))

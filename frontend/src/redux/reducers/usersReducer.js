@@ -15,11 +15,11 @@ const usersReducer = (
         ...state,
         user: false,
       }
-    // case "GET_USERS":
-    //   return {
-    //     ...state,
-    //     usersList: action.payload,
-    //   }
+    case "DELETE_ACCOUNT":
+      return {
+        ...state,
+        user: false,
+      }
     case "SIGN_UP":
       return {
         ...state,

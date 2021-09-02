@@ -116,18 +116,20 @@ const usersActions = {
     return async (dispatch, getState) => {
       try {
         const token = getState().users.user.token
+        const id = getState().users.user._id
         const res = await axios.delete("http://localhost:4000/api/user", {
           headers: { Authorization: `Bearer ${token}` },
           data: { password },
         })
         if (res.data.success) {
-          dispatch({ type: "LOG_OUT" })
-          return { success: true, error: null }
+          localStorage.removeItem("token")
+          dispatch({ type: "DELETE_ACCOUNT" })
+          return { success: true, response: id, error: null }
         } else {
           throw new Error(res.data.error)
         }
       } catch (e) {
-        return { success: false, error: e.message }
+        return { success: false, response: null, error: e.message }
       }
     }
   },

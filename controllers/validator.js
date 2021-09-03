@@ -14,10 +14,17 @@ const validator = async (req, res, next) => {
       "any.required": "Email is required.",
       "string.email": "Invalid email.",
     }),
-    password: joi.string().min(3).required().messages({
-      "any.required": "Password is required.",
-      "string.min": "Password must have at least 3 characters.",
-    }),
+    password: joi
+      .string()
+      .min(8)
+      .pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/)
+      .required()
+      .messages({
+        "any.required": "Password is required.",
+        "string.min": "Password must have at least 8 characters.",
+        "string.pattern.base":
+          "Must have at least one lowercase, one uppercase and one digit.",
+      }),
     confirmPassword: joi
       .string()
       .required()

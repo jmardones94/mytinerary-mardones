@@ -175,8 +175,8 @@ const usersController = {
   setAdmin: async (req, res) => {
     try {
       const reqKey = req.body.key
-      const validKey = await bcryptjs.compare(reqKey, key)
-      if (!validKey) throw new Error("Invalid key.")
+      // const validKey = reqKey process.env.key)
+      if (reqKey !== process.env.SET_ADMIN_KEY) throw new Error("Invalid key.")
       const newAdmin = await User.findOneAndUpdate(
         { _id: req.params.id },
         { admin: req.body.admin },

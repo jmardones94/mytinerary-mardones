@@ -58,13 +58,12 @@ a.cities.active:hover::after {
 
   /* Track */
   ::-webkit-scrollbar-track {
-    background: #f3f4f6;
+    background-color: #f3f4f6;
+    transition: background-color 1s;
   }
   html.dark ::-webkit-scrollbar-track {
     background: #111827;
-  }
-  html.dark .comments ::-webkit-scrollbar-track {
-    background: #1f2937;
+    transition: background-color 1s;
   }
 
   /* Handle */

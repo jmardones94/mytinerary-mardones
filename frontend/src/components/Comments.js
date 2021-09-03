@@ -85,17 +85,21 @@ const Comments = ({
       <div className="flex gap-2 items-center justify-center w-full p-2">
         <input
           type="text"
-          className="w-1/2 border border-gray-300 dark:border-transparent rounded h-10 flex-grow py-2 px-3 text-gray-900 focus:outline-none"
+          className={`${
+            !user ? "cursor-not-allowed" : "cursor-text"
+          } w-1/2 border border-gray-300 dark:border-transparent rounded h-10 flex-grow py-2 px-3 text-gray-900 focus:outline-none`}
           value={inputContent}
           onChange={(e) => setInputContent(e.target.value)}
           placeholder={`${
-            user === false ? "Log in to leave a comment." : "Leave a comment."
+            !user ? "Log in to leave a comment." : "Leave a comment."
           }`}
           disabled={user === false}
           onKeyDown={keyDownHandler}
         />
         <button
-          className="px-3 h-10 py-1 bg-black text-gray-100 rounded"
+          className={`${
+            !user ? "cursor-not-allowed" : "cursor-pointer"
+          } px-3 h-10 py-1 bg-black text-gray-100 rounded`}
           onClick={addCommentHandler}
           type="button"
           title="Post comment"
@@ -162,7 +166,7 @@ const Comment = ({
             />
             <div className="flex justify-end gap-2">
               <button
-                className="px-3 py-2 rounded bg-gray-300 text-gray-900 w-20"
+                className="px-3 py-2 rounded bg-gray-600 text-gray-100 w-20"
                 type="button"
                 onClick={() => {
                   setEditMode(false)

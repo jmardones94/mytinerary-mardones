@@ -3,9 +3,6 @@ const Itinerary = require("../models/Itinerary")
 const bcryptjs = require("bcryptjs")
 const jwt = require("jsonwebtoken")
 
-// Test, la key sin hashear es 12345.
-const key = "$2a$10$6IErsP3d/sZXb.WLiMy6veaPhl5Y57lhfV4aGGpqFMskFAJnkOwKq"
-
 const usersController = {
   createUser: async (req, res) => {
     const { firstName, lastName, email, password, photoURL, country, google } =
@@ -175,7 +172,6 @@ const usersController = {
   setAdmin: async (req, res) => {
     try {
       const reqKey = req.body.key
-      // const validKey = reqKey process.env.key)
       if (reqKey !== process.env.SET_ADMIN_KEY) throw new Error("Invalid key.")
       const newAdmin = await User.findOneAndUpdate(
         { _id: req.params.id },

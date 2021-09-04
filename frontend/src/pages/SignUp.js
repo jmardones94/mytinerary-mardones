@@ -132,8 +132,8 @@ const SignUp = (props) => {
       lastName: response.profileObj.familyName,
       email: response.profileObj.email,
       photoURL: response.profileObj.imageUrl,
-      password: response.googleId,
-      confirmPassword: response.googleId,
+      password: "Aa" + response.googleId,
+      confirmPassword: "Aa" + response.googleId,
       country: "Internet",
       google: true,
     }

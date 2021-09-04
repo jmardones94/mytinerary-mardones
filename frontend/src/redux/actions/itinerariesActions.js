@@ -80,7 +80,6 @@ const itinerariesActions = {
           }
         )
         if (response.data.success) {
-          console.log(response.data.response)
           dispatch({
             type: "ADD_COMMENT",
             payload: response.data.response,

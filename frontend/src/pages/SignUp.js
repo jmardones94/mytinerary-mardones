@@ -184,7 +184,7 @@ const SignUp = (props) => {
         >
           <GoogleLogin
             className="w-full flex justify-center font-ui"
-            clientId="882777434849-bt8b0ir8d36unblj1gcsuf6glt1l0k11.apps.googleusercontent.com"
+            clientId="882777434849-me99aras6hcqodf4jfbeh4q2k75r23ig.apps.googleusercontent.com"
             buttonText="Sign up with Google"
             onSuccess={responseGoogle}
             onFailure={responseGoogle}

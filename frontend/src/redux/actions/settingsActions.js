@@ -6,7 +6,7 @@ const settingsActions = {
       try {
         const token = getState().users.user.token
         const res = await axios.get(
-          "http://localhost:4000/api/itineraries/user",
+          "https://mytinerary-mardones.herokuapp.com/api/itineraries/user",
           { headers: { Authorization: `Bearer ${token}` } }
         )
         if (res.data.success) {

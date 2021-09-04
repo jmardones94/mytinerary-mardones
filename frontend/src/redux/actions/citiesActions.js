@@ -4,7 +4,9 @@ const citiesActions = {
   getCities: () => {
     return async (dispatch) => {
       try {
-        const res = await axios.get("http://localhost:4000/api/cities")
+        const res = await axios.get(
+          "https://mytinerary-mardones.herokuapp.com/api/cities"
+        )
         if (res.data.success) {
           dispatch({ type: "GET_ALL_CITIES", payload: res.data.response })
           return { success: true, error: null }
@@ -20,9 +22,13 @@ const citiesActions = {
   addCity: (data) => {
     return async (dispatch, getState) => {
       try {
-        const res = await axios.post("http://localhost:4000/api/cities", data, {
-          headers: { Authorization: `Bearer ${getState().users.user.token}` },
-        })
+        const res = await axios.post(
+          "https://mytinerary-mardones.herokuapp.com/api/cities",
+          data,
+          {
+            headers: { Authorization: `Bearer ${getState().users.user.token}` },
+          }
+        )
         if (res.data.success) {
           dispatch({ type: "ADD_CITY", payload: res.data.response })
           return {
@@ -41,9 +47,12 @@ const citiesActions = {
   deleteCity: (id) => {
     return async (dispatch, getState) => {
       try {
-        const res = await axios.delete(`http://localhost:4000/api/city/${id}`, {
-          headers: { Authorization: `Bearer ${getState().users.user.token}` },
-        })
+        const res = await axios.delete(
+          `https://mytinerary-mardones.herokuapp.com/api/city/${id}`,
+          {
+            headers: { Authorization: `Bearer ${getState().users.user.token}` },
+          }
+        )
         if (res.data.success) {
           dispatch({ type: "DELETE_CITY", payload: id })
           return { success: true, error: null }
@@ -59,7 +68,7 @@ const citiesActions = {
     return async (dispatch, getState) => {
       try {
         const res = await axios.put(
-          `http://localhost:4000/api/city/${id}`,
+          `https://mytinerary-mardones.herokuapp.com/api/city/${id}`,
           newData,
           {
             headers: { Authorization: `Bearer ${getState().users.user.token}` },

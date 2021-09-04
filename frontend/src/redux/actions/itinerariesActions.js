@@ -5,7 +5,7 @@ const itinerariesActions = {
     return async (dispatch) => {
       try {
         const res = await axios.get(
-          `http://localhost:4000/api/itineraries/${cityId}`
+          `https://mytinerary-mardones.herokuapp.com/api/itineraries/${cityId}`
         )
         if (res.data.success) {
           dispatch({
@@ -25,7 +25,7 @@ const itinerariesActions = {
     return async (dispatch, getState) => {
       try {
         const res = await axios.put(
-          "http://localhost:4000/api/itinerary/like",
+          "https://mytinerary-mardones.herokuapp.com/api/itinerary/like",
           { itineraryId },
           {
             headers: { Authorization: `Bearer ${getState().users.user.token}` },
@@ -49,7 +49,7 @@ const itinerariesActions = {
     return async (dispatch, getState) => {
       try {
         const res = await axios.put(
-          "http://localhost:4000/api/itinerary/dislike",
+          "https://mytinerary-mardones.herokuapp.com/api/itinerary/dislike",
           { itineraryId },
           {
             headers: { Authorization: `Bearer ${getState().users.user.token}` },
@@ -73,7 +73,7 @@ const itinerariesActions = {
     return async (dispatch, getState) => {
       try {
         const response = await axios.post(
-          `http://localhost:4000/api/itinerary/comments/${itineraryId}`,
+          `https://mytinerary-mardones.herokuapp.com/api/itinerary/comments/${itineraryId}`,
           { content },
           {
             headers: { Authorization: `Bearer ${getState().users.user.token}` },
@@ -98,7 +98,7 @@ const itinerariesActions = {
     return async (dispatch, getState) => {
       try {
         const res = await axios.put(
-          `http://localhost:4000/api/itinerary/comment/${commentId}`,
+          `https://mytinerary-mardones.herokuapp.com/api/itinerary/comment/${commentId}`,
           { content: newContent },
           {
             headers: { Authorization: `Bearer ${getState().users.user.token}` },
@@ -125,7 +125,7 @@ const itinerariesActions = {
     return async (dispatch, getState) => {
       try {
         const response = await axios.delete(
-          `http://localhost:4000/api/itinerary/comment/${commentId}`,
+          `https://mytinerary-mardones.herokuapp.com/api/itinerary/comment/${commentId}`,
           {
             headers: { Authorization: `Bearer ${getState().users.user.token}` },
             data: { itineraryId },
@@ -145,7 +145,7 @@ const itinerariesActions = {
     return async (dispatch, getState) => {
       try {
         const res = await axios.get(
-          `http://localhost:4000/api/itinerary/comments/${itineraryId}`
+          `https://mytinerary-mardones.herokuapp.com/api/itinerary/comments/${itineraryId}`
         )
         if (res.data.success) {
           dispatch({ type: "GET_COMMENTS", payload: res.data.response })
@@ -162,7 +162,7 @@ const itinerariesActions = {
     return async (dispatch, getState) => {
       try {
         const res = await axios.get(
-          `http://localhost:4000/api/itinerary/activity/${itineraryId}`
+          `https://mytinerary-mardones.herokuapp.com/api/itinerary/activity/${itineraryId}`
         )
         if (res.data.success) {
           dispatch({ type: "GET_ACTIVITIES", payload: res.data.response })

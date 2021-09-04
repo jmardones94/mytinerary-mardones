@@ -5,7 +5,7 @@ const usersActions = {
     return async (dispatch, getState) => {
       try {
         const res = await axios.post(
-          "http://localhost:4000/api/user/login",
+          "https://mytinerary-mardones.herokuapp.com/api/user/login",
           userData
         )
         if (res.data.success) {
@@ -33,7 +33,7 @@ const usersActions = {
     return async (dispatch) => {
       try {
         const res = await axios.post(
-          "http://localhost:4000/api/user/signup",
+          "https://mytinerary-mardones.herokuapp.com/api/user/signup",
           newUser
         )
         if (res.data.success) {
@@ -57,7 +57,7 @@ const usersActions = {
       const headers = { Authorization: `Bearer ${token}` }
       try {
         const res = await axios.get(
-          "http://localhost:4000/api/validate/token",
+          "https://mytinerary-mardones.herokuapp.com/api/validate/token",
           { headers }
         )
         if (res.data.success) {
@@ -81,7 +81,7 @@ const usersActions = {
       const headers = { Authorization: `Bearer ${token}` }
       try {
         const res = await axios.get(
-          "http://localhost:4000/api/validate/token",
+          "https://mytinerary-mardones.herokuapp.com/api/validate/token",
           { headers }
         )
         if (res.data.success) {
@@ -99,7 +99,7 @@ const usersActions = {
       try {
         const headers = { Authorization: `Bearer ${token}` }
         const res = await axios.get(
-          "http://localhost:4000/api/validate/admin",
+          "https://mytinerary-mardones.herokuapp.com/api/validate/admin",
           { headers }
         )
         if (res.data.success) {
@@ -117,10 +117,13 @@ const usersActions = {
       try {
         const token = getState().users.user.token
         const id = getState().users.user._id
-        const res = await axios.delete("http://localhost:4000/api/user", {
-          headers: { Authorization: `Bearer ${token}` },
-          data: { password },
-        })
+        const res = await axios.delete(
+          "https://mytinerary-mardones.herokuapp.com/api/user",
+          {
+            headers: { Authorization: `Bearer ${token}` },
+            data: { password },
+          }
+        )
         if (res.data.success) {
           localStorage.removeItem("token")
           dispatch({ type: "DELETE_ACCOUNT" })
@@ -136,9 +139,13 @@ const usersActions = {
   updateUser: (data) => {
     return async (dispatch, getState) => {
       try {
-        const res = await axios.put("http://localhost:4000/api/user", data, {
-          headers: { Authorization: `Bearer ${getState().users.user.token}` },
-        })
+        const res = await axios.put(
+          "https://mytinerary-mardones.herokuapp.com/api/user",
+          data,
+          {
+            headers: { Authorization: `Bearer ${getState().users.user.token}` },
+          }
+        )
         if (res.data.success) {
           dispatch({ type: "LOG_IN", payload: res.data.response })
           return { success: true, error: null }

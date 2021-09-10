@@ -74,7 +74,7 @@ const LogIn = (props) => {
     try {
       const res = await props.logIn({
         email: response.profileObj.email,
-        password: response.profileObj.googleId,
+        password: "Aa" + response.profileObj.googleId,
         flagGoogle: true,
       })
       if (res.success) {

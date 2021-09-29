@@ -24,7 +24,9 @@ const FormAdd = (props) => {
   }
   useEffect(() => {
     axios
-      .get("https://restcountries.eu/rest/v2/all")
+      .get(
+        "https://raw.githubusercontent.com/octanna/restcountries/master/src/main/resources/countriesV2.json"
+      )
       .then((res) => {
         setCountries(
           res.data.map((c) => {

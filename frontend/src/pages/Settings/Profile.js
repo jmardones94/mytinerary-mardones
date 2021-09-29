@@ -11,7 +11,9 @@ const Profile = ({ user, updateUser }) => {
   const [selectedCountry, setSelectedCountry] = useState(user.country || "")
   useEffect(() => {
     axios
-      .get("https://restcountries.eu/rest/v2/all")
+      .get(
+        "https://raw.githubusercontent.com/octanna/restcountries/master/src/main/resources/countriesV2.json"
+      )
       .then((res) => {
         setCountries(
           res.data.map((c) => {

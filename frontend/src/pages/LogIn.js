@@ -136,7 +136,7 @@ const LogIn = (props) => {
         <hr className="w-full mb-4" />
         <GoogleLogin
           className="w-full flex justify-center"
-          clientId="882777434849-me99aras6hcqodf4jfbeh4q2k75r23ig.apps.googleusercontent.com"
+          clientId="882777434849-hu82d9toesccr9mp885gfba65cdviapb.apps.googleusercontent.com"
           buttonText="Log In with Google"
           onSuccess={responseGoogle}
           onFailure={responseGoogle}

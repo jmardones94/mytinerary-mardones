@@ -44,7 +44,9 @@ const SignUp = (props) => {
 
   useEffect(() => {
     axios
-      .get("https://restcountries.eu/rest/v2/all")
+      .get(
+        "https://raw.githubusercontent.com/octanna/restcountries/master/src/main/resources/countriesV2.json"
+      )
       .then((res) => {
         setCountries(
           res.data.map((c) => {
@@ -184,7 +186,7 @@ const SignUp = (props) => {
         >
           <GoogleLogin
             className="w-full flex justify-center font-ui"
-            clientId="882777434849-me99aras6hcqodf4jfbeh4q2k75r23ig.apps.googleusercontent.com"
+            clientId="882777434849-hu82d9toesccr9mp885gfba65cdviapb.apps.googleusercontent.com"
             buttonText="Sign up with Google"
             onSuccess={responseGoogle}
             onFailure={responseGoogle}
